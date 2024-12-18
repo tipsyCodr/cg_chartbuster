@@ -15,10 +15,12 @@ return new class extends Migration
 
         Schema::create('artists', function (Blueprint $table) {
             $table->integer('id')->primary()->autoIncrement();
+            $table->string('photo', 255);
             $table->string('name', 255);
             $table->text('bio')->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('country', 255)->nullable();
+            $table->string('city', 255)->nullable();
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

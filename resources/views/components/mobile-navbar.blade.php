@@ -5,7 +5,7 @@
             <button @click="isOpen = !isOpen" type="button"
                 class="block lg:hidden px-2 text-gray-500 hover:text-white focus:outline-none focus:text-white"
                 :class="{ 'transition transform-180': isOpen }">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700 dark:text-white" fill="none"
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                 </svg>
@@ -17,7 +17,7 @@
                 d="M10 15.5v-7c0-.41.47-.65.8-.4l4.67 3.5c.27.2.27.6 0 .8l-4.67 3.5c-.33.25-.8.01-.8-.4Zm11.96-4.45c.58 6.26-4.64 11.48-10.9 10.9 -4.43-.41-8.12-3.85-8.9-8.23 -.26-1.42-.19-2.78.12-4.04 .14-.58.76-.9 1.31-.7v0c.47.17.75.67.63 1.16 -.2.82-.27 1.7-.19 2.61 .37 4.04 3.89 7.25 7.95 7.26 4.79.01 8.61-4.21 7.94-9.12 -.51-3.7-3.66-6.62-7.39-6.86 -.83-.06-1.63.02-2.38.2 -.49.11-.99-.16-1.16-.64v0c-.2-.56.12-1.17.69-1.31 1.79-.43 3.75-.41 5.78.37 3.56 1.35 6.15 4.62 6.5 8.4ZM5.5 4C4.67 4 4 4.67 4 5.5 4 6.33 4.67 7 5.5 7 6.33 7 7 6.33 7 5.5 7 4.67 6.33 4 5.5 4Z">
             </path>
         </svg>
-        <div class="tracking-wide text-sm dark:text-white flex-1">CG Chartbusters<span class="text-red-600">.</span>
+        <div class="tracking-wide text-sm flex-1">CG Chartbusters<span class="text-red-600">.</span>
         </div>
 
         <div class="relative items-center content-center flex ml-2">
@@ -29,7 +29,7 @@
                 </svg>
             </span>
             <input type="text"
-                class="text-xs ring-1 bg-transparent ring-gray-200 dark:ring-zinc-600 focus:ring-red-300 pl-10 pr-5 text-gray-600 dark:text-white  py-3 rounded-full w-full outline-none focus:ring-1"
+                class="text-xs ring-1 bg-transparent ring-gray-200 focus:ring-red-300 pl-10 pr-5 text-gray-600  py-3 rounded-full w-full outline-none focus:ring-1"
                 placeholder="Search ...">
         </div>
 
@@ -39,7 +39,7 @@
         <!-- Menu -->
         <div class="mt-12 flex flex-col gap-y-4 text-gray-500 fill-gray-500 text-sm">
             <div class="text-gray-400/70  font-medium uppercase">Menu</div>
-            <a class="flex items-center space-x-2 py-1 dark:text-white  font-semibold  border-r-4 border-r-red-600 pr-20 "
+            <a class="flex items-center space-x-2 py-1  font-semibold  border-r-4 border-r-red-600 pr-20 "
                 href="#">
                 <svg class="h-5 w-5 fill-red-600 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -48,7 +48,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>
@@ -60,7 +60,7 @@
                 </svg>
                 <span>Community</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white"
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold"
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>
@@ -72,7 +72,7 @@
                 </svg>
                 <span>Discovery</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>
@@ -86,7 +86,7 @@
             </a>
 
             <div class="mt-8 text-gray-400/70  font-medium uppercase">Social</div>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -95,7 +95,7 @@
                 </svg>
                 <span>Profile</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>
@@ -109,7 +109,7 @@
                 </svg>
                 <span>Friends</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>
@@ -125,7 +125,7 @@
             </a>
 
             <div class="mt-8 text-gray-400/70  font-medium uppercase">General</div>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white "
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold "
                 href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:stroke-red-600" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -135,7 +135,7 @@
                 </svg>
                 <span>Settings</span>
             </a>
-            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold dark:hover:text-white"
+            <a class=" flex items-center space-x-2 py-1  group hover:border-r-4 hover:border-r-red-600 hover:font-semibold"
                 href="#">
                 <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g>

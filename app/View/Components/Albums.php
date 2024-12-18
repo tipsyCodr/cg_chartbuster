@@ -8,12 +8,16 @@ use Illuminate\View\Component;
 
 class Albums extends Component
 {
+    public $artists;
+    public $movies;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($artists=null, $movies=null)
     {
-        //
+        $this->artists = $artists;
+        $this->movies = $movies;
     }
 
     /**

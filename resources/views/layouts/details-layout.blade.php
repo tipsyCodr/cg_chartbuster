@@ -15,9 +15,9 @@
 </head>
 
 
-<body class="font-montserrat text-sm bg-white dark:bg-zinc-900 ">
+<body class="font-montserrat text-sm bg-white ">
     <div
-        class="flex min-h-screen  2xl:max-w-screen-2xl 2xl:mx-auto 2xl:border-x-2 2xl:border-gray-200 dark:2xl:border-zinc-700 ">
+        class="flex min-h-screen  2xl:max-w-screen-2xl 2xl:mx-auto 2xl:border-x-2 2xl:border-gray-200 ">
         <!-- Left Sidebar -->
         <x-left-sidebar />
         <!-- /Left Sidebar -->
@@ -25,22 +25,20 @@
         <main class=" flex-1 py-10  px-5 sm:px-10 " x-data="{ isActive: 'movies' }">
             <x-mobile-navbar />
 
-            <nav class="flex space-x-6 text-gray-400 font-medium">
+            {{-- <nav class="flex space-x-6 text-gray-400 font-medium">
                 <a @click="isActive = 'movies'"
-                    :class="{ 'text-gray-700 dark:text-white font-semibold': isActive === 'movies' }"
+                    :class="{ 'text-gray-700 font-semibold': isActive === 'movies' }"
                     href="#">Movies</a>
                 <a @click="isActive = 'albums'"
-                    :class="{ 'text-gray-700 dark:text-white font-semibold': isActive === 'albums' }"
+                    :class="{ 'text-gray-700 font-semibold': isActive === 'albums' }"
                     href="#">Albums</a>
                 <a @click="isActive = 'artists'"
-                    :class="{ 'text-gray-700 dark:text-white font-semibold': isActive === 'artists' }"
+                    :class="{ 'text-gray-700 font-semibold': isActive === 'artists' }"
                     href="#">Artists</a>
-            </nav>
+            </nav> --}}
 
             {{-- main content starts from here --}}
-            <x-movies />
-            <x-albums />
-            <x-artists />
+            {{ $slot }}
             {{-- main content ends here --}}
 
         </main>
@@ -52,5 +50,5 @@
     </div>
 
 </body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js" integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

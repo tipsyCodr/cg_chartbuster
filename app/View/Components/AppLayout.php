@@ -2,25 +2,29 @@
 
 namespace App\View\Components;
 
-use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class AppLayout extends Component
 {
+    public $movies;
+    public $artists;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($movies=null,$artists=null)
     {
         //
+        $this->movies = $movies;
+        $this->artists = $artists;
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Get the view / contents that represents the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
-        return view('layout.app-layout');
+        return view('layouts.app');
     }
 }

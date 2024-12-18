@@ -15,7 +15,11 @@ export default {
             ...defaultTheme.screens,
         },
         extend: {
-            colors: {},
+            colors: {
+                accent: "#ff6600",
+                "accent-dark": "#ff6600",
+                "accent-light": "#ffaa0017",
+            },
             fontFamily: {
                 montserrat: ["Montserrat", "sans-serif"],
                 poppins: ["Poppins", "sans-serif"],

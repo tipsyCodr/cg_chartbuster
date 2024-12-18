@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->date('release_date');
             $table->string('genre');
-            $table->bigInteger('artist_id');
+            $table->string('artist_id');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

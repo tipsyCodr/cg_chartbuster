@@ -21,6 +21,6 @@ class DetailsLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('layout.details-layout');
+        return view('layouts.details-layout');
     }
 }
