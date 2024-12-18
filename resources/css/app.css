@@ -1,3 +1,38 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* resources/css/movies-swiper.css */
+.movie-swiper {
+    @apply w-full h-[350px] overflow-hidden pb-4;
+}
+
+.swiper-wrapper {
+    @apply flex items-stretch;
+}
+
+.swiper-slide {
+    @apply flex flex-col w-auto max-w-[100px] min-w-[180px] aspect-[1/1.2] mr-3 rounded-xl overflow-hidden border border-gray-100 bg-white;
+}
+
+.swiper-slide img {
+    @apply w-full h-[80%] object-cover;
+}
+
+.swiper-slide .movie-info {
+    @apply w-full h-[20%] bg-white flex items-center justify-between px-3 border-t-2 border-red-600;
+}
+
+@media (max-width: 640px) {
+    .swiper-slide {
+        @apply max-w-[180px] min-w-[150px];
+    }
+}
+
+@media (max-width: 480px) {
+    .swiper-slide {
+        @apply max-w-[160px] min-w-[130px];
+    }
+}
