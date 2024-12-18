@@ -2,7 +2,7 @@
     <section>
         
         <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl h-[32rem] overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
-            style="background-image: url('images/movie.jpg');" onclick="location.href='#'">
+            style="background-image: url('images/movie.jpg'); height: 32rem;" onclick="location.href='#' ">
             <!-- <img class="object-cover w-full h-full" src="images/inception.jpg" alt=""> -->
             <div class="flex -space-x-1 items-center ">
                 <img class="rounded-full w-7 h-7 shadow-lg border border-white"
