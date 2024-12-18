@@ -1,6 +1,7 @@
 <div class="" x-show="isActive === 'movies'" style='display: none;' x-transition>
     <section>
-        <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl h-80 overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
+        
+        <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl h-[32rem] overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
             style="background-image: url('images/movie.jpg');" onclick="location.href='#'">
             <!-- <img class="object-cover w-full h-full" src="images/inception.jpg" alt=""> -->
             <div class="flex -space-x-1 items-center ">
@@ -36,6 +37,25 @@
                 </div>
             </div>
         </div>
+        <script>
+            <?php
+            $banners = glob('images/banner/*.{jpg,png,gif}', GLOB_BRACE);
+
+            $images = [];
+            foreach ($banners as $banner) {
+                $images[] = basename($banner);
+            }
+            $images = implode(',', array_map(function ($image) {
+                return "'" . $image . "'";
+            }, $images));
+            ?>
+            let images = [<?php echo $images; ?>];
+            let index = 0;
+            setInterval(() => {
+                document.querySelector('.bg-cover').style.backgroundImage = `url('images/banner/${images[index]}')`;
+                index = (index + 1) % images.length;
+            }, 3000);
+        </script>
     </section>
 
     <section class="mt-9">
@@ -238,4 +258,9 @@
 </style>
 
 
+</div>{
+            max-width: 180px;
+          }
+        }
+    </style>
 </div>

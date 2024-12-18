@@ -57,4 +57,31 @@ document.addEventListener('DOMContentLoaded', () => {
             },
         }
     );
+    const mainSLider = new Swiper(
+        '.main-slider',
+        {
+            modules: [Navigation, Pagination],
+            // navigation: {
+            //     nextEl: '.swiper-button-next',
+            //     prevEl: '.swiper-button-prev',
+            // },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            direction: 'horizontal',
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },lazy: {
+                loadOnTransitionStart: true,
+                loadPrevNext: true,
+            },
+            slidesPerView: 1,
+            spaceBetween: 15,
+            centeredSlides: false,
+            
+        }
+    );
 });
