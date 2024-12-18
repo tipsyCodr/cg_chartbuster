@@ -1,8 +1,8 @@
 <div class="" x-show="isActive === 'movies'" style='display: none;' x-transition>
     <section>
         
-        <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl w-[95vw] md:w-full overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
-            style="background-image: url('images/movie.jpg'); height: 32rem;" onclick="location.href='#' ">
+        <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl md:h-[32rem] h-[10rem] w-[91vw] md:w-full overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
+            style="background-image: url('images/movie.jpg');" onclick="location.href='#' ">
             <!-- <img class="object-cover w-full h-full" src="images/inception.jpg" alt=""> -->
             <div class="flex -space-x-1 items-center ">
                 <img class="rounded-full w-7 h-7 shadow-lg border border-white"
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-            <div class="flex items-center justify-between w-[95vw] md:w-full " >
+            <div class="flex items-center justify-between w-[91vw] md:w-full " >
                 <div class="movie-swiper swiper" style="margin: 0;">
                         <div class="swiper-wrapper">
                             @foreach ($movies as $similarMovie)
@@ -154,7 +154,7 @@
         </div>
     </section>
 
-    <section class="mt-9 w-[92vw] md:w-full ">
+    <section class="mt-9 w-[91vw] md:w-full ">
         <div class="flex items-center justify-between">
             <span class="font-semibold text-gray-700 text-base">Similar Movies</span>
             <div class="flex relative items-center space-x-2 fill-gray-500">
