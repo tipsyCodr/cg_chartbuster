@@ -4,31 +4,31 @@
         <div class="flex flex-col justify-between mt-4 bg-black/10 bg-blend-multiply rounded-3xl md:h-[32rem] h-[10rem] w-[91vw] md:w-full overflow-hidden bg-cover bg-center px-7 pt-4 pb-6 text-white"
             style="background-image: url('images/movie.jpg');" onclick="location.href='#' ">
             <!-- <img class="object-cover w-full h-full" src="images/inception.jpg" alt=""> -->
-            <div class="flex -space-x-1 items-center ">
-                <img class="rounded-full w-7 h-7 shadow-lg border border-white"
+            <div class="flex items-center -space-x-1 ">
+                <img class="border border-white rounded-full shadow-lg w-7 h-7"
                     src="https://api.lorem.space/image/face?w=32&amp;h=32&amp;hash=zsrj8csk" alt=""
                     srcset="">
-                <img class="rounded-full w-7 h-7 shadow-lg border border-white"
+                <img class="border border-white rounded-full shadow-lg w-7 h-7"
                     src="https://api.lorem.space/image/face?w=32&amp;h=32&amp;hash=zsrj8cck" alt=""
                     srcset="">
-                <img class="rounded-full w-7 h-7 shadow-lg border border-white"
+                <img class="border border-white rounded-full shadow-lg w-7 h-7"
                     src="https://api.lorem.space/image/face?w=32&amp;h=32&amp;hash=zsfj8cck" alt=""
                     srcset="">
                 <span class="pl-4 text-xs drop-shadow-lg">+8 friends are watching</span>
             </div>
 
-            <div class="bg-gradient-to-r from-black/30 to-transparent -mx-7 -mb-6 px-7 pb-6 pt-2">
-                <span class="uppercase text-3xl font-semibold drop-shadow-lg ">New Release</span>
-                <div class="text-xs text-gray-200 mt-2">
+            <div class="pt-2 pb-6 -mb-6 bg-gradient-to-r from-black/30 to-transparent -mx-7 px-7">
+                <span class="text-3xl font-semibold uppercase drop-shadow-lg ">New Release</span>
+                <div class="mt-2 text-xs text-gray-200">
                     <a href="#" class="">Action</a>,
                     <a href="#" class="">Adventure</a>,
                     <a href="#" class="">Sci-Fi</a>
                 </div>
-                <div class="mt-4 flex space-x-3 items-center">
+                <div class="flex items-center mt-4 space-x-3">
                     <a href="#"
                         class="px-5 py-2.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs inline-block">Watch</a>
                     <a href="#" class="p-2.5 bg-gray-800/80 rounded-lg hover:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                                 clip-rule="evenodd" />
@@ -58,15 +58,15 @@
         </script>
     </section>
 
-    <section class="mt-9">
-        <div class="flex items-center justify-between">
-            <span class="font-semibold text-gray-700 text-base">Top Movies</span>
+    <section class="mt-9 ">
+        <div class="relative flex items-center justify-between">
+            <span class="py-2 text-base font-semibold">Top Movies</span>
             <div class="flex items-center space-x-2 fill-gray-500">
-                <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+                <svg class="top-movie-swiper-button-prev p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M13.293 6.293L7.58 12l5.7 5.7 1.41-1.42 -4.3-4.3 4.29-4.293Z"></path>
                 </svg>
-                <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+                <svg class="top-movie-swiper-button-next p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M10.7 17.707l5.7-5.71 -5.71-5.707L9.27 7.7l4.29 4.293 -4.3 4.29Z"></path>
                 </svg>
@@ -74,15 +74,14 @@
         </div>
 
             <div class="flex items-center justify-between w-[91vw] md:w-full " >
-                <div class="movie-swiper swiper" style="margin: 0;">
+                <div class="top-movie-swiper swiper" style="margin: 0;">
                         <div class="swiper-wrapper">
                             @foreach ($movies as $similarMovie)
                             <div class="swiper-slide flex max-w-[] flex-col rounded-xl overflow-hidden aspect-square border mr-4">
-                                <img src="{{ asset('storage/'.$similarMovie->poster_image) }}" class=" h-4/5 object-cover w-full  " alt="">
-                                <div
-                                    class="w-full h-1/5 bg-white px-3 flex items-center justify-between border-t-2 border-t-red-600">
-                                    <span class="capitalize  font-medium truncate">{{ $similarMovie->title }}</span>
-                                    <div class="flex space-x-2 items-center text-xs">
+                                <img src="{{ asset('storage/'.$similarMovie->poster_image) }}" class="object-cover w-full h-4/5" alt="">
+                                <div class="flex items-center justify-between w-full px-3 border-t-2 h-1/5 border-t-red-600" x-bind:class="isDark ? ' bg-gray-800 ' : 'light-mode'" x-transition >
+                                    <span class="font-medium capitalize truncate">{{ $similarMovie->title }}</span>
+                                    <div class="flex items-center space-x-2 text-xs">
                                         <svg class="w-8 h-5" xmlns="http://www.w3.org/2000/svg" width="64" height="32"
                                             viewBox="0 0 64 32" version="1.1">
                                             <g fill="#F5C518">
@@ -107,65 +106,67 @@
                             </div>
                             @endforeach
                         </div>
-                        <div class="swiper-pagination"></div>
+                        <!-- <div class="swiper-pagination"></div> -->
                     </div>
             </div>
     </section>
 
     <section class="mt-9">
         <div class="flex items-center justify-between">
-            <span class="font-semibold text-gray-700 text-base">Top Artists</span>
+            <span class="text-base font-semibold ">Top Artists</span>
             <div class="flex items-center space-x-2 fill-gray-500">
-                <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+                <svg class="top-artists-swiper-button-prev p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M13.293 6.293L7.58 12l5.7 5.7 1.41-1.42 -4.3-4.3 4.29-4.293Z"></path>
                 </svg>
-                <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+                <svg class="top-artists-swiper-button-next p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M10.7 17.707l5.7-5.71 -5.71-5.707L9.27 7.7l4.29 4.293 -4.3 4.29Z"></path>
                 </svg>
             </div>
         </div>
-        <div class="mt-4 overflow-x-auto">
-            <div class="flex flex-nowrap gap-x-5 gap-y-5">
-                @foreach ($artists as $artist)
+        <div class="mt-4 overflow-x-auto flex ">
+            <div class="swiper top-artists-swiper  flex-1">
+                <div class="swiper-wrapper " style="width: 80vw;">
+                    @foreach ($artists as $artist)
 
-                <div class="relative rounded-xl overflow-hidden flex-shrink-0 max-w-[200px]">
-                    <img src="{{ asset('storage/'.$artist->photo) }}" class="object-cover w-full h-full -z-10" alt="">
-                    <div class="absolute top-0 h-full w-full bg-gradient-to-t from-black/50 p-3 flex flex-col justify-between">
+                    <div class="swiper-slide relative rounded-xl overflow-hidden flex-shrink-0 max-w-[200px]"
+                        style="background-image: url('{{ asset('storage/' . $artist->photo) }}'); background-size: cover; background-position: center;">
+                        <div class="absolute top-0 flex flex-col justify-between w-full h-full p-3 bg-gradient-to-t from-black/50">
 
-                        <a href="#" class="p-2.5 bg-gray-800/80 rounded-lg text-white self-end hover:bg-red-600/80">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
+                            <a href="#" class="p-2.5 bg-gray-800/80 rounded-lg text-white self-end hover:bg-red-600/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </a>
 
-                        <div class="self-center flex flex-col items-center space-y-2">
-                            <span class="capitalize text-white font-medium drop-shadow-md">{{ $artist->name }}</span>
-                            <span class="text-gray-300 text-xs">+{{ $artist->movies_count }} Movies</span>
+                            <div class="flex flex-col items-center self-center space-y-2">
+                                <span class="font-medium text-white capitalize drop-shadow-md">{{ $artist->name }}</span>
+                                <span class="text-xs text-gray-300">+{{ $artist->movies_count }} Movies</span>
 
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
+                <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
-
     <section class="mt-9 w-[91vw] md:w-full ">
         <div class="flex items-center justify-between">
-            <span class="font-semibold text-gray-700 text-base">Similar Movies</span>
-            <div class="flex relative items-center space-x-2 fill-gray-500">
-                <a href="#" class="swiper-button-previ">
-                    <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+            <span class="text-base font-semibold">Similar Movies</span>
+            <div class="relative flex items-center space-x-2 fill-gray-500">
+                <a href="#" class="">
+                    <svg class="similar-movie-swiper-button-prev p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M13.293 6.293L7.58 12l5.7 5.7 1.41-1.42 -4.3-4.3 4.29-4.293Z"></path>
                     </svg>
                 </a>
-                <a href="#" class="swiper-button-nexte">
-                    <svg class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600"
+                <a href="#" class="">
+                    <svg class="similar-movie-swiper-button-next p-1 border rounded-full h-7 w-7 hover:border-red-600 hover:fill-red-600"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M10.7 17.707l5.7-5.71 -5.71-5.707L9.27 7.7l4.29 4.293 -4.3 4.29Z"></path>
                     </svg>
@@ -173,15 +174,15 @@
             </div>
         </div>
 
-        <div class=" mt-4 slider-container">
-            <div class="movie-swiper swiper">
+        <div class="mt-4 slider-container">
+            <div class="similar-movie-swiper swiper">
                 <div class="swiper-wrapper">
                     @foreach ($movies as $similarMovie)
                     <div class="swiper-slide">
                         <img src="{{ asset('storage/'.$similarMovie->poster_image) }}" alt="{{ $similarMovie->title }}">
-                        <div class="movie-info">
-                            <span class="capitalize font-medium truncate">{{ $similarMovie->title }}</span>
-                            <div class="flex space-x-2 items-center text-xs">
+                        <div class="flex items-center justify-between w-full px-3 border-t-2 h-1/5 border-t-red-600" x-bind:class="isDark ? ' bg-gray-800 ' : 'light-mode'" x-transition>
+                            <span class="font-medium capitalize truncate">{{ $similarMovie->title }}</span>
+                            <div class="flex items-center space-x-2 text-xs ">
                                 <svg class="w-8 h-5" xmlns="http://www.w3.org/2000/svg" width="64" height="32"
                                     viewBox="0 0 64 32" version="1.1">
                                     <g fill="#F5C518">
@@ -200,7 +201,7 @@
                     </div>
                     @endforeach
                 </div>
-                <div class="swiper-pagination -mb-2"></div>
+                <!-- <div class="-mb-2 swiper-pagination"></div> -->
             </div>
         </div>
     </section>

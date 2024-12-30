@@ -1,8 +1,28 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.dark-mode {
+    background-color: #1a202c; /* bg-gray-900 */
+    color: #e2e8f0; /* text-gray-200 */
+}
+
+.dark-mode p,
+.dark-mode label,
+.dark-mode a {
+    color: #e2e8f0; /* text-gray-200 */
+}
+
+.light-mode {
+    background-color: #ffffff; /* bg-white */
+    color: #1a202c; /* text-gray-900 */
+}
+
+.light-mode p,
+.light-mode label,
+.light-mode a {
+    color: #1a202c; /* text-gray-900 */
+}
 
 /* resources/css/movies-swiper.css */
 .movie-swiper {

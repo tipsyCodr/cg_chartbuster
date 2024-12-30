@@ -15,17 +15,23 @@
 </head>
 
 
-<body class="font-montserrat text-sm bg-white ">
+<body class="text-sm bg-white font-montserrat " x-data="{ 
+    isDark: sessionStorage.getItem('isDark') === 'true',
+    toggleDarkMode() {
+        this.isDark = !this.isDark;
+        sessionStorage.setItem('isDark', this.isDark);
+    }
+}" x-bind:class="isDark ? 'dark-mode' : 'light-mode'" x-transition>  
     <div
-        class="flex min-h-screen  2xl:max-w-screen-2xl 2xl:mx-auto 2xl:border-x-2 2xl:border-gray-200 ">
+        class="flex min-h-screen 2xl:max-w-screen-2xl 2xl:mx-auto ">
         <!-- Left Sidebar -->
         <x-left-sidebar />
         <!-- /Left Sidebar -->
 
-        <main class=" flex-1 py-10  px-5 sm:px-10 " x-data="{ isActive: 'movies' }">
+        <main  class="flex-1 px-5 py-10 sm:px-10" x-data="{ isActive: 'movies' }">
             <x-mobile-navbar />
 
-            <nav class="flex space-x-6 text-gray-400 font-medium">
+            <nav class="flex space-x-6 font-medium text-gray-400">
                 <a @click="isActive = 'movies'"
                     :class="{ 'text-gray-700 font-semibold': isActive === 'movies' }"
                     href="#">Movies</a>
@@ -46,7 +52,7 @@
         </main>
 
         <!-- Right Sidebar -->
-        <x-right-sidebar :movies="$movies" :artists="$artists" />
+        {{-- <x-right-sidebar :movies="$movies" :artists="$artists" /> --}}
         <!-- /Right Sidebar -->
 
     </div>

@@ -8,14 +8,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased " x-data="{ 
+    isDark: sessionStorage.getItem('isDark') === 'true',
+    toggleDarkMode() {
+        this.isDark = !this.isDark;
+        sessionStorage.setItem('isDark', this.isDark);
+    }
+}" x-bind:class="isDark ? 'dark-mode' : 'light-mode'" x-transition>
 
 
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen" >
         <!-- Mobile Sidebar Toggle -->
         <button
             @click="isSidebarOpen = !isSidebarOpen"
-            class="fixed top-4 right-4 z-50 p-2 text-gray-600 bg-white rounded-md shadow-md md:hidden focus:outline-none">
+            class="fixed z-50 p-2 text-gray-600 bg-white rounded-md shadow-md top-4 right-4 md:hidden focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -30,18 +36,18 @@
             x-transition:leave="transition ease-in duration-300 transform"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="-translate-x-full"
-            @click.away="isSidebarOpen = false"
-            class="fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-md md:relative md:translate-x-0 
+            @click.away="isSidebarOpen = false" x-bind:class="isDark ? 'dark-mode' : 'light-mode'" x-transition
+            class="fixed inset-y-0 left-0 z-40 w-64 shadow-md md:relative md:translate-x-0 
                    transform transition-transform duration-300 ease-in-out 
                    {{ request()->is('admin/*') ? 'block' : 'hidden md:block' }}
                    md:flex md:flex-col md:w-64">
-            <div class=" z-50 text-center">
+            <div class="z-50 text-center ">
                 <a href="{{ route('admin.dashboard') }}">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
                 </a>
             </div>
             <div class="p-6 border-b">
-                <h1 class="text-2xl font-bold text-gray-800">Admin Panel</h1>
+                <p class="text-2xl font-bold ">Admin Panel</p>
             </div>
             <nav class="p-4">
                 <ul class="space-y-2">
@@ -83,7 +89,7 @@
                     <li>
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
-                            <button type="submit" class="w-full text-left py-2 px-4 hover:bg-red-50 hover:text-red-600 text-gray-700">
+                            <button type="submit" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-red-50 hover:text-red-600">
                                 Logout
                             </button>
                         </form>
@@ -92,48 +98,48 @@
             </nav>
         </aside>
 
-        <aside class=" hidden md:block inset-y-0  w-64 bg-white shadow-md">
-            <div class="flex items-center justify-center z-50 ">
+        <aside class="inset-y-0 hidden w-64 shadow-md md:block" x-bind:class="isDark ? 'dark-mode' : 'light-mode'" x-transition>
+            <div class="z-50 flex items-center justify-center ">
                 <a href="{{ route('admin.dashboard') }}">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
                 </a>
             </div>
             <div class="p-6 border-b">
-                <h1 class="text-2xl font-bold text-gray-800">Admin Panel</h1>
+                <h1 class="text-2xl font-bold ">Admin Panel</h1>
             </div>
             <nav class="p-4">
                 <ul class="space-y-2">
                     <li>
                         <a href="{{ route('admin.dashboard') }}"
-                            class="block py-2 px-4 hover:bg-gray-100 
+                            class="block py-2 px-4 hover:bg-gray-100  hover:text-black
                            {{ request()->routeIs('admin.dashboard') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Dashboard
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.user-management') }}"
-                            class="block py-2 px-4 hover:bg-gray-100
+                            class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.user-management') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             User Management
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.movies.index') }}"
-                            class="block py-2 px-4 hover:bg-gray-100
+                            class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.movies.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Movies
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.albums.index') }}"
-                            class="block py-2 px-4 hover:bg-gray-100
+                            class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.albums.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Albums
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.artists.index') }}"
-                            class="block py-2 px-4 hover:bg-gray-100
+                        <a href="{{ route('admin.artists.index') }}" 
+                            class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.artists.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Artists
                         </a>
@@ -141,7 +147,7 @@
                     <li>
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
-                            <button type="submit" class="w-full text-left py-2 px-4 hover:bg-red-50 hover:text-red-600 text-gray-700">
+                            <button type="submit" class="w-full px-4 py-2 text-left hover:bg-red-50 hover:text-red-600">
                                 Logout
                             </button>
                         </form>
@@ -163,10 +169,10 @@
         </div>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 md:p-10 transition-all duration-300 ease-in-out">
+        <main class="flex-1 p-4 transition-all duration-300 ease-in-out md:p-10">
             <header class="mb-4 md:mb-8">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">@yield('page-title')</h2>
+                <div class="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
+                    <h2 class="text-2xl font-bold text-gray-800 md:text-3xl">@yield('page-title')</h2>
                     <div class="text-sm text-gray-500">
                         Logged in as: {{ Auth::user()->name }}
                     </div>
