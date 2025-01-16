@@ -25,7 +25,7 @@
 }
 
 /* resources/css/movies-swiper.css */
-.movie-swiper {
+/* .movie-swiper {
     @apply w-full h-[350px] overflow-hidden pb-4;
 }
 
@@ -55,4 +55,4 @@
     .swiper-slide {
         @apply max-w-[160px] min-w-[130px];
     }
-}
+} */

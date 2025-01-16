@@ -11,6 +11,7 @@ class Artist extends Model
     protected $fillable = [
         'name',
         'bio',
+        'category',
         'birth_date',
         'photo',
         'city',
@@ -20,10 +21,21 @@ class Artist extends Model
     {
         return $this->belongsToMany(Movie::class, 'movie_artist');
     }
-
+    public function tvshows()
+    {
+        return $this->belongsToMany(TvShow::class, 'artist_tvshow');
+    }
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class, 'artist_song');
+    }
     public function albums()
     {
         return $this->hasMany(Album::class);
+    }
+    public function category()
+    {
+        return $this->hasMany(ArtistCategory::class);
     }
 
 }

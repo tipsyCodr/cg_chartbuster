@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Movie extends Model
+class Song extends Model
 {
-    
     use HasFactory;
     protected $fillable = [
         'title',
@@ -16,22 +15,15 @@ class Movie extends Model
         'genre',
         'duration',
         'director',
+        'album',
         'poster_image',
         'trailer_url',
         'region',
-        'cbfc',
         'cg_chartbusters_ratings',
         'imdb_ratings',
-        'cinematographer',
-        'dop',
-        'screen_play',
-        'writer_story_concept',
-        'male_lead',
-        'female_lead',
+        'artists',
         'support_artists',
-        'production_banner',
         'producer',
-        'songs',
         'singer_male',
         'singer_female',
         'lyrics',
@@ -42,7 +34,6 @@ class Movie extends Model
         'audio_studio',
         'editor',
         'video_studio',
-        'poster_logo',
         'vfx',
         'make_up',
         'drone',
@@ -52,13 +43,13 @@ class Movie extends Model
         'poster_image_portrait',
         'poster_image_landscape'
     ];
-    public function artists()
+    public function album()
     {
-        return $this->belongsToMany(Artist::class, 'movie_artist');
+        return $this->belongsTo(Album::class);
     }
 
-    public function albums()
+    public function artists()
     {
-        return $this->belongsToMany(Album::class, 'movie_album');
+        return $this->belongsToMany(Artist::class);
     }
 }

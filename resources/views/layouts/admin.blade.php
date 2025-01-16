@@ -73,6 +73,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.tvshows.index') }}"
+                            class="block py-2 px-4 hover:bg-gray-100
+                           {{ request()->routeIs('admin.tvshows.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
+                            TV Shows
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.albums.index') }}"
                             class="block py-2 px-4 hover:bg-gray-100
                            {{ request()->routeIs('admin.albums.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
@@ -128,6 +135,20 @@
                             class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.movies.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Movies
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tvshows.index') }}"
+                            class="block py-2 px-4 hover:bg-gray-100
+                           {{ request()->routeIs('admin.tvshows.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
+                            TV Shows
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.songs.index') }}"
+                            class="block py-2 px-4 hover:bg-gray-100
+                           {{ request()->routeIs('admin.songs.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
+                            Songs
                         </a>
                     </li>
                     <li>

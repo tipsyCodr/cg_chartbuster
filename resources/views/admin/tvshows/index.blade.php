@@ -1,25 +1,59 @@
 @extends('layouts.admin')
 
 @section('content')
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Edit Movie') }}
-        </h2>
-    </x-slot>
+    <div x-data="{ showMovieModal: false }" class="container px-4 py-8 mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold">TV Show Management</h1>
+            <button @click="showMovieModal = true"
+                class="px-4 py-2 text-white transition rounded bg-accent hover:bg-accent-dark">
+                Add New TV Show
+            </button>
+        </div>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="px-4 py-5 bg-white sm:p-6">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">
-                        Edit Movie
-                    </h3>
-                </div>
-                <div class="px-4 py-5 overflow-hidden bg-white shadow sm:rounded-md mt-50 sm:p-6">
-                    <form method="POST" action="{{ route('admin.movies.update', $movie) }}" enctype="multipart/form-data">
+        @if (session('success'))
+            <div class="relative px-4 py-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="text-red-500">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @error('title', 'description', 'year', 'genre', 'director', 'cast', 'duration', 'poster', 'trailer')
+            <div class="relative px-4 py-3 mb-4 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
+                <strong>{{ $message }}</strong>
+            </div>
+        @enderror
+
+        <!-- Movie Creation Modal -->
+        <div x-show="showMovieModal" x-cloak
+            class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+            <div class="relative w-auto max-w-3xl mx-auto my-6">
+                <div x-show="showMovieModal" x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none z-60">
+
+                    <!-- Modal Header -->
+                    <div class="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
+                        <h3 class="text-2xl font-semibold">Add New TV Show</h3>
+                        <button @click="showMovieModal = false"
+                            class="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none">
+                            <span class="block w-6 h-6 text-2xl text-black bg-transparent opacity-5">×</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <form action="{{ route('admin.tvshows.store') }}" method="POST" enctype="multipart/form-data"
+                        class="relative flex-auto p-6">
                         @csrf
-                        @method('PUT')
-
                         <div class="">
                             <div class="mb-4 ">
 
@@ -27,7 +61,7 @@
                                 <div>
                                     <label for="title" class="block my-1 text-sm font-medium text-gray-700">Movie
                                         Title</label>
-                                    <input type="text" name="title" id="title" required value="{{ $movie->title }}"
+                                    <input type="text" name="title" id="title" required
                                         class="mt-1 block w-full rounded-md @error('title') is-invalid @enderror border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     @error('title')
                                         @foreach ($errors->get('title') as $message)
@@ -41,9 +75,7 @@
                                     <label for="description"
                                         class="block my-1 text-sm font-medium text-gray-700">Description</label>
                                     <textarea name="description" id="description" rows="3"
-                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                      {{ $movie->description }}
-                                    </textarea>
+                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                                     @error('description')
                                         @foreach ($errors->get('description') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
@@ -54,7 +86,7 @@
                                 <div>
                                     <label for="release_date" class="block my-1 text-sm font-medium text-gray-700">Release
                                         Date</label>
-                                    <input type="date" name="release_date" id="release_date" value="{{ $movie->release_date }}"
+                                    <input type="date" name="release_date" id="release_date"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     @error('release_date')
                                         @foreach ($errors->get('release_date') as $message)
@@ -66,7 +98,7 @@
 
                                 <div>
                                     <label for="genre" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
-                                    <input type="text" name="genre" id="genre"  value="{{ $movie->genre }}"
+                                    <input type="text" name="genre" id="genre"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     @error('genre')
                                         @foreach ($errors->get('genre') as $message)
@@ -76,7 +108,7 @@
                                     @enderror
                                 </div>
                                 <div x-data="{ hours: 0, minutes: 0 }">
-                                    <input type="hidden" name="duration" id="duration"  value="{{ $movie->duration }}"
+                                    <input type="hidden" name="duration" id="duration" 
                                         :value="`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`" 
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     
@@ -99,7 +131,7 @@
                                 <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
-                                    <input type="text" name="director" id="director"  value="{{ $movie->director }}"
+                                    <input type="text" name="director" id="director"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     @error('director')
                                         @foreach ($errors->get('director') as $message)
@@ -112,14 +144,14 @@
                                 <div>
                                     <label for="region"
                                         class="block my-1 text-sm font-medium text-gray-700">Region</label>
-                                    <input type="text" name="region" id="region" value="{{ $movie->region }}"
+                                    <input type="text" name="region" id="region"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="cbfc"
                                         class="block my-1 text-sm font-medium text-gray-700">CBFC</label>
-                                    <input type="text" name="cbfc" id="cbfc"  value="{{ $movie->cbfc }}"
+                                    <input type="text" name="cbfc" id="cbfc"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
@@ -139,48 +171,48 @@
                                 <div>
                                     <label for="cinematographer"
                                         class="block my-1 text-sm font-medium text-gray-700">Cinematographer</label>
-                                    <input type="text" name="cinematographer" id="cinematographer"  value="{{ $movie->cinematographer }}"
+                                    <input type="text" name="cinematographer" id="cinematographer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="dop" class="block my-1 text-sm font-medium text-gray-700">DOP</label>
-                                    <input type="text" name="dop" id="dop"  value="{{ $movie->dop }}"
+                                    <input type="text" name="dop" id="dop"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="screen_play" class="block my-1 text-sm font-medium text-gray-700">Screen
                                         Play</label>
-                                    <input type="text" name="screen_play" id="screen_play" value="{{ $movie->screen_play }}"
+                                    <input type="text" name="screen_play" id="screen_play"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="writer_story_concept"
                                         class="block my-1 text-sm font-medium text-gray-700">Writer Story Concept</label>
-                                    <textarea name="writer_story_concept" id="writer_story_concept" rows="3"  value=""
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->writer_story_concept }}</textarea>
+                                    <textarea name="writer_story_concept" id="writer_story_concept" rows="3"
+                                        class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
                                 </div>
 
                                 <div>
                                     <label for="male_lead" class="block my-1 text-sm font-medium text-gray-700">Male
                                         Lead</label>
-                                    <input type="text" name="male_lead" id="male_lead" value="{{ $movie->male_lead }}"
+                                    <input type="text" name="male_lead" id="male_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="female_lead" class="block my-1 text-sm font-medium text-gray-700">Female
                                         Lead</label>
-                                    <input type="text" name="female_lead" id="female_lead" value="{{ $movie->female_lead }}"
+                                    <input type="text" name="female_lead" id="female_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="support_artists"
                                         class="block my-1 text-sm font-medium text-gray-700">Support Artists</label>
-                                    <input type="text" name="support_artists" id="support_artists" value="{{ $movie->support_artists }}"
+                                    <input type="text" name="support_artists" id="support_artists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
@@ -189,109 +221,116 @@
                                 <div>
                                     <label for="producer"
                                         class="block my-1 text-sm font-medium text-gray-700">Producer</label>
-                                    <input type="text" name="producer" id="producer" value="{{ $movie->producer }}"
+                                    <input type="text" name="producer" id="producer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="songs"
                                         class="block my-1 text-sm font-medium text-gray-700">Songs</label>
-                                    <input type="text" name="songs" id="songs" value="{{ $movie->songs }}"
+                                    <input type="text" name="songs" id="songs"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
-                                    <input type="text" name="singer_male" id="singer_male" value="{{ $movie->singer_male }}"
+                                    <input type="text" name="singer_male" id="singer_male"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Female</label>
-                                    <input type="text" name="singer_female" id="singer_female" value="{{ $movie->singer_female }}"
+                                    <input type="text" name="singer_female" id="singer_female"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="lyrics"
                                         class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
-                                    <input type="text" name="lyrics" id="lyrics" value="{{ $movie->lyrics }}"
+                                    <input type="text" name="lyrics" id="lyrics"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="composition"
                                         class="block my-1 text-sm font-medium text-gray-700">Composition</label>
-                                    <input type="text" name="composition" id="composition" value="{{ $movie->composition }}"
+                                    <input type="text" name="composition" id="composition"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="mix_master" class="block my-1 text-sm font-medium text-gray-700">Mix
                                         Master</label>
-                                    <input type="text" name="mix_master" id="mix_master"  value="{{ $movie->mix_master }}"
+                                    <input type="text" name="mix_master" id="mix_master"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="music"
                                         class="block my-1 text-sm font-medium text-gray-700">Music</label>
-                                    <input type="text" name="music" id="music" value="{{ $movie->music }}"
+                                    <input type="text" name="music" id="music"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="recordists"
                                         class="block my-1 text-sm font-medium text-gray-700">Recordists</label>
-                                    <input type="text" name="recordists" id="recordists" value="{{ $movie->recordists }}"
+                                    <input type="text" name="recordists" id="recordists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
                                 <div>
                                     <label for="audio_studio" class="block my-1 text-sm font-medium text-gray-700">Audio
                                         Studio</label>
-                                    <input type="text" name="audio_studio" id="audio_studio"  value="{{ $movie->audio_studio }}"
+                                    <input type="text" name="audio_studio" id="audio_studio"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
                                 <div>
                                     <label for="editor"
                                         class="block my-1 text-sm font-medium text-gray-700">Editor</label>
-                                    <input type="text" name="editor" id="editor" value="{{ $movie->editor }}"
+                                    <input type="text" name="editor" id="editor"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     <div>
                                         <label for="video_studio"
                                             class="block my-1 text-sm font-medium text-gray-700">Video Studio</label>
-                                        <input type="text" name="video_studio" id="video_studio" value="{{ $movie->video_studio }}"
+                                        <input type="text" name="video_studio" id="video_studio"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
+
+                                    <div>
+                                        <label for="poster_logo"
+                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
+                                        <input type="text" name="poster_logo" id="poster_logo"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
                                     <div>
                                         <label for="vfx"
                                             class="block my-1 text-sm font-medium text-gray-700">VFX</label>
-                                        <input type="text" name="vfx" id="vfx"  value="{{ $movie->vfx }}"
+                                        <input type="text" name="vfx" id="vfx"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
                                     <div>
                                         <label for="make_up" class="block my-1 text-sm font-medium text-gray-700">Make
                                             Up</label>
-                                        <input type="text" name="make_up" id="make_up" value="{{ $movie->make_up }}"
+                                        <input type="text" name="make_up" id="make_up"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
                                     <div>
                                         <label for="drone"
                                             class="block my-1 text-sm font-medium text-gray-700">Drone</label>
-                                        <input type="text" name="drone" id="drone" value="{{ $movie->drone }}"
+                                        <input type="text" name="drone" id="drone"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
                                     <div>
                                         <label for="others"
                                             class="block my-1 text-sm font-medium text-gray-700">Others</label>
-                                        <input type="text" name="others" id="others"  value="{{ $movie->others }}"
+                                        <input type="text" name="others" id="others"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
@@ -300,12 +339,12 @@
                                             class="block my-1 text-sm font-medium text-gray-700">Content
                                             Description</label>
                                         <textarea name="content_description" id="content_description" rows="3"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded"> {{ $movie->content_description }}</textarea>
+                                            class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
                                     </div>
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
-                                        <input type="url" name="trailer_url" id="trailer_url"  value="{{ $movie->trailer_url }}"
+                                        <input type="url" name="trailer_url" id="trailer_url"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                         @error('trailer_url')
                                             @foreach ($errors->get('trailer_url') as $message)
@@ -317,13 +356,7 @@
                                     <div>
                                         <label for="hyperlinks_links"
                                             class="block my-1 text-sm font-medium text-gray-700">Hyperlinks Links</label>
-                                        <input type="text" name="hyperlinks_links" id="hyperlinks_links"  value="{{ $movie->hyperlinks_links }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-                                    <div>
-                                        <label for="poster_logo"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
-                                        <input type="file" name="poster_logo" id="poster_logo"  value="{{ $movie->poster_logo }}"
+                                        <input type="text" name="hyperlinks_links" id="hyperlinks_links"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
                                     <div>
@@ -357,15 +390,92 @@
                             </div>
                         </div>
 
-                        <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
+                        <!-- Modal Footer -->
+                        <div class="flex items-center justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
+                            <button type="button" @click="showMovieModal = false"
+                                class="px-6 py-2 mr-4 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none">
+                                Cancel
+                            </button>
                             <button type="submit"
-                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Save
+                                class="px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring">
+                                Save Movie
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="fixed inset-0 bg-black opacity-25 -z-10 backdrop-blur-lg"></div>
+        </div>
+
+        <div class="overflow-hidden bg-white rounded-lg shadow-md">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th
+                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                            Poster
+                        </th>
+                        <th
+                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                            Title
+                        </th>
+                        <th
+                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                            Release Year
+                        </th>
+                        <th
+                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($tvShows as $tvShow)
+                        <tr>
+                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                <img src="{{ Storage::url($tvShow->poster_image) }}" alt="{{ $tvShow->title }}"
+                                    class="object-cover w-16 h-24 rounded">
+                            </td>
+                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                {{ $tvShow->title }}
+                            </td>
+                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                {{ $tvShow->release_date }}
+                            </td>
+                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('admin.tvshows.edit', $tvShow) }}"
+                                        class="text-blue-600 hover:text-blue-900">Edit</a>
+                                    <form action="{{ route('admin.tvshows.destroy', $tvShow) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-5 py-5 text-center text-gray-500">
+                                No TV Shows found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+
+            <div class="flex justify-center p-2 space-x-4">
+                {{ $tvShows->links() }}
+            </div>
         </div>
     </div>
-    @endsection
+@endsection
+
+@push('styles')
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+@endpush

@@ -3,24 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Movie;
+use App\Models\TvShow;
 use Illuminate\Http\Request;
 
-class MovieController extends Controller
+
+class TvShowController extends Controller
 {
+    //
     public function index()
     {
-        $movies = Movie::latest()->paginate(5);
-        return view('admin.movie.index', compact('movies'));
+        // Code to list all TV shows
+        $tvShows = TvShow::latest()->paginate(5);
+        return view('admin.tvshows.index', compact('tvShows'));
+        
     }
 
     public function create()
     {
-        return view('admin.movie.create');
+        // Code to show form to create a new TV show
     }
 
-    public function store(Request $request)
+    public function store(Request $request, TvShow $tvShow )
     {
+        // Code to save a new TV show
         $validatedData = $request->validate(rules: [
             'title' => 'required|max:255',
             'description' => 'nullable',
@@ -62,7 +67,6 @@ class MovieController extends Controller
             'content_description' => 'nullable|string',
             'hyperlinks_links' => 'nullable|string',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-
             // Add more validation rules as needed
         ]);
 
@@ -105,24 +109,27 @@ class MovieController extends Controller
         }
 
         // Create the movie
-        $movie = Movie::create($validatedData);
+        $tvShow = TvShow::create($validatedData);
 
-        return redirect()->route('admin.movies.index')
-            ->with('success', 'Movie created successfully.');
+        return redirect()->route('admin.tvshows.index')
+            ->with('success', 'TV Show created successfully.');
     }
 
-    public function show(Movie $movie)
+    public function show($id)
     {
-        return view('admin.movie.show', compact('movie'));
+        // Code to display a specific TV show
     }
 
-    public function edit(Movie $movie)
+    public function edit($id)
     {
-        return view('admin.movie.edit', compact('movie'));
+        // Code to show form to edit a TV show
+        $tvshows = TvShow::findOrFail($id);
+        return view('admin.tvshows.edit', compact('tvshows'));
     }
 
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request, TvShow $tvShow)
     {
+        // Code to update a specific TV show
         $validatedData = $request->validate(rules: [
             'title' => 'required|max:255',
             'description' => 'nullable',
@@ -204,17 +211,17 @@ class MovieController extends Controller
             }
         }
         
-        $movie->update($validatedData);
+        $tvShow->update($validatedData);
 
-        return redirect()->route('admin.movies.index')
-            ->with('success', 'Movie updated successfully');
+        return redirect()->route('admin.tvshows.index')
+            ->with('success', 'TV Show updated successfully');
     }
 
-    public function destroy(Movie $movie)
+    public function destroy(TvShow $tvshow)
     {
-        $movie->delete();
+        $tvshow->delete();
 
-        return redirect()->route('admin.movies.index')
-            ->with('success', 'Movie deleted successfully');
+        return redirect()->route('admin.tvshows.index')
+            ->with('success', 'TV Show deleted successfully');
     }
 }
