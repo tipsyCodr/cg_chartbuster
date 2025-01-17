@@ -1,6 +1,5 @@
 <x-app-layout>
-
-    <section class="mt-9 mb-9">
+    <section class="mt-9">
         <h1 class="text-2xl font-bold">TV Shows</h1>
         <ul class="mt-4">
             @foreach ($tvshows as $tvshow)
@@ -23,5 +22,4 @@
             @endforeach
         </ul>
     </section>
-
 </x-app-layout>
