@@ -68,6 +68,7 @@
             <div class="p-5 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex flex-wrap -mx-4">
                     <div class="w-full px-4 md:w-1/2">
+                        <h2 class="mb-5 text-xl font-semibold leading-tight"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> About:</h2>
                         <h2 class="mb-5 text-2xl font-semibold leading-tight text-gray-100">{{ $movie->title }}</h2>
                         <p class="mb-5 text-gray-200"><strong>Region:</strong> {{ $movie->region }}</p>
                         <p class="mb-5 text-gray-200"><strong>CBFC:</strong> {{ $movie->cbfc }}</p>
@@ -102,14 +103,14 @@
                         @endif
                     </div>
                     <div class="w-full px-4 md:w-1/2">
-                        <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100">Cast</h3>
+                        <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Cast</h3>
                         <ul class="mb-5 text-gray-200">
                             {{-- Uncomment this when cast data is available
                             @foreach($movie->cast as $cast)
                                 <li>{{ $cast->name }} as {{ $cast->character }}</li>
                             @endforeach --}}
                         </ul>
-                        <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100">Reviews</h3>
+                        <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>
                         <ul class="mb-5 text-gray-200">
                             {{-- Uncomment this when reviews data is available
                             @foreach($movie->reviews as $review)
