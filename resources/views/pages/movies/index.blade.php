@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <section class="mt-9 mb-9">
+    <section class="pb-10 mt-10">
         <h1 class="text-2xl font-bold">Movies</h1>
         <ul class="mt-4">
             @foreach ($movies as $movie)

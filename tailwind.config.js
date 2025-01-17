@@ -29,7 +29,7 @@ export default {
             },
             backgroundImage: {
                 "gradient-bottom": "linear-gradient(180deg, transparent 5%,#00000080 , #000000 90%)",
-                "gradient-dark": "linear-gradient(0deg, #434313FF 5%, #000000, #000000 90%)",
+                "gradient-dark": "linear-gradient(0deg, #434313FF 10px, #000000, #000000 200px)",
             },
             textShadow: {
                 'default': '0 2px 4px rgba(0, 0, 0, 0.5)',

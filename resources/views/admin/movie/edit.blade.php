@@ -305,8 +305,7 @@
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
-                                        <input type="url" name="trailer_url" id="trailer_url"  value="{{ $movie->trailer_url }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <textarea name="trailer_url" id="trailer_url" rows="3" class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->trailer_url }}</textarea>
                                         @error('trailer_url')
                                             @foreach ($errors->get('trailer_url') as $message)
                                                 <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">

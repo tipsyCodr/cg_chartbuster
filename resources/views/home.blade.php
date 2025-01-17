@@ -4,13 +4,8 @@
    but Tailwind's responsive utilities will handle most of this. */
 .carousel {
     max-width: 100%;
-    height: 500px;
     overflow: hidden;
 }
-
-/* .swiper.main-slider {
-    width: 80%;
-} */
 
 .swiper-next, .swiper-prev {
     position: absolute;
@@ -33,7 +28,6 @@
     transform: translateY(-50%) scale(0.9);
     background-color: rgba(0, 0, 0, 0.7);
 }
-
 /* For the thumbnail slider */
 .thumbnail-slider-container {
     display: flex;
@@ -46,14 +40,12 @@
 .thumbnail-slider {
     height: 100%;
 }
-
 .thumbnail-slider .swiper-slide {
     cursor: pointer;
     padding: 10px;
     background-color: #333;
     border-radius: 8px;
 }
-
 .thumbnail-swiper-button-prev, .thumbnail-swiper-button-next {
     position: absolute;
     top: 0;
@@ -62,36 +54,34 @@
     z-index: 10;
     cursor: pointer;
 }
-
 /* Adjustments for mobile and tablet */
 @media (max-width: 1024px) {
     .thumbnail-slider-container {
         display: none; /* Hide thumbnail slider on tablets and mobile */
     }
 }
-
 @media (max-width: 768px) {
     .swiper.main-slider {
         width: 100%; /* Full width of the screen on tablets and smaller */
     }
 }
-
 </style>
-<section class="carousel flex flex-col md:flex-row items-center">
-    <div class="swiper main-slider w-full">
+<section class="flex flex-col items-center carousel md:flex-row">
+    <div class="w-full swiper main-slider">
         <!-- Main slider -->
         <div class="swiper-wrapper">
             @foreach (scandir(public_path('images/banner')) as $file)
                 @if ($file != '.' && $file != '..')
-                    <div class="swiper-slide rounded-xl overflow-hidden">
+                    <div class="overflow-hidden swiper-slide rounded-xl">
                         <img style="width: 100%; object-fit: cover;" src="{{ asset('images/banner/' . $file) }}" alt="Banner Image">
                         <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottom"></div>
-                        <div class="absolute bottom-6 left-6 transform text-white text-left">
+                        <div class="absolute text-left text-white transform bottom-6 left-6">
                             <div class="flex gap-3">
                                 <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('images/movies/1.jpg') }}" alt="">
                                 <div class="flex flex-col justify-end">
                                     <h1 class="text-3xl font-bold">Title</h1>
                                     <p class="text-lg">Description</p>
+                                    <span><i class='text-yellow-300 fa fa-star'></i> 4.3</span>
                                 </div>
                             </div>
                         </div>
@@ -108,12 +98,12 @@
 
     <!-- Thumbnail Slider -->
     <div class="thumbnail-slider-container hidden lg:flex flex-col w-[500px] h-[600px] ml-4">
-        <div class="swiper thumbnail-slider h-full">
+        <div class="h-full swiper thumbnail-slider">
             <div class="swiper-wrapper">
                 @foreach (scandir(public_path('images/banner')) as $file)
                     @if ($file != '.' && $file != '..')
-                        <div class="swiper-slide cursor-pointer bg-gray-800 p-2 rounded-lg">
-                            <div class="flex flex-row gap-2 h-full">
+                        <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide">
+                            <div class="flex flex-row h-full gap-2">
                                 <img class="w-[40%] max-w-[200px] h-full object-cover rounded-lg" src="{{ asset('images/banner/' . $file) }}" alt="Thumbnail">
                                 <div class="flex flex-col justify-end mb-2">
                                     <h1 class="text-lg font-bold">Title</h1>
@@ -132,13 +122,13 @@
 <div class="">
     
         <section class="my-5">
-            <h1 class="text-xl md:text-2xl lg:text-3xl font-bold"><span class="text-yellow-500 border-l border-4 border-yellow-500 mr-3"> </span> Top 10 Movies</h1>
-        <div class="flex flex-row overflow-x-auto scrollbar-hide px-4 gap-5 py-4">
+            <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
+        <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
             @for ($i = 1; $i <= 10; $i++)
-                <div class="bg-gray-800 rounded-lg shadow-md flex-shrink-0 mr-4 last:mr-0 hover:scale-110 transition-all">
+                <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                     <div class="relative">
-                        <span class="absolute bottom-2 -left-5 text-shadow-md text-8xl font-bold text-stroke stroke-white text-yellow-500 mr-2">{{ $i }}</span>
-                        <img class=" rounded-lg w-36 h-56 object-cover" src="{{ asset('images/movies/' . $i . '.jpg') }}"  alt="Movie Image">
+                        <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
+                        <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/movies/' . $i . '.jpg') }}"  alt="Movie Image">
                     </div>
                 </div>
             @endfor
@@ -146,26 +136,26 @@
 
         </section>
         <section class="my-5">
-            <h1 class="text-xl md:text-2xl lg:text-3xl font-bold"><span class="text-yellow-500 border-l border-4 border-yellow-500 mr-3"> </span> Top 10 Songs</h1>
-            <div class="flex flex-row overflow-x-auto scrollbar-hide px-4 gap-5 py-4">
+            <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Songs</h1>
+            <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
                 @for ($i = 1; $i <= 10; $i++)
-                    <div class="bg-gray-800 rounded-lg shadow-md flex-shrink-0 mr-4 last:mr-0 hover:scale-110 transition-all">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                         <div class="relative">
-                            <span class="absolute bottom-2 -left-5 text-shadow-md text-8xl font-bold text-stroke stroke-white text-yellow-500 mr-2">{{ $i }}</span>
-                            <img class=" rounded-lg w-36 h-56 object-cover" src="{{ asset('images/songs/' . $i . '.jpg') }}"  alt="Song Image">
+                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
+                            <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/songs/' . $i . '.jpg') }}"  alt="Song Image">
                         </div>
                     </div>
                 @endfor
             </div>
         </section>
-        <section class="my-5">
-            <h1 class="text-xl md:text-2xl lg:text-3xl font-bold"> <span class="text-yellow-500 border-l border-4 border-yellow-500 mr-3"> </span> Top 10 Artists</h1>
-            <div class="flex flex-row overflow-x-auto scrollbar-hide px-4 gap-5 py-4">
+        <section class="pb-5 mt-5">
+            <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"> <span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Artists</h1>
+            <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
                 @for ($i = 1; $i <= 10; $i++)
-                    <div class="bg-gray-800 rounded-lg shadow-md flex-shrink-0 mr-4 last:mr-0 hover:scale-110 transition-all">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                         <div class="relative">
-                            <span class="absolute bottom-2 -left-5 text-shadow-md text-8xl font-bold text-stroke stroke-white text-yellow-500 mr-2">{{ $i }}</span>
-                            <img class=" rounded-lg w-36 h-56 object-cover" src="{{ asset('images/artists/' . $i . '.jpg') }}" alt="Artist Image">
+                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
+                            <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/artists/' . $i . '.jpg') }}" alt="Artist Image">
                         </div>
                     </div>
                 @endfor

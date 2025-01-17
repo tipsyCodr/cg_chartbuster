@@ -14,24 +14,19 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
-
-<body class="text-sm bg-gradient-dark text-white font-montserrat " >  
-    <div class=" ">
+<body class="text-sm text-white font-montserrat" >  
+    <div class="px-2 lg:px-20 bg-gradient-dark">
         <x-top-bar />
-        <main class="px-2 lg:px-20" >
-            <div>
                 {{ $slot }}
-            </div>
-        </main>
     </div>
     <section class="footer">
-        <footer class="bg-black text-white px-6 md:px-16 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <footer class="px-6 py-10 text-white bg-black md:px-16">
+            <div class="flex flex-col items-start justify-between md:flex-row md:items-center">
                 <!-- Brand Section -->
                 <div class="flex flex-col gap-4 mb-6 md:mb-0">
                     <h1 class="text-2xl font-bold">CG Chartbusters</h1>
                     <img src="{{ asset('images/logo.png') }}" class="w-48" alt="CG Chartbusters Logo">
-                    <p class="text-sm text-gray-400 max-w-md leading-relaxed">
+                    <p class="max-w-md text-sm leading-relaxed text-gray-400">
                         CG Chartbusters is your gateway to the vibrant world of Chollywood, celebrating the unique charm and cultural richness of Chhattisgarhi cinema. Discover movies, connect with stars, and dive into stories that matter.
                     </p>
                 </div>
@@ -41,10 +36,10 @@
                     <!-- Quick Links -->
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold">Quick Links</h2>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm">Home</a>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm">Movies</a>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm">Reviews</a>
-                        <a href="#" class="text-gray-400 hover:text-white text-sm">Contact</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white">Home</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white">Movies</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white">Reviews</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white">Contact</a>
                     </div>
     
                     <!-- Social Media -->
@@ -72,10 +67,10 @@
             </div>
     
             <!-- Divider -->
-            <div class="border-t border-gray-700 mt-8"></div>
+            <div class="mt-8 border-t border-gray-700"></div>
     
             <!-- Copyright Section -->
-            <div class="text-center py-4">
+            <div class="py-4 text-center">
                 <p class="text-sm text-gray-400">&copy; {{ date('Y') }} CG Chartbusters. All rights reserved.</p>
             </div>
         </footer>

@@ -3,7 +3,7 @@
         <section class="w-full px-8 text-gray-100 " {!! $attributes ?? '' !!}>
             <div class="container flex flex-col items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
                 <div class="relative flex flex-col md:flex-row ">
-                    <a href="#_" class="flex items-center mb-5 font-medium text-gray-100 lg:w-auto lg:items-center lg:justify-center md:mb-0">
+                    <a href="{{ route('home') }}" class="flex items-center mb-5 font-medium text-gray-100 lg:w-auto lg:items-center lg:justify-center md:mb-0">
                         <img src="{{ asset('images/logo.png') }}" class="w-auto h-auto max-w-[150px]" alt="">
                     </a>
                     <nav class="items-center hidden gap-6 mb-5 text-base sm:flex md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
@@ -80,24 +80,24 @@
         </div>
       
         <div id='sidebar'  :class="{'translate-x-0': open, '-translate-x-full': !open}" class="fixed top-0 left-0 z-10 h-full px-5 py-2 transition-transform duration-300 transform bg-gray-900 w-50">
-            <a href="/" class="flex items-center mb-5">
+            <a href="{{ route('home') }}" class="flex items-center mb-5">
                 <img src="{{ asset('images/logo.png') }}" class="w-full h-full max-w-[150px]" alt="">
             </a>
     
             <nav class="flex flex-col px-4 py-2 space-y-2 text-sm">
-                <a href="#" class="py-2 hover:text-yellow-300">
+                <a href="{{ route('home') }}" class="py-2 hover:text-yellow-300">
                     Home
                 </a>
                 <a href="{{ route('movies') }}" class="py-2 hover:text-yellow-300">
                     Movies
                 </a>
-                <a href="#" class="py-2 hover:text-yellow-300">
+                <a href="{{ route('tv-shows') }}" class="py-2 hover:text-yellow-300">
                     TV Shows
                 </a>
-                <a href="#" class="py-2 hover:text-yellow-300">
+                <a href="{{ route('songs') }}" class="py-2 hover:text-yellow-300">
                     Songs
                 </a>
-                <a href="#" class="py-2 hover:text-yellow-300">
+                <a href="{{ route('artists') }}" class="py-2 hover:text-yellow-300">
                     Artist
                 </a>
             </nav>
