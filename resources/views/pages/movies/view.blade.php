@@ -37,16 +37,26 @@
             </div>
             <div class="p-4 w-28 flex-shrink-1 content">
                 <div class="h-30 py-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                    <h1 class="text-2xl font-bold">{{ $movie->title }}</h1>
-                    <small class="text-gray-200">
-                        <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
-                        {{ $movie->rating }} 4.3
-                    </small> <br>
-                    <small class="text-gray-200">Released: {{ date('Y', strtotime($movie->release_date)) }}</small><br> 
-                    <small class="text-gray-200"><strong>{{ $movie->genre }}</strong></small> <br>
-                    <small class="text-gray-200"><strong>{{ substr($movie->duration, 0, 5) }} </strong>mins</small> <br>
+                    <div class="flex gap-2">
+                        <div class="poster_image rounded-md overflow-hidden">
+                            @if($movie->poster_image != "" && $movie->poster_image != " ")
+                                <img class="w-full max-w-[110px] object-cover h-full" src="{{ asset("storage/{$movie->poster_image}") }}" alt="">
+                            @endif
+                        </div>
+                        <div class="">
+                            <h1 class="text-2xl font-bold">{{ $movie->title }}</h1>
+                            <small class="text-gray-200">
+                                <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
+                                {{ $movie->rating }} 4.3
+                            </small> <br>
+                            <small class="text-gray-200">Released: {{ date('Y', strtotime($movie->release_date)) }}</small><br> 
+                            <small class="text-gray-200"><strong>{{ $movie->genre }}</strong></small> <br>
+                            <small class="text-gray-200"><strong>{{ substr($movie->duration, 0, 5) }} </strong>mins</small> <br>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-40 overflow-y-auto">
+                    <p><strong>Plot:</strong></p>
                     <p class="text-gray-200">{{ $movie->description }}</p>
                 </div>
             </div>
