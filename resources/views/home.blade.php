@@ -102,7 +102,7 @@
                     <div class="flex items-center h-full gap-4">
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                         <div class="flex flex-col justify-center flex-1">
-                            <h1 class="text-lg font-bold truncate" style='width:170px'>{{ $banner_image['title'] }}</h1>
+                            <h1 class="text-xs font-bold truncate" style='width:170px'>{{ $banner_image['title'] }}</h1>
                             <p class="text-xs text-gray-300 truncate" style='width:170px'>{{ $banner_image['release_date'] ?? '' }}</p>
                         </div>
                     </div>
