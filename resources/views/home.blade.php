@@ -93,26 +93,24 @@
         <div class="swiper-prev"><i class="fa-solid fa-chevron-left fa-2x"></i></div>
         <div class="swiper-scrollbar"></div>
     </div>
-
-    <!-- Thumbnail Slider -->
-    <div class="thumbnail-slider-container hidden lg:flex flex-col w-[500px] h-[600px] ml-4">
-        <div class="h-full swiper thumbnail-slider">
-            <div class="swiper-wrapper">
-                @foreach ($banner_images as $banner_image)
-                    <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide">
-                        <div class="flex flex-row h-full gap-2">
-                            <img class="w-[40%] max-w-[200px] h-full object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
-                            <div class="flex flex-col justify-end mb-2">
-                                <h1 class="text-lg font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $banner_image['title'] }}</h1>
-                                <p class="text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $banner_image['description'] }}</p>
-                            </div>
+<!-- Thumbnail Slider -->
+<div class="thumbnail-slider-container hidden lg:flex flex-col w-[500px] h-[600px] ml-4">
+    <div class="h-full swiper thumbnail-slider">
+        <div class="swiper-wrapper">
+            @foreach ($banner_images as $banner_image)
+                <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide">
+                    <div class="flex items-center h-full gap-4">
+                        <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
+                        <div class="flex flex-col justify-center flex-1">
+                            <h1 class="text-lg font-bold truncate">{{ $banner_image['title'] }}</h1>
+                            <p class="text-xs text-gray-300 truncate">{{ $banner_image['description'] }}</p>
                         </div>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
-        
     </div>
+</div>
 </section>
 
 <div class="">
