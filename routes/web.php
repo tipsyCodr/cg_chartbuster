@@ -7,25 +7,54 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\TvShowController;
 use App\Http\Controllers\Admin\SongController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RegionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WebController::class, 'index']);
 Route::get('/home', [WebController::class, 'index'])->name('home');
+
+//Region
+Route::get('/regions', [RegionController::class, 'index'])->name('regions');
+Route::get('/region/add/{name}', [RegionController::class, 'add'])->name('region.add');
+
 //Movies
 Route::get('/movies', [WebController::class, 'movies'])->name('movies');
+Route::post('/movies', [WebController::class, 'movies'])->name('movies.query');
 Route::get('/movie/{id}', [WebController::class, 'movie'])->name('movie.show');
 
 //Artists
 Route::get('/artists', [WebController::class, 'artists'])->name('artists');
+Route::post('/artists', [WebController::class, 'artists'])->name('artists.query');
 Route::get('/artist/{id}', [WebController::class, 'artist'])->name('artist.show');
 
 //TV Shows
 Route::get('/tv-shows', [WebController::class, 'tvShows'])->name('tv-shows');
+Route::post('/tv-shows', [WebController::class, 'tvShows'])->name('tv-shows.query');
 Route::get('/tv-show/{id}', [WebController::class, 'tvShow'])->name('tv-show.show');
 
 //Songs
 Route::get('/songs', [WebController::class, 'songs'])->name('songs');
+Route::post('/songs', [WebController::class, 'songs'])->name('songs.query');
 Route::get('/song/{id}', [WebController::class, 'song'])->name('song.show');
+
+
+//reviews
+Route::post('/movie/review/store', [ReviewController::class, 'storeMovieReview'])->name('movies.reviews.store');
+Route::post('/tv-show/review', [ReviewController::class, 'storeTvShowReview'])->name('tv-shows.reviews.store');
+Route::post('/album/review', [ReviewController::class, 'storeAlbumReview'])->name('albums.reviews.store');
+Route::post('/song/review', [ReviewController::class, 'storeSongReview'])->name('songs.reviews.store');
+
+
+//Users
+Route::get('/user/login', [UserController::class, 'index'])->name('user.login');
+Route::get('/user/login/authenticate', [UserController::class, 'login'])->name('user.login.authenticate');
+
+Route::post('/user/logout', [UserController::class, 'logout'])->name('user.logout');
+
+Route::get('/user/register', [UserController::class, 'register'])->name('user.register');
+Route::post('/user/register/store', [UserController::class, 'store'])->name('user.register.store');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -59,7 +88,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             ->names('admin.artists')
             ->except(['show']);
 
-        Route::resource('/tvshows', TvShowController::class)->names([
+        Route::resource('/tvshows', App\Http\Controllers\Admin\TvShowController::class)->names([
             'index' => 'admin.tvshows.index',
             'create' => 'admin.tvshows.create',
             'store' => 'admin.tvshows.store',

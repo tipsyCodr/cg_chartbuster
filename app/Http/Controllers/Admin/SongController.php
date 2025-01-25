@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Song;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class SongController extends Controller{
     //
 public function index()
 {
+    $genres = Genre::where('for','Songs')->get();
     $songs = Song::latest()->paginate(5);
-    return view('admin.songs.index', compact('songs'));
+    return view('admin.songs.index', compact('songs','genres'));
 }
 
 
@@ -25,11 +27,13 @@ public function store(Request $request)
         'duration' => 'nullable|string|max:255',
         'director' => 'nullable|string|max:255',
         'album' => 'nullable|string|max:255',
-        'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-        'trailer_url' => 'nullable|string|max:255',
+        'poster_logo' => 'nullable|string',
+        'trailer_url' => 'nullable|string',
         'region' => 'nullable|string|max:255',
         'cg_chartbusters_ratings' => 'nullable|numeric',
         'imdb_ratings' => 'nullable|numeric',
+        'poster_logo' => 'nullable|string',
+        'production_banner' => 'nullable|string',
         'artists' => 'nullable|string|max:255',
         'support_artists' => 'nullable|string|max:255',
         'producer' => 'nullable|string|max:255',
@@ -49,7 +53,7 @@ public function store(Request $request)
         'others' => 'nullable|string|max:255',
         'content_description' => 'nullable|string',
         'hyperlinks_links' => 'nullable|string',
-        'poster_image_portrait' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+        'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
         'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
     ]);
    
@@ -71,25 +75,6 @@ public function store(Request $request)
             return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
         }
     }
-    if ($request->hasFile('production_banner')) {
-        try {
-            $path = $request->production_banner->store('banner', 'public');
-            $validatedData['production_banner'] = $path;
-        } catch (\Exception $e) {
-            \Log::error('Production Banner upload failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        }
-    }
-    if ($request->hasFile('poster_logo')) {
-        try {
-            $path = $request->poster_logo->store('poster_logo', 'public');
-            $validatedData['poster_logo'] = $path;
-        } catch (\Exception $e) {
-            \Log::error('Production Banner upload failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        }
-    }
-
     
     Song::create($validatedData);
 
@@ -100,9 +85,9 @@ public function store(Request $request)
 
 public function edit($id)
 {
-    // dd($song);
     $songs = Song::findOrFail($id);
-    return view('admin.songs.edit', compact('songs'));
+    $genres = Genre::where('for','Songs')->get();
+    return view('admin.songs.edit', compact('songs','genres'));
 }
 
 public function update(Request $request, Song $song)
@@ -116,13 +101,15 @@ public function update(Request $request, Song $song)
         'director' => 'nullable|string|max:255',
         'album' => 'nullable|string|max:255',
         'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-        'trailer_url' => 'nullable|string|max:255',
+        'trailer_url' => 'nullable|string',
         'region' => 'nullable|string|max:255',
         'cg_chartbusters_ratings' => 'nullable|numeric',
         'imdb_ratings' => 'nullable|numeric',
         'artists' => 'nullable|string|max:255',
         'support_artists' => 'nullable|string|max:255',
         'producer' => 'nullable|string|max:255',
+        'poster_logo' => 'nullable|string',
+        'production_banner' => 'nullable|string',
         'singer_male' => 'nullable|string|max:255',
         'singer_female' => 'nullable|string|max:255',
         'lyrics' => 'nullable|string|max:255',
@@ -160,25 +147,25 @@ public function update(Request $request, Song $song)
             return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
         }
     }
-    if ($request->hasFile('production_banner')) {
-        try {
-            $path = $request->production_banner->store('banner', 'public');
-            $validatedData['production_banner'] = $path;
-        } catch (\Exception $e) {
-            \Log::error('Production Banner upload failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        }
-    }
-    if ($request->hasFile('poster_logo')) {
-        try {
-            $path = $request->poster_logo->store('poster_logo', 'public');
-            $validatedData['poster_logo'] = $path;
-        } catch (\Exception $e) {
-            \Log::error('Production Banner upload failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        }
-    }
-    $song = Song::findOrFail( $song);
+    // if ($request->hasFile('production_banner')) {
+    //     try {
+    //         $path = $request->production_banner->store('banner', 'public');
+    //         $validatedData['production_banner'] = $path;
+    //     } catch (\Exception $e) {
+    //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+    //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+    //     }
+    // }
+    // if ($request->hasFile('poster_logo')) {
+    //     try {
+    //         $path = $request->poster_logo->store('poster_logo', 'public');
+    //         $validatedData['poster_logo'] = $path;
+    //     } catch (\Exception $e) {
+    //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+    //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+    //     }
+    // }
+    
     $song->update($validatedData);
 
     return redirect()->route('admin.songs.index')->with('success', 'Song updated successfully.');

@@ -50,8 +50,10 @@ class TvShow extends Model
         'content_description',
         'hyperlinks_links',
         'poster_image_portrait',
-        'poster_image_landscape'
+        'poster_image_landscape',
+        'show_on_banner'
     ];
+    
     public function artists()
     {
         return $this->belongsToMany(Artist::class, 'movie_artist');
@@ -60,5 +62,9 @@ class TvShow extends Model
     public function albums()
     {
         return $this->belongsToMany(Album::class, 'movie_album');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'tvshow_id');
     }
 }

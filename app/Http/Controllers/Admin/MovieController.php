@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use App\Models\Genre;
+use App\Models\Region;
+use App\Models\Artist;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
     public function index()
     {
+        $genres = Genre::where('for','Movies')->get();
         $movies = Movie::latest()->paginate(5);
-        return view('admin.movie.index', compact('movies'));
+        // dd($movies); // Before the table to see what's returned
+        $regions = Region::all();
+        return view('admin.movie.index', compact('movies','genres','regions'));
     }
 
     public function create()
@@ -28,7 +34,6 @@ class MovieController extends Controller
             'genre' => 'nullable|string',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
-            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'trailer_url' => 'nullable|string',
             'region' => 'nullable|string',
             'cbfc' => 'nullable|string',
@@ -41,7 +46,8 @@ class MovieController extends Controller
             'male_lead' => 'nullable|string',
             'female_lead' => 'nullable|string',
             'support_artists' => 'nullable|string',
-            'production_banner' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'poster_logo' => 'nullable|string',
+            'production_banner' => 'nullable|string',
             'producer' => 'nullable|string',
             'songs' => 'nullable|string',
             'singer_male' => 'nullable|string',
@@ -54,14 +60,15 @@ class MovieController extends Controller
             'audio_studio' => 'nullable|string',
             'editor' => 'nullable|string',
             'video_studio' => 'nullable|string',
-            'poster_logo' => 'nullable|string',
             'vfx' => 'nullable|string',
             'make_up' => 'nullable|string',
             'drone' => 'nullable|string',
             'others' => 'nullable|string',
             'content_description' => 'nullable|string',
             'hyperlinks_links' => 'nullable|string',
+            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'show_on_banner' => 'nullable',
 
             // Add more validation rules as needed
         ]);
@@ -85,24 +92,7 @@ class MovieController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        if ($request->hasFile('production_banner')) {
-            try {
-                $path = $request->production_banner->store('banner', 'public');
-                $validatedData['production_banner'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
-        if ($request->hasFile('poster_logo')) {
-            try {
-                $path = $request->poster_logo->store('poster_logo', 'public');
-                $validatedData['poster_logo'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
+    
 
         // Create the movie
         $movie = Movie::create($validatedData);
@@ -113,13 +103,20 @@ class MovieController extends Controller
 
     public function show(Movie $movie)
     {
+        
         return view('admin.movie.show', compact('movie'));
     }
 
     public function edit(Movie $movie)
     {
-        return view('admin.movie.edit', compact('movie'));
+        return view('admin.movie.edit', [
+            'movie' => $movie,
+            'genres' => Genre::where('for', 'Movies')->get(),
+            'singer_male' => Artist::singerMale()->get(),
+            'singer_female' => Artist::singerFemale()->get()
+        ]);
     }
+
 
     public function update(Request $request, Movie $movie)
     {
@@ -143,7 +140,8 @@ class MovieController extends Controller
             'male_lead' => 'nullable|string',
             'female_lead' => 'nullable|string',
             'support_artists' => 'nullable|string',
-            'production_banner' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'poster_logo' => 'nullable|string',
+            'production_banner' => 'nullable|string',
             'producer' => 'nullable|string',
             'songs' => 'nullable|string',
             'singer_male' => 'nullable|string',
@@ -156,7 +154,6 @@ class MovieController extends Controller
             'audio_studio' => 'nullable|string',
             'editor' => 'nullable|string',
             'video_studio' => 'nullable|string',
-            'poster_logo' => 'nullable|string',
             'vfx' => 'nullable|string',
             'make_up' => 'nullable|string',
             'drone' => 'nullable|string',
@@ -164,6 +161,7 @@ class MovieController extends Controller
             'content_description' => 'nullable|string',
             'hyperlinks_links' => 'nullable|string',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'show_on_banner' => 'nullable',
             // Add more validation rules as needed
         ]);
 
@@ -185,25 +183,8 @@ class MovieController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        if ($request->hasFile('production_banner')) {
-            try {
-                $path = $request->production_banner->store('banner', 'public');
-                $validatedData['production_banner'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
-        if ($request->hasFile('poster_logo')) {
-            try {
-                $path = $request->poster_logo->store('poster_logo', 'public');
-                $validatedData['poster_logo'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
         
+
         $movie->update($validatedData);
 
         return redirect()->route('admin.movies.index')

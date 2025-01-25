@@ -66,8 +66,12 @@
 
                                 <div>
                                     <label for="genre" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
-                                    <input type="text" name="genre" id="genre"  value="{{ $songs->genre }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="genre" id="genre" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select</option>
+                                        @foreach ($genres as $genre)
+                                            <option value="{{ $genre->id }}" {{ old('genre', $songs->genre) == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('genre')
                                         @foreach ($errors->get('genre') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
@@ -109,32 +113,79 @@
                                     @enderror
                                 </div>
 
-                                <div>
-                                    <label for="region"
-                                        class="block my-1 text-sm font-medium text-gray-700">Region</label>
-                                    <input type="text" name="region" id="region" value="{{ $songs->region }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
 
-                                {{-- <div>
+                                <div x-data="{ 
+                                    regions: [], 
+                                    selectedRegion: '{{ old('region', $songs->region) }}', 
+                                    fetchRegions() {
+                                        fetch('{{ route('regions') }}')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.regions = data; // Update the Alpine.js reactive variable
+                                            })
+                                            .catch(error => console.error('Error fetching regions:', error));
+                                    }, 
+                                    addRegion() {
+                                        const newRegion = document.getElementById('region_other').value;
+                                        if (newRegion.trim() === '') return;
+                            
+                                        fetch(`/region/add/${newRegion}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log('Region added:', data);
+                                                this.fetchRegions(); // Refresh the regions after adding a new region
+                                            })
+                                            .catch(error => console.error('Error adding region:', error));
+                            
+                                        document.getElementById('region_other').value = ''; // Clear the input field
+                                        this.selectedRegion = ''; // Reset the selected region
+                                        $refs.regionInput.classList.add('hidden'); // Hide the input field
+                                    } 
+                                }" 
+                                x-init="fetchRegions()"
+                            >
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <select name="region" id="region" 
+                                    x-model="selectedRegion" 
+                                    class="w-full p-2 my-2 border border-gray-300 rounded"
+                                    @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
+                                    <option value="">Select</option>    
+                                    <template x-for="region in regions" :key="region.id">
+                                        <option :value="region.name" x-text="region.name.toUpperCase()" :selected="region.name === selectedRegion"></option>
+                                    </template>
+                                    <option value="other" :selected="selectedRegion === 'other'">Other</option>    
+                                </select>
+                                <div class="hidden" id="regionInput" x-ref="regionInput">
+                                    <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded" value="{{ old('region_other', $songs->region_other) }}">
+                                    <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>
+                                </div>
+                            </div>
+                            
+                                <div>
                                     <label for="cbfc"
                                         class="block my-1 text-sm font-medium text-gray-700">CBFC</label>
-                                    <input type="text" name="cbfc" id="cbfc"  value="{{ $songs->cbfc }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div> --}}
+                                    <select name="cbfc" id="cbfc" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="U" {{ $songs->cbfc == 'U' ? 'selected' : '' }}>U</option>
+                                        <option value="UA 7+" {{ $songs->cbfc == 'UA 7+' ? 'selected' : '' }}>UA 7+</option>
+                                        <option value="UA 13+" {{ $songs->cbfc == 'UA 13+' ? 'selected' : '' }}>UA 13+</option>
+                                        <option value="UA 16+" {{ $songs->cbfc == 'UA 16+' ? 'selected' : '' }}>UA 16+</option>
+                                        <option value="A" {{ $songs->cbfc == 'A' ? 'selected' : '' }}>A (18+)</option>
+                                        <option value="S" {{ $songs->cbfc == 'S' ? 'selected' : '' }}>S</option>
+                                        <option value="NA" {{ $songs->cbfc == 'NA' ? 'selected' : '' }}>NA</option>
+                                    </select>
+                                </div>
 
                                 {{-- for future reference --}}
-                                {{-- <div>
+                                <div>
                                 <label for="cg_chartbusters_ratings" class="block my-1 text-sm font-medium text-gray-700">CG Chartbusters Ratings</label>
-                                <input type="number" name="cg_chartbusters_ratings" id="cg_chartbusters_ratings"
-                                    class="w-full p-2 my-2 border border-gray-300 rounded">
+                                <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" required></x-star-rating>
+
                             </div>
 
                             <div>
                                 <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
-                                <input type="number" name="imdb_ratings" id="imdb_ratings"
-                                    class="w-full p-2 my-2 border border-gray-300 rounded">
-                            </div> --}}
+                                <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
+                            </div>
 
 {{--            
                                 <div>
@@ -188,6 +239,11 @@
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
 
+                                <div>
+                                    <label for="lyrics" class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
+                                    <textarea name="lyrics" id="lyrics" rows="3"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">{{ $songs->lyrics }}</textarea>
+                                </div>
                              
                                 <div>
                                     <label for="composition"
@@ -238,6 +294,18 @@
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
+                                    <div>
+                                        <label for="poster_logo"
+                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
+                                        <input type="text" name="poster_logo" id="poster_logo"  value="{{ $songs->poster_logo }}"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
+                                    <div>
+                                        <label for="production_banner"
+                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
+                                        <input type="text" name="production_banner" id="production_banner" value="{{ $songs->production_banner }}"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
                                    
 
                                     <div>
@@ -255,18 +323,25 @@
                                             class="w-full p-2 my-2 border border-gray-300 rounded"> {{ $songs->content_description }}</textarea>
                                     </div>
                                    
+                                    <div>
+                                        <label for="trailer_url"
+                                            class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
+                                        <textarea name="trailer_url" id="trailer_url" rows="3" class="w-full p-2 my-2 border border-gray-300 rounded">{{ $songs->trailer_url }}</textarea>
+                                        @error('trailer_url')
+                                            @foreach ($errors->get('trailer_url') as $message)
+                                                <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
+                                                    {{ $message }}</div>
+                                            @endforeach
+                                        @enderror
+                                    </div>
+
                                     {{-- <div>
                                         <label for="hyperlinks_links"
                                             class="block my-1 text-sm font-medium text-gray-700">Hyperlinks Links</label>
                                         <input type="text" name="hyperlinks_links" id="hyperlinks_links"  value="{{ $songs->hyperlinks_links }}"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div> --}}
-                                    {{-- <div>
-                                        <label for="poster_logo"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
-                                        <input type="file" name="poster_logo" id="poster_logo"  value="{{ $songs->poster_logo }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
+        
                                     <div>
                                         <label for="poster_image"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image</label>
@@ -279,20 +354,14 @@
                                             @endforeach
                                         @enderror
                                     </div>
-                                    
-                                    {{-- <div>
-                                        <label for="production_banner"
-                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
-                                        <input type="file" name="production_banner" id="production_banner"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                                                       
                                     <div>
                                         <label for="poster_image_landscape"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image
                                             Landscape</label>
                                         <input type="file" name="poster_image_landscape" id="poster_image_landscape"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

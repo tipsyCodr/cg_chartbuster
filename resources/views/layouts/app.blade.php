@@ -19,6 +19,7 @@
         <x-top-bar />
                 {{ $slot }}
     </div>
+    <x-notification-toast/>
     <section class="footer">
         <footer class="px-6 py-10 text-white bg-black md:px-16">
             <div class="flex flex-col items-start justify-between md:flex-row md:items-center">

@@ -22,7 +22,7 @@
     <div x-show="showArtistModal" 
          x-cloak 
          class="fixed inset-0 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-        <div class="relative w-auto max-w-3xl mx-auto my-6">
+        <div class="relative w-full max-w-6xl mx-auto my-6">
             <div 
                 x-show="showArtistModal"
                 x-transition:enter="ease-out duration-300"
@@ -38,8 +38,8 @@
                     <h3 class="text-2xl font-semibold">Add New Artist</h3>
                     <button 
                         @click="showArtistModal = false" 
-                        class="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none">
-                        <span class="block w-6 h-6 text-2xl text-black bg-transparent opacity-5">×</span>
+                        class="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none focus:outline-none">
+                        <span class="block w-6 h-6 text-2xl text-black bg-transparent">×</span>
                     </button>
                 </div>
                 
@@ -74,7 +74,7 @@
                                 <option value="">Select Category</option>
                                
                             @foreach($category as $name)
-                                <option value="{{ $name->name }}">{{ $name->name }}</option>
+                                <option value="{{ $name->id }}">{{ $name->name }}</option>
                             @endforeach
                             </select>
                             @error('category')
@@ -132,7 +132,7 @@
                 </form>
             </div>
         </div>
-        <div class="fixed inset-0 z-40 bg-black opacity-25"></div>
+        <div class="fixed inset-0 z-40 bg-black opacity-25 "  @click="showArtistModal = false"  ></div>
     </div>
 
     <div class="overflow-hidden bg-white rounded-lg shadow-md">

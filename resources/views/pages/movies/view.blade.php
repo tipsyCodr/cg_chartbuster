@@ -102,7 +102,7 @@
                             <img src="{{ asset('storage/'.$movie->poster_image) }}" alt="{{ $movie->title }}" class="w-full h-auto">
                         @endif
                     </div>
-                    <div class="w-full px-4 md:w-1/2">
+                    <div class="w-full px-4 py-4 md:w-1/2">
                         <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Cast</h3>
                         <ul class="mb-5 text-gray-200">
                             {{-- Uncomment this when cast data is available
@@ -110,16 +110,63 @@
                                 <li>{{ $cast->name }} as {{ $cast->character }}</li>
                             @endforeach --}}
                         </ul>
-                        <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>
-                        <ul class="mb-5 text-gray-200">
-                            {{-- Uncomment this when reviews data is available
-                            @foreach($movie->reviews as $review)
-                                <li>
-                                    <strong>{{ $review->user->name }}:</strong> {{ $review->content }}
-                                    <span class="text-sm text-gray-500">({{ $review->created_at->format('M d, Y') }})</span>
-                                </li>
-                            @endforeach --}}
-                        </ul>
+                        <div class="review">
+                            <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>
+                            <div class="p-4 bg-gray-900 rounded">
+                                <h1 class="font-bold text-xl">Post a Review</h1>
+                            
+                                <form action="{{ route('movies.reviews.store', $movie) }}"  method="POST">
+                                    @csrf
+                                @if (session('error'))
+                                    <div class="bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                        <strong class="font-bold">{{ session('error') }}</strong>
+                                    </div>
+                                @endif
+                            
+                                @if ($errors->any())
+                                    <div class="bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                        <strong class="font-bold">Whoops! Something went wrong!</strong>
+                                        <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                    <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+                                    <div class="mt-4">
+                                        <x-input-label for="review_text" :value="__('Review')" />
+                                        <x-textarea id="review_text" class="block mt-1 w-full text-black py-4" name="review_text" required>{{ old('review_text') }}</x-textarea>
+                                        <x-input-error :messages="$errors->get('review_text')" class="mt-2" />
+                                    </div>
+                                    <div class="mt-4">
+                                        <x-input-label for="rating" :value="__('Rating')" />
+                                        <x-star-rating id="rating" class="block mt-1 w-full" name="rating" required></x-star-rating>
+                                        <x-input-error :messages="$errors->get('rating')" class="mt-2" />
+                                        <x-input-submit class="my-6">Submit</x-input-submit>
+                                </form>
+                            </div>
+                            <ul class="mb-5 text-gray-200">
+                                <style>
+                                    .paginate p{
+                                        color:white;
+                                        padding: 0 15px;
+                                    }
+                                </style>
+                                {{-- Uncomment this when reviews data is available --}}
+                                @foreach($reviews as $review)
+                                    <li class="flex flex-col  items-start border-b border-gray-800 p-2 hover:bg-gray-800 transition-all">
+                                        <div class="flex items-center  justify-between w-full mb-2">
+                                            <i class="fa-solid fa-user-circle fa-2x text-yellow-400 mr-2"></i> <strong class="mr-2">{!! $review->user ? $review->user->name : '<span class="text-gray-500">[deleted account]</span>' !!}</strong>
+                                            <p class="text-sm">{{ $review->review_text }}</p>
+                                            <span class="text-xs text-gray-500 ml-auto">({{ $review->created_at->format('M d, Y') }})</span>
+                                        </div>
+                                        <small class="px-8"><i class='fa fa-star text-yellow-300 '></i> {{ $review->rating }} stars</small>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <span class='paginate text-white text-sm'>{{ $reviews->links() }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

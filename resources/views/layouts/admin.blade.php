@@ -26,6 +26,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
+        <x-notification-toast/>
 
         <!-- Sidebar -->
         <aside
@@ -79,13 +80,13 @@
                             TV Shows
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('admin.albums.index') }}"
                             class="block py-2 px-4 hover:bg-gray-100
                            {{ request()->routeIs('admin.albums.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Albums
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('admin.artists.index') }}"
                             class="block py-2 px-4 hover:bg-gray-100
@@ -151,13 +152,13 @@
                             Songs
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('admin.albums.index') }}"
                             class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.albums.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Albums
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('admin.artists.index') }}" 
                             class="block py-2 px-4 hover:bg-gray-100 hover:text-black

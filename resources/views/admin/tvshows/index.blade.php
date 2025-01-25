@@ -31,10 +31,10 @@
             </div>
         @enderror
 
-        <!-- Movie Creation Modal -->
+        <!-- TV Show Creation Modal -->
         <div x-show="showMovieModal" x-cloak
             class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-            <div class="relative w-auto max-w-3xl mx-auto my-6">
+            <div class="relative w-full max-w-6xl mx-auto my-6">
                 <div x-show="showMovieModal" x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
@@ -45,8 +45,8 @@
                     <div class="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
                         <h3 class="text-2xl font-semibold">Add New TV Show</h3>
                         <button @click="showMovieModal = false"
-                            class="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-5 focus:outline-none">
-                            <span class="block w-6 h-6 text-2xl text-black bg-transparent opacity-5">×</span>
+                            class="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none focus:outline-none">
+                            <span class="block w-6 h-6 text-2xl text-black bg-transparent">×</span>
                         </button>
                     </div>
 
@@ -57,7 +57,14 @@
                         <div class="">
                             <div class="mb-4 ">
 
-
+                                <div class="mb-4">
+                                    <label for="show_on_banner" class="block my-1 text-sm font-medium text-gray-700">Show on banner</label>
+                                    <select name="show_on_banner" id="show_on_banner" class="mt-1 block w-full rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                                
                                 <div>
                                     <label for="title" class="block my-1 text-sm font-medium text-gray-700">Movie
                                         Title</label>
@@ -98,8 +105,12 @@
 
                                 <div>
                                     <label for="genre" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
-                                    <input type="text" name="genre" id="genre"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="genre" id="genre" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select</option>
+                                        @foreach ($genres as $genre)
+                                        <option value="{{ $genre->id }}" >{{ $genre->name }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('genre')
                                         @foreach ($errors->get('genre') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
@@ -141,18 +152,65 @@
                                     @enderror
                                 </div>
 
-                                <div>
-                                    <label for="region"
-                                        class="block my-1 text-sm font-medium text-gray-700">Region</label>
-                                    <input type="text" name="region" id="region"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                <div x-data="{ 
+                                    regions: [], 
+                                    selectedRegion: '', 
+                                    fetchRegions() {
+                                        fetch('{{ route('regions') }}')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.regions = data; // Update the Alpine.js reactive variable
+                                            })
+                                            .catch(error => console.error('Error fetching regions:', error));
+                                    }, 
+                                    addRegion() {
+                                        const newRegion = document.getElementById('region_other').value;
+                                        if (newRegion.trim() === '') return;
+                            
+                                        fetch(`/region/add/${newRegion}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log('Region added:', data);
+                                                this.fetchRegions(); // Refresh the regions after adding a new region
+                                            })
+                                            .catch(error => console.error('Error adding region:', error));
+                            
+                                        document.getElementById('region_other').value = ''; // Clear the input field
+                                        this.selectedRegion = ''; // Reset the selected region
+                                        $refs.regionInput.classList.add('hidden'); // Hide the input field
+                                    } 
+                                }" 
+                                x-init="fetchRegions()"
+                            >
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <select name="region" id="region" 
+                                    x-model="selectedRegion" 
+                                    class="w-full p-2 my-2 border border-gray-300 rounded"
+                                    @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
+                                    <option value="">Select</option>    
+                                    <template x-for="region in regions" :key="region.id">
+                                        <option :value="region.name" x-text="region.name.toUpperCase()"></option>
+                                    </template>
+                                    <option value="other">Other</option>    
+                                </select>
+                                <div class="hidden" id="regionInput" x-ref="regionInput">
+                                    <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>
                                 </div>
+                            </div>
 
                                 <div>
                                     <label for="cbfc"
                                         class="block my-1 text-sm font-medium text-gray-700">CBFC</label>
-                                    <input type="text" name="cbfc" id="cbfc"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="cbfc" id="cbfc" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="U">U</option>
+                                        <option value="UA 7+">UA 7+</option>
+                                        <option value="UA 13+">UA 13+</option>
+                                        <option value="UA 16+">UA 16+</option>
+                                        <option value="A">A (18+)</option>
+                                        <option value="S">S</option>
+                                        <option value="NA">NA</option>
+                                    </select>
                                 </div>
 
                                 {{-- for future reference --}}
@@ -235,22 +293,30 @@
                                 <div>
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
-                                    <input type="text" name="singer_male" id="singer_male"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="singer_male" id="singer_male" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select Singer Male</option>
+                                        @foreach ($singer_male as $singer)
+                                            <option value="{{ $singer->id }}">{{ $singer->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div>
                                     <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Female</label>
-                                    <input type="text" name="singer_female" id="singer_female"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="singer_female" id="singer_female" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select Singer Female</option>
+                                        @foreach ($singer_female as $singer)
+                                            <option value="{{ $singer->id }}">{{ $singer->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div>
                                     <label for="lyrics"
                                         class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
-                                    <input type="text" name="lyrics" id="lyrics"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <textarea name="lyrics" id="lyrics" rows="3"
+                                        class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
                                 </div>
 
                                 <div>
@@ -305,7 +371,12 @@
                                         <input type="text" name="poster_logo" id="poster_logo"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
-
+                                    <div>
+                                        <label for="production_banner"
+                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
+                                        <input type="text" name="production_banner" id="production_banner"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
                                     <div>
                                         <label for="vfx"
                                             class="block my-1 text-sm font-medium text-gray-700">VFX</label>
@@ -344,8 +415,8 @@
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
-                                        <input type="url" name="trailer_url" id="trailer_url"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <textarea name="trailer_url" id="trailer_url" rows="3"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
                                         @error('trailer_url')
                                             @foreach ($errors->get('trailer_url') as $message)
                                                 <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
@@ -353,12 +424,12 @@
                                             @endforeach
                                         @enderror
                                     </div>
-                                    <div>
+                                    {{-- <div>
                                         <label for="hyperlinks_links"
                                             class="block my-1 text-sm font-medium text-gray-700">Hyperlinks Links</label>
                                         <input type="text" name="hyperlinks_links" id="hyperlinks_links"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
                                     <div>
                                         <label for="poster_image"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image</label>
@@ -372,12 +443,7 @@
                                         @enderror
                                     </div>
 
-                                    <div>
-                                        <label for="production_banner"
-                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
-                                        <input type="file" name="production_banner" id="production_banner"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                
                                     <div>
                                         <label for="poster_image_landscape"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image
@@ -404,7 +470,7 @@
                     </form>
                 </div>
             </div>
-            <div class="fixed inset-0 bg-black opacity-25 -z-10 backdrop-blur-lg"></div>
+            <div class="fixed inset-0 bg-black opacity-25 -z-10 backdrop-blur-lg" @click="showMovieModal = false"></div>
         </div>
 
         <div class="overflow-hidden bg-white rounded-lg shadow-md">

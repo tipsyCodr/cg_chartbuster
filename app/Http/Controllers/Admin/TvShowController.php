@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TvShow;
+use App\Models\Genre;
+use App\Models\Artist;
 use Illuminate\Http\Request;
 
 
@@ -14,7 +16,10 @@ class TvShowController extends Controller
     {
         // Code to list all TV shows
         $tvShows = TvShow::latest()->paginate(5);
-        return view('admin.tvshows.index', compact('tvShows'));
+        $genres = Genre::where('for','Tv Shows')->get();
+        $singer_male = Artist::singerMale()->get();
+        $singer_female = Artist::singerFemale()->get();
+        return view('admin.tvshows.index', compact('tvShows', 'genres', 'singer_male', 'singer_female'));
         
     }
 
@@ -33,8 +38,7 @@ class TvShowController extends Controller
             'genre' => 'nullable|string',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
-            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-            'trailer_url' => 'nullable|url',
+            'trailer_url' => 'nullable|string',
             'region' => 'nullable|string',
             'cbfc' => 'nullable|string',
             'cg_chartbusters_ratings' => 'nullable|integer',
@@ -46,7 +50,8 @@ class TvShowController extends Controller
             'male_lead' => 'nullable|string',
             'female_lead' => 'nullable|string',
             'support_artists' => 'nullable|string',
-            'production_banner' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'poster_logo' => 'nullable|string',
+            'production_banner' => 'nullable|string',
             'producer' => 'nullable|string',
             'songs' => 'nullable|string',
             'singer_male' => 'nullable|string',
@@ -59,18 +64,19 @@ class TvShowController extends Controller
             'audio_studio' => 'nullable|string',
             'editor' => 'nullable|string',
             'video_studio' => 'nullable|string',
-            'poster_logo' => 'nullable|string',
             'vfx' => 'nullable|string',
             'make_up' => 'nullable|string',
             'drone' => 'nullable|string',
             'others' => 'nullable|string',
             'content_description' => 'nullable|string',
             'hyperlinks_links' => 'nullable|string',
+            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'show_on_banner' => 'nullable',
+            
             // Add more validation rules as needed
         ]);
-
-        // dd($validatedData);
+      
         if ($request->hasFile('poster_image')) {
             try {
             $path = $request->poster_image->store('posters', 'public');
@@ -89,24 +95,24 @@ class TvShowController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        if ($request->hasFile('production_banner')) {
-            try {
-                $path = $request->production_banner->store('banner', 'public');
-                $validatedData['production_banner'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
-        if ($request->hasFile('poster_logo')) {
-            try {
-                $path = $request->poster_logo->store('poster_logo', 'public');
-                $validatedData['poster_logo'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
+        // if ($request->hasFile('production_banner')) {
+        //     try {
+        //         $path = $request->production_banner->store('banner', 'public');
+        //         $validatedData['production_banner'] = $path;
+        //     } catch (\Exception $e) {
+        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+        //     }
+        // }
+        // if ($request->hasFile('poster_logo')) {
+        //     try {
+        //         $path = $request->poster_logo->store('poster_logo', 'public');
+        //         $validatedData['poster_logo'] = $path;
+        //     } catch (\Exception $e) {
+        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+        //     }
+        // }
 
         // Create the movie
         $tvShow = TvShow::create($validatedData);
@@ -124,21 +130,28 @@ class TvShowController extends Controller
     {
         // Code to show form to edit a TV show
         $tvshows = TvShow::findOrFail($id);
-        return view('admin.tvshows.edit', compact('tvshows'));
+        $genres = Genre::where('for','Tv Shows')->get();
+        $singer_male = Artist::singerMale()->get();
+        $singer_female = Artist::singerFemale()->get();
+
+        return view('admin.tvshows.edit', compact('tvshows', 'genres', 'singer_male', 'singer_female'));
     }
 
     public function update(Request $request, TvShow $tvShow)
     {
-        // Code to update a specific TV show
-        $validatedData = $request->validate(rules: [
+     
+        // Explicitly fetch the model to ensure it's fully loaded and avoid potential route model binding issues
+        $tvShow = TvShow::findOrFail($request->route('tvshow'));
+        
+       
+        $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
             'genre' => 'nullable|string',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
-            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-            'trailer_url' => 'nullable|url',
+            'trailer_url' => 'nullable|string',
             'region' => 'nullable|string',
             'cbfc' => 'nullable|string',
             'cg_chartbusters_ratings' => 'nullable|integer',
@@ -150,7 +163,8 @@ class TvShowController extends Controller
             'male_lead' => 'nullable|string',
             'female_lead' => 'nullable|string',
             'support_artists' => 'nullable|string',
-            'production_banner' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'poster_logo' => 'nullable|string',
+            'production_banner' => 'nullable|string',
             'producer' => 'nullable|string',
             'songs' => 'nullable|string',
             'singer_male' => 'nullable|string',
@@ -163,17 +177,19 @@ class TvShowController extends Controller
             'audio_studio' => 'nullable|string',
             'editor' => 'nullable|string',
             'video_studio' => 'nullable|string',
-            'poster_logo' => 'nullable|string',
             'vfx' => 'nullable|string',
             'make_up' => 'nullable|string',
             'drone' => 'nullable|string',
             'others' => 'nullable|string',
             'content_description' => 'nullable|string',
             'hyperlinks_links' => 'nullable|string',
+            'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'show_on_banner' => 'nullable'
             // Add more validation rules as needed
         ]);
 
+      
         if ($request->hasFile('poster_image')) {
             try {
             $path = $request->poster_image->store('posters', 'public');
@@ -192,29 +208,53 @@ class TvShowController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        if ($request->hasFile('production_banner')) {
-            try {
-                $path = $request->production_banner->store('banner', 'public');
-                $validatedData['production_banner'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+        // if ($request->hasFile('production_banner')) {
+        //     try {   
+        //         $path = $request->production_banner->store('banner', 'public');
+        //         $validatedData['production_banner'] = $path;
+        //     } catch (\Exception $e) {
+        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+        //     }
+        // }
+        // if ($request->hasFile('poster_logo')) {
+        //     try {
+        //         $path = $request->poster_logo->store('poster_logo', 'public');
+        //         $validatedData['poster_logo'] = $path;
+        //     } catch (\Exception $e) {
+        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
+        //     }
+        // }
+
+        try {
+            // Explicitly convert show_on_banner to boolean
+            $validatedData['show_on_banner'] = filter_var($validatedData['show_on_banner'], FILTER_VALIDATE_BOOLEAN);
+            
+            
+            $updateResult = $tvShow->update($validatedData);
+            \Log::info('Update Result:', ['success' => $updateResult, 'tvShow' => $tvShow->toArray()]);
+            
+            if (!$updateResult) {
+                \Log::error('Update Failed: No changes detected or update unsuccessful', [
+                    'validatedData' => $validatedData,
+                    'currentModelData' => $tvShow->getAttributes(),
+                    'originalModelData' => $tvShow->getOriginal()
+                ]);
             }
+        } catch (\Exception $e) {
+            \Log::error('TV Show Update Failed: ' . $e->getMessage(), [
+                'exception' => [
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ],
+                'validatedData' => $validatedData
+            ]);
+            return redirect()->back()->with('error', 'Failed to update TV Show. ' . $e->getMessage());
         }
-        if ($request->hasFile('poster_logo')) {
-            try {
-                $path = $request->poster_logo->store('poster_logo', 'public');
-                $validatedData['poster_logo'] = $path;
-            } catch (\Exception $e) {
-                \Log::error('Production Banner upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-            }
-        }
-        
-        $tvShow->update($validatedData);
 
         return redirect()->route('admin.tvshows.index')
-            ->with('success', 'TV Show updated successfully');
+            ->with('success', 'TV Show updated successfully.');
     }
 
     public function destroy(TvShow $tvshow)

@@ -16,13 +16,20 @@
                     </h3>
                 </div>
                 <div class="px-4 py-5 overflow-hidden bg-white shadow sm:rounded-md mt-50 sm:p-6">
-                    <form method="POST" action="{{ route('admin.tvshows.update', $tvshows) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.tvshows.update', ['tvshow' => $tvshows->id]) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
                         <div class="">
                             <div class="mb-4 ">
 
+                                <div class="mb- 4">
+                                    <label for="show_on_banner" class="block my-1 text-sm font-medium text-gray-700">Show on banner</label>
+                                    <select name="show_on_banner" id="show_on_banner" class="mt-1 block w-full rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option value="1" {{ $tvshows->show_on_banner ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ !$tvshows->show_on_banner ? 'selected' : '' }}>No</option>
+                                    </select>
+                                </div>
 
                                 <div>
                                     <label for="title" class="block my-1 text-sm font-medium text-gray-700">Show Title</label>
@@ -65,8 +72,12 @@
 
                                 <div>
                                     <label for="genre" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
-                                    <input type="text" name="genre" id="genre"  value="{{ $tvshows->genre }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="genre" id="genre" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select</option>
+                                        @foreach ($genres as $genre)
+                                        <option value="{{ $genre->id }}" {{ old('genre', $tvshows->genre) == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('genre')
                                         @foreach ($errors->get('genre') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
@@ -74,6 +85,7 @@
                                         @endforeach
                                     @enderror
                                 </div>
+
                                 <div x-data="{ hours: 0, minutes: 0 }">
                                     <input type="hidden" name="duration" id="duration"  value="{{ $tvshows->duration }}"
                                         :value="`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`" 
@@ -108,18 +120,66 @@
                                     @enderror
                                 </div>
 
-                                <div>
-                                    <label for="region"
-                                        class="block my-1 text-sm font-medium text-gray-700">Region</label>
-                                    <input type="text" name="region" id="region" value="{{ $tvshows->region }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
 
+                                <div x-data="{ 
+                                    regions: [], 
+                                    selectedRegion: '{{ old('region', $tvshows->region) }}', 
+                                    fetchRegions() {
+                                        fetch('{{ route('regions') }}')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.regions = data; // Update the Alpine.js reactive variable
+                                            })
+                                            .catch(error => console.error('Error fetching regions:', error));
+                                    }, 
+                                    addRegion() {
+                                        const newRegion = document.getElementById('region_other').value;
+                                        if (newRegion.trim() === '') return;
+                            
+                                        fetch(`/region/add/${newRegion}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log('Region added:', data);
+                                                this.fetchRegions(); // Refresh the regions after adding a new region
+                                            })
+                                            .catch(error => console.error('Error adding region:', error));
+                            
+                                        document.getElementById('region_other').value = ''; // Clear the input field
+                                        this.selectedRegion = ''; // Reset the selected region
+                                        $refs.regionInput.classList.add('hidden'); // Hide the input field
+                                    } 
+                                }" 
+                                x-init="fetchRegions()"
+                            >
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <select name="region" id="region" 
+                                    x-model="selectedRegion" 
+                                    class="w-full p-2 my-2 border border-gray-300 rounded"
+                                    @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
+                                    <option value="">Select</option>    
+                                    <template x-for="region in regions" :key="region.id">
+                                        <option :value="region.name" x-text="region.name.toUpperCase()" :selected="region.name === selectedRegion"></option>
+                                    </template>
+                                    <option value="other" :selected="selectedRegion === 'other'">Other</option>    
+                                </select>
+                                <div class="hidden" id="regionInput" x-ref="regionInput">
+                                    <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded" value="{{ old('region_other', $tvshows->region_other) }}">
+                                    <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>
+                                </div>
+                            </div>
+                            
                                 <div>
                                     <label for="cbfc"
                                         class="block my-1 text-sm font-medium text-gray-700">CBFC</label>
-                                    <input type="text" name="cbfc" id="cbfc"  value="{{ $tvshows->cbfc }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="cbfc" id="cbfc" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="U" {{ $tvshows->cbfc == 'U' ? 'selected' : '' }}>U</option>
+                                        <option value="UA 7+" {{ $tvshows->cbfc == 'UA 7+' ? 'selected' : '' }}>UA 7+</option>
+                                        <option value="UA 13+" {{ $tvshows->cbfc == 'UA 13+' ? 'selected' : '' }}>UA 13+</option>
+                                        <option value="UA 16+" {{ $tvshows->cbfc == 'UA 16+' ? 'selected' : '' }}>UA 16+</option>
+                                        <option value="A" {{ $tvshows->cbfc == 'A' ? 'selected' : '' }}>A (18+)</option>
+                                        <option value="S" {{ $tvshows->cbfc == 'S' ? 'selected' : '' }}>S</option>
+                                        <option value="NA" {{ $tvshows->cbfc == 'NA' ? 'selected' : '' }}>NA</option>
+                                    </select>
                                 </div>
 
                                 {{-- for future reference --}}
@@ -198,26 +258,33 @@
                                     <input type="text" name="songs" id="songs" value="{{ $tvshows->songs }}"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
-
                                 <div>
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
-                                    <input type="text" name="singer_male" id="singer_male" value="{{ $tvshows->singer_male }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="singer_male" id="singer_male" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select Singer Male</option>
+                                        @foreach ($singer_male as $singer)
+                                            <option value="{{ $singer->id }}" {{ $tvshows->singer_male == $singer->id ? 'selected' : '' }}>{{ $singer->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div>
                                     <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Female</label>
-                                    <input type="text" name="singer_female" id="singer_female" value="{{ $tvshows->singer_female }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="singer_female" id="singer_female" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select Singer Female</option>
+                                        @foreach ($singer_female as $singer)
+                                            <option value="{{ $singer->id }}" {{ $tvshows->singer_female == $singer->id ? 'selected' : '' }}>{{ $singer->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div>
                                     <label for="lyrics"
                                         class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
-                                    <input type="text" name="lyrics" id="lyrics" value="{{ $tvshows->lyrics }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <textarea name="lyrics" id="lyrics" rows="3"
+                                        class="w-full p-2 my-2 border border-gray-300 rounded">{{ $tvshows->lyrics }}</textarea>
                                 </div>
 
                                 <div>
@@ -281,6 +348,19 @@
                                     </div>
 
                                     <div>
+                                        <label for="poster_logo"
+                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
+                                        <input type="text" name="poster_logo" id="poster_logo"  value="{{ $tvshows->poster_logo }}"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
+                                    <div>
+                                        <label for="production_banner"
+                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
+                                        <input type="text" name="production_banner" id="production_banner" value="{{ $tvshows->production_banner }}"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    </div>
+
+                                    <div>
                                         <label for="drone"
                                             class="block my-1 text-sm font-medium text-gray-700">Drone</label>
                                         <input type="text" name="drone" id="drone" value="{{ $tvshows->drone }}"
@@ -304,8 +384,8 @@
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
-                                        <input type="url" name="trailer_url" id="trailer_url"  value="{{ $tvshows->trailer_url }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <textarea name="trailer_url" id="trailer_url" rows="3"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded"> {{ $tvshows->trailer_url }}</textarea>
                                         @error('trailer_url')
                                             @foreach ($errors->get('trailer_url') as $message)
                                                 <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
@@ -313,18 +393,13 @@
                                             @endforeach
                                         @enderror
                                     </div>
-                                    <div>
+                                    {{-- <div>
                                         <label for="hyperlinks_links"
                                             class="block my-1 text-sm font-medium text-gray-700">Hyperlinks Links</label>
                                         <input type="text" name="hyperlinks_links" id="hyperlinks_links"  value="{{ $tvshows->hyperlinks_links }}"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-                                    <div>
-                                        <label for="poster_logo"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
-                                        <input type="file" name="poster_logo" id="poster_logo"  value="{{ $tvshows->poster_logo }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
+                                    
                                     <div>
                                         <label for="poster_image"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image</label>
@@ -338,12 +413,7 @@
                                         @enderror
                                     </div>
                                     
-                                    <div>
-                                        <label for="production_banner"
-                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
-                                        <input type="file" name="production_banner" id="production_banner"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    
                                     <div>
                                         <label for="poster_image_landscape"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Image

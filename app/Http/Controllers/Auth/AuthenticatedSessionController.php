@@ -30,10 +30,10 @@ class AuthenticatedSessionController extends Controller
 
         // Check user type and redirect accordingly
         if (Auth::user()->is_admin) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome Admin!');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('home', absolute: false))->with('success', $request->user()->name . ' Logged in successfully!');
     }
 
     /**
@@ -47,6 +47,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('warning', 'Logged out successfully!');
     }
 }

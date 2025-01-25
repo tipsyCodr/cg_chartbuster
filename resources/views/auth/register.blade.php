@@ -1,5 +1,11 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+<x-app-layout>
+
+    <main class="flex flex-col  items-center space-y-4 justify-start pt-20 min-h-screen">
+        <div class="flex items-center justify-center">
+            <img src="{{ asset('images/logo.png') }}" class="h-20 w-auto" alt="Logo">
+        </div>
+
+    <form method="POST" action="{{ route('register') }}" class='border px-20 py-8 border-b-yellow-400 border-b-8 rounded-t-lg'>
         @csrf
 
         <!-- Name -->
@@ -44,9 +50,10 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button class="ms-4 bg-yellow-500">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+    </main>
+</x-app-layout>

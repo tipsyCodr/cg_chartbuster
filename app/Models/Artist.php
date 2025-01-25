@@ -17,6 +17,15 @@ class Artist extends Model
         'city',
 
     ];
+    public function scopeSingerMale($query)
+    {
+        return $query->where('category', '11')->select('id', 'name');
+    }
+
+    public function scopeSingerFemale($query)
+    {
+        return $query->where('category', '10')->select('id', 'name');
+    }
     public function movies()
     {
         return $this->belongsToMany(Movie::class, 'movie_artist');

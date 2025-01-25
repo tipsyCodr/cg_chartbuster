@@ -30,6 +30,7 @@
                                 @endforeach
                                 @enderror
                             </div>
+                            
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700">Artist Name</label>
                                 <input type="text" name="name" id="name" required
@@ -48,7 +49,7 @@
                                     <option value="">Select Category</option>
                                    
                                 @foreach($category as $name)
-                                    <option value="{{ $name->name }}">{{ $name->name }}</option>
+                                    <option value="{{ $name->id }}">{{ $name->name }}</option>
                                 @endforeach
                                 </select>
                                 @error('category')
@@ -57,6 +58,7 @@
                                 @endforeach
                                 @enderror
                             </div>
+                            
                             <div>
                                 <label for="birth_date" class="block text-sm font-medium text-gray-700">Birth Date</label>
                                 <input type="date" name="birth_date" id="birth_date"

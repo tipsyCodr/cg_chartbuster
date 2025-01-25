@@ -37,9 +37,22 @@
                     </div>
                       <div class="">
                         @auth
-                            <a href="" class="mr-5 font-medium leading-6 text-gray-300 hover:text-gray-100">
+                            {{-- <a href="" class="mr-5 font-medium leading-6 text-gray-300 hover:text-gray-100">
                             <i class="fa-solid fa-user"></i> {{ auth()->user()->name }}
-                            </a>
+                            </a> --}}
+                            <div x-data="{ open: false }">
+                                <button @click="open = ! open" class="flex items-center mr-5 px-auto font-medium leading-6 text-gray-300 hover:text-gray-100">
+                                    {{ explode(' ', auth()->user()->name)[0] }}
+                                    <i class="fa-solid fa-user-circle fa-2x ml-2"></i>
+                                </button>
+                                <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1"  style='z-index: 20;'>
+                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">Log out</button>
+                                    </form>
+                                </div>
+                              </div>
                         @else
                             <a href="{{ route('login') }}" class="mr-5 font-medium leading-6 text-gray-300 hover:text-gray-100">
                                 <i class="text-yellow-400 fa-solid fa-user-circle fa-2x"></i>

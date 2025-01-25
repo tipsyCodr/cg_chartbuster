@@ -70,23 +70,21 @@
     <div class="w-full swiper main-slider">
         <!-- Main slider -->
         <div class="swiper-wrapper">
-            @foreach (scandir(public_path('images/banner')) as $file)
-                @if ($file != '.' && $file != '..')
-                    <div class="overflow-hidden swiper-slide rounded-xl">
-                        <img style="width: 100%; object-fit: cover;" src="{{ asset('images/banner/' . $file) }}" alt="Banner Image">
-                        <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottom"></div>
-                        <div class="absolute text-left text-white transform bottom-6 left-6">
-                            <div class="flex gap-3">
-                                <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('images/movies/1.jpg') }}" alt="">
-                                <div class="flex flex-col justify-end">
-                                    <h1 class="text-3xl font-bold">Title</h1>
-                                    <p class="text-lg">Description</p>
-                                    <span><i class='text-yellow-300 fa fa-star'></i> 4.3</span>
-                                </div>
+            @foreach ($banner_images as $banner_image)
+                <div class="overflow-hidden swiper-slide rounded-xl">
+                    <img style="width: 100%; object-fit: cover;" src="{{ asset('storage/' . $banner_image['poster_image_landscape']) }}" alt="Banner Image">
+                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottom"></div>
+                    <div class="absolute text-left text-white transform bottom-6 left-6">
+                        <div class="flex gap-3">
+                            <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
+                            <div class="flex flex-col justify-end">
+                                <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
+                                <p class="text-lg">{{ $banner_image['description'] }}</p>
+                                {{-- <span><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['rating'] }}</span> --}}
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
             @endforeach
         </div>
 
@@ -100,18 +98,16 @@
     <div class="thumbnail-slider-container hidden lg:flex flex-col w-[500px] h-[600px] ml-4">
         <div class="h-full swiper thumbnail-slider">
             <div class="swiper-wrapper">
-                @foreach (scandir(public_path('images/banner')) as $file)
-                    @if ($file != '.' && $file != '..')
-                        <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide">
-                            <div class="flex flex-row h-full gap-2">
-                                <img class="w-[40%] max-w-[200px] h-full object-cover rounded-lg" src="{{ asset('images/banner/' . $file) }}" alt="Thumbnail">
-                                <div class="flex flex-col justify-end mb-2">
-                                    <h1 class="text-lg font-bold">Title</h1>
-                                    <p class="text-xs">Description</p>
-                                </div>
+                @foreach ($banner_images as $banner_image)
+                    <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide">
+                        <div class="flex flex-row h-full gap-2">
+                            <img class="w-[40%] max-w-[200px] h-full object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
+                            <div class="flex flex-col justify-end mb-2">
+                                <h1 class="text-lg font-bold">{{ $banner_image['title'] }}</h1>
+                                <p class="text-xs">{{ $banner_image['description'] }}</p>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -124,41 +120,45 @@
         <section class="my-5">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
         <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
-            @for ($i = 1; $i <= 10; $i++)
+            @foreach ($movies as $movie)
                 <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                     <div class="relative">
-                        <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
-                        <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/movies/' . $i . '.jpg') }}"  alt="Movie Image">
+                        <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                        <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
                     </div>
                 </div>
-            @endfor
+            @endforeach
         </div>
 
         </section>
         <section class="my-5">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Songs</h1>
             <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
-                @for ($i = 1; $i <= 10; $i++)
-                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                        <div class="relative">
-                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
-                            <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/songs/' . $i . '.jpg') }}"  alt="Song Image">
+                @foreach ($songs as $song)
+                    <a href="{{ route('song.show', $song) }}">
+                        <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
+                            <div class="relative">
+                                <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                                <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($song->poster_image) }}"  alt="Song Image">
+                            </div>
                         </div>
-                    </div>
-                @endfor
+                    </a>
+                @endforeach
             </div>
         </section>
         <section class="pb-5 mt-5">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"> <span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Artists</h1>
             <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
-                @for ($i = 1; $i <= 10; $i++)
-                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                        <div class="relative">
-                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $i }}</span>
-                            <img class="object-cover h-56 rounded-lg w-36" src="{{ asset('images/artists/' . $i . '.jpg') }}" alt="Artist Image">
+                @foreach ($artists as $artist)
+                    <a href="{{ route('artist.show', $artist) }}">
+                        <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
+                            <div class="relative">
+                                <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                                <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($artist->photo) }}" alt="Artist Image">
+                            </div>
                         </div>
-                    </div>
-                @endfor
+                    </a>
+                @endforeach
             </div>
         </section>
     

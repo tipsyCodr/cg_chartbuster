@@ -16,7 +16,7 @@ class Album extends Model
         'artist_id',
     ];
 
-    public function artist()
+    public function artists()
     {
         return $this->belongsTo(Artist::class);
     }
@@ -25,5 +25,8 @@ class Album extends Model
     {
         return $this->belongsToMany(Movie::class, 'movie_album');
     }
-
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

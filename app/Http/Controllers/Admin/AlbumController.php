@@ -29,6 +29,8 @@ class AlbumController extends Controller
             'genre' => 'nullable|string',
             'release_date' => 'nullable|date',
             'artist_id' => 'nullable',
+            'show_on_banner' => 'nullable|boolean',
+
         ]);
         // Convert artist_id array to JSON
         $validatedData['artist_id'] = json_encode($request->input('artist_id', []));
@@ -59,6 +61,8 @@ class AlbumController extends Controller
             'description' => 'nullable',
             'release_year' => 'nullable|integer',
             'artist' => 'nullable|max:255',
+            'show_on_banner' => 'nullable|boolean',
+
         ]);
 
         $album->update($validatedData);
