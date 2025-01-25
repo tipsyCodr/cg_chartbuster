@@ -103,8 +103,8 @@
                         <div class="flex flex-row h-full gap-2">
                             <img class="w-[40%] max-w-[200px] h-full object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                             <div class="flex flex-col justify-end mb-2">
-                                <h1 class="text-lg font-bold">{{ $banner_image['title'] }}</h1>
-                                <p class="text-xs">{{ $banner_image['description'] }}</p>
+                                <h1 class="text-lg font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $banner_image['title'] }}</h1>
+                                <p class="text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $banner_image['description'] }}</p>
                             </div>
                         </div>
                     </div>
