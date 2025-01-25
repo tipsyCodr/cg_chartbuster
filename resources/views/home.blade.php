@@ -79,7 +79,7 @@
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
                             <div class="flex flex-col justify-end">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
-                                <p class="text-lg">{{ $banner_image['release_date'] }}</p>
+                                <p class="text-lg"><i class='fa fa-calendar'></i> {{ $banner_image['release_date'] }}</p>
                                 {{-- <span><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['rating'] }}</span> --}}
                             </div>
                         </div>
