@@ -103,7 +103,7 @@
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                         <div class="flex flex-col items-end justify-end flex-1">
                             <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
-                            <p class="text-xs text-gray-300 truncate" style='width:170px'>{{ $banner_image['release_date'] ?? '' }}</p>
+                            <p class="text-xs text-gray-300 truncate" style='width:170px'><i class='fa fa-calendar'></i> {{ $banner_image['release_date'] ?? '' }}</p>
                         </div>
                     </div>
                 </div>
