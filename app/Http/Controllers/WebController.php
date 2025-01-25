@@ -15,8 +15,8 @@ class WebController extends Controller
     public function index()
     {
         $banner_images = array_merge(
-            Movie::where('show_on_banner', true)->get(['title','description','poster_image', 'poster_image_landscape'])->toArray(),
-            TVShow::where('show_on_banner', true)->get(['title','description','poster_image', 'poster_image_landscape'])->toArray()
+            Movie::where('show_on_banner', true)->get(['title','description','release_date','poster_image', 'poster_image_landscape'])->toArray(),
+            TVShow::where('show_on_banner', true)->get(['title','description','release_date','poster_image', 'poster_image_landscape'])->toArray()
         );
         // dd($banner_images );
         $movies = Movie::all()->take(10);
@@ -108,7 +108,7 @@ class WebController extends Controller
         $genres = Genre::all()->where('for','Artists');
         return view('pages.artists.index', compact('artists','genres'));   
     }
-    
+
     public function artist($id){
         $artists = Artist::findOrFail($id);
         return view('pages.artists.view', compact('artists'));   

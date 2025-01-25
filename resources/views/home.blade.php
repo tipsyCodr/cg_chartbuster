@@ -79,7 +79,7 @@
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
                             <div class="flex flex-col justify-end">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
-                                <p class="text-lg">{{ $banner_image['description'] }}</p>
+                                <p class="text-lg">{{ $banner_image['release_date'] }}</p>
                                 {{-- <span><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['rating'] }}</span> --}}
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                         <div class="flex flex-col justify-center flex-1">
                             <h1 class="text-lg font-bold truncate" style='width:170px'>{{ $banner_image['title'] }}</h1>
-                            <p class="text-xs text-gray-300 truncate" style='width:170px'>{{ $banner_image->genre->name ?? '' }}</p>
+                            <p class="text-xs text-gray-300 truncate" style='width:170px'>{{ $banner_image['release_date'] ?? '' }}</p>
                         </div>
                     </div>
                 </div>
