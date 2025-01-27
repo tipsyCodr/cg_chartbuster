@@ -79,8 +79,8 @@
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
                             <div class="flex flex-col justify-end">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
-                                <p class="text-lg"><i class='fa fa-calendar'></i> {{ $banner_image['release_date'] }}</p>
-                                {{-- <span><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['rating'] }}</span> --}}
+                                <small><i class='text-yellow-300 fas fa-calender'></i> {{ $banner_image['release_date'] }}</small>
+                                <p class="text-lg"><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                         <div class="flex flex-col items-end justify-end flex-1">
                             <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
-                            <p class="text-xs text-gray-300 truncate" style='width:170px'><i class='fa fa-calendar'></i> {{ $banner_image['release_date'] ?? '' }}</p>
+                            <p class="text-xs text-gray-300 truncate" style='width:170px'><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] ?? '' }}</p>
                         </div>
                     </div>
                 </div>
