@@ -80,7 +80,13 @@
                             <div class="flex flex-col justify-end">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
                                 <small><i class='text-yellow-300 fas fa-calender'></i> {{ $banner_image['release_date'] }}</small>
-                                <p class="text-lg"><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] }}</p>
+                                {{-- <p class="text-lg"><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] }} stars</p> --}}
+                                <img class=" m-1" style="width:25px;height:25px;"
+                                     src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
+                                <div class="flex flex-col justify-start  items-start">
+                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
+                                    <small class='text-[9px]'>Chartbuster Ratings</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,7 +109,14 @@
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
                         <div class="flex flex-col items-end justify-end flex-1">
                             <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
-                            <p class="text-xs text-gray-300 truncate" style='width:170px'><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] ?? '' }}</p>
+                            <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
+                                <img class=" m-1" style="width:25px;height:25px;"
+                                     src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
+                                <div class="flex flex-col justify-start  items-start">
+                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
+                                    <small class='text-[9px]'>Chartbuster Ratings</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

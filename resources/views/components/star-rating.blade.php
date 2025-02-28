@@ -3,7 +3,7 @@
 <div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex space-x-1">
     <input type="hidden" name="{{ $name }}" x-model="rating" value="{{ $value ?? 0 }}">
     
-    @for ($i = 1; $i <= 5; $i++)
+    @for ($i = 1; $i <= 10; $i++)
         <button 
             type="button" 
             class="text-gray-400 hover:text-yellow-400 focus:outline-none"
