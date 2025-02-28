@@ -132,12 +132,14 @@
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
         <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
             @foreach ($movies as $movie)
-                <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                    <div class="relative">
-                        <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                        <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                <a href="{{ route('movie.show', $movie) }}">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
+                        <div class="relative">
+                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                            <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                        </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
 
