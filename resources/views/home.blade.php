@@ -77,7 +77,7 @@
                     <div class="absolute text-left text-white transform bottom-6 left-6">
                         <div class="flex gap-3">
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
-                            <div class="flex flex-col justify-end">
+                            <div class="flex flex-col justify-start">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
                                 <small><i class='text-yellow-300 fas fa-calender'></i> {{ $banner_image['release_date'] }}</small>
                                 {{-- <p class="text-lg"><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] }} stars</p> --}}
@@ -107,7 +107,7 @@
                 <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide max-w-[370px]">
                     <div class="flex items-end h-full gap-4">
                         <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
-                        <div class="flex flex-col items-end justify-end flex-1">
+                        <div class="flex flex-col  justify-end flex-1">
                             <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
                             <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
                                 <img class=" m-1" style="width:25px;height:25px;"
