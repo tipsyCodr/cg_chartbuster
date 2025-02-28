@@ -54,14 +54,16 @@ class TvShow extends Model
         'show_on_banner'
     ];
     
+    
     public function artists()
     {
-        return $this->belongsToMany(Artist::class, 'movie_artist');
+        return $this->belongsToMany(Artist::class,'artist_tvshow','tvshow_id')
+        ->withPivot('artist_category_id','role')
+        ->withTimestamps();
     }
-
     public function albums()
     {
-        return $this->belongsToMany(Album::class, 'movie_album');
+        return $this->belongsToMany(Album::class, 'tvshow_album');
     }
     public function reviews()
     {

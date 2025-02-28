@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('region', 255)->nullable();
             $table->integer('cg_chartbusters_ratings')->nullable();
             $table->integer('imdb_ratings')->nullable();
-            $table->string('artists', 255)->nullable();
+            // $table->string('artists', 255)->nullable();
             $table->string('support_artists', 255)->nullable();
             $table->string('producer', 255)->nullable();
             $table->string('singer_male', 255)->nullable();

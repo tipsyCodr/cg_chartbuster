@@ -15,7 +15,15 @@ class ArtistController extends Controller
         $artists = Artist::latest()->paginate(10);
         return view('admin.artist.index', compact('artists', 'category'));
     }
-
+    public function list()
+    {   
+        // return Artist::select('id', 'name')->get();
+        $data = [
+            'artists' => Artist::select('id', 'name')->get(),
+            'categories' => ArtistCategory::select('id', 'name')->get()
+        ];
+        return response()->json($data);
+    }
     public function create()
     {
         return view('admin.artist.create');

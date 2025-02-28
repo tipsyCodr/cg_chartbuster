@@ -139,6 +139,70 @@
                                     </div>
                                 </div>
 
+                                <div x-data="{ 
+                                    artistEntries: [{ artist: '', role: '' }],
+                                    artists: [],
+                                    categories: [],
+                                    fetchData() {
+                                        fetch('{{ route('admin.artists.list') }}')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.artists = data.artists;
+                                                this.categories = data.categories;
+                                            })
+                                    },
+                                    addArtistEntry() {
+                                        this.artistEntries.push({ artist: '', role: '' });
+                                    },
+                                    removeArtistEntry(index) {
+                                        this.artistEntries.splice(index, 1);
+                                    }
+                                }" 
+                                x-init="fetchData()">
+                                    <label class="block my-1 text-sm font-medium text-gray-700">Artists</label>
+                                    
+                                    <template x-for="(entry, index) in artistEntries" :key="index">
+                                        <div class="flex gap-2 mt-2">
+                                            <select x-model="entry.artist" 
+                                                    :name="'artists[' + index + '][artist_id]'" 
+                                                    class="w-2/3 p-2 border border-gray-300 rounded">
+                                                <option value="">Select Artist</option>
+                                                <template x-for="artist in artists" :key="artist.id">
+                                                    <option :value="artist.id" x-text="artist.name"></option>
+                                                </template>
+                                            </select>
+                                            
+                                            <select x-model="entry.role" 
+                                                    :name="'artists[' + index + '][role]'" 
+                                                    class="w-1/3 p-2 border border-gray-300 rounded">
+                                                <option value="">Select Role</option>
+                                                <template x-for="category in categories" :key="category.id">
+                                                    <option :value="category.id" x-text="category.name"></option>
+                                                </template>
+                                            </select>
+                                            
+                                            <button type="button" 
+                                                    @click="removeArtistEntry(index)"
+                                                    class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </template>
+                                
+                                    <button type="button" 
+                                            @click="addArtistEntry()"
+                                            class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600">
+                                        Add Another Artist
+                                    </button>
+                                </div>
+                                @error('artists')
+                                    <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
+                                        <strong>{{ $message }}</strong>
+                                    </div>
+                                @enderror
+
+
+                                
                                 <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
@@ -291,15 +355,23 @@
                                 <div>
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
-                                    <input type="text" name="singer_male" id="singer_male"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <select name="singer_male" id="singer_male" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <option value="">Select Singer Male</option>
+                                        @foreach ($singer_male as $singer)
+                                            <option value="{{ $singer->id }}">{{ $singer->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div>
                                     <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Female</label>
-                                    <input type="text" name="singer_female" id="singer_female"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
+                                        <select name="singer_female" id="singer_female" class="w-full p-2 my-2 border border-gray-300 rounded">
+                                            <option value="">Select Singer Female</option>
+                                            @foreach ($singer_female as $singer)
+                                                <option value="{{ $singer->id }}">{{ $singer->name }}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
 
                                 <div>

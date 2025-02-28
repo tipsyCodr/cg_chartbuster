@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('content')
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
@@ -45,10 +44,9 @@
 
                                 <div>
                                     <label for="description"
-                                        class="block my-1 text-sm font-medium text-gray-700">Description</label>
+                                        class="block my-1 text-sm font-medium text-gray-700">Content Description</label>
                                     <textarea name="description" id="description" rows="3"
-                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                      {{ $movie->description }}
+                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $movie->description }}
                                     </textarea>
                                     @error('description')
                                         @foreach ($errors->get('description') as $message)
@@ -105,6 +103,76 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{ json_encode($movie->artists->map(function($artist) {
+                                    return [
+                                        'artist' => $artist->id,
+                                        'role' => $artist->pivot->artist_category_id  // Update this to use category ID
+                                    ];
+                                }))}},
+
+                                
+                                <div x-data="{ 
+                                     artistEntries: {{ json_encode($movie->artists->map(function($artist) {
+                                        return [
+                                            'artist' => $artist->id,
+                                            'role' => $artist->pivot->artist_category_id  // Update this to use category ID
+                                        ];
+                                    })) }},
+                                    artists: [],
+                                    categories: [],
+                                    fetchData() {
+                                        fetch('{{ route('admin.artists.list') }}')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.artists = data.artists;
+                                                this.categories = data.categories;
+                                            })
+                                    },
+                                    addArtistEntry() {
+                                        this.artistEntries.push({ artist: '', role: '' });
+                                    },
+                                    removeArtistEntry(index) {
+                                        this.artistEntries.splice(index, 1);
+                                    }
+                                }" 
+                                x-init="fetchData()">
+                                    <label class="block my-1 text-sm font-medium text-gray-700">Artists</label>
+                                    
+                                    <template x-for="(entry, index) in artistEntries" :key="index">
+                                        <div class="flex gap-2 mt-2">
+                                            <select x-model="entry.artist" 
+                                                    :name="'artists[' + index + '][artist_id]'" 
+                                                    class="w-2/3 p-2 border border-gray-300 rounded">
+                                                <option value="">Select Artist</option>
+                                                <template x-for="artist in artists" :key="artist.id">
+                                                    <option :value="artist.id" x-text="artist.name"  :selected="entry.artist == artist.id"  ></option>
+                                                </template>
+                                            </select>
+                                            
+                                            <select x-model="entry.role" 
+                                                    :name="'artists[' + index + '][role]'" 
+                                                    class="w-1/3 p-2 border border-gray-300 rounded">
+                                                <option value="">Select Role</option>
+                                                <template x-for="category in categories" :key="category.id">
+                                                    <option :value="category.id" x-text="category.name"   :selected="entry.role == category.id"  ></option>
+                                                </template>
+                                            </select>
+                                            
+                                            <button type="button" 
+                                                    @click="removeArtistEntry(index)"
+                                                    class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </template>
+                                
+                                    <button type="button" 
+                                            @click="addArtistEntry()"
+                                            class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600">
+                                        Add Another Artist
+                                    </button>
+                                </div>
+
 
                                 <div>
                                     <label for="director"
@@ -184,13 +252,13 @@
 
                                 <div>
                                     <label for="cg_chartbusters_ratings" class="block my-1 text-sm font-medium text-gray-700">CG Chartbusters Ratings</label>
-                                    <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" required></x-star-rating>
+                                    <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" :value="$movie->cg_chartbusters_ratings ?? old('cg_chartbusters_ratings')" required></x-star-rating>
     
                                 </div>
     
                                 <div>
                                     <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
-                                    <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
+                                    <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" :value="$movie->imdb_ratings ?? old('imdb_ratings')" required></x-star-rating>
                                 </div>
 
                                 <div>
@@ -374,13 +442,13 @@
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         <label for="content_description"
                                             class="block my-1 text-sm font-medium text-gray-700">Content
                                             Description</label>
-                                        <textarea name="content_description" id="content_description" rows="3"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded"> {{ $movie->content_description }}</textarea>
-                                    </div>
+                                        <textarea name="content_description" id="content_description"
+                                            class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->content_description }}</textarea>
+                                    </div> --}}
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>

@@ -21,7 +21,6 @@ class Song extends Model
         'region',
         'cg_chartbusters_ratings',
         'imdb_ratings',
-        'artists',
         'support_artists',
         'producer',
         'singer_male',
@@ -47,10 +46,11 @@ class Song extends Model
     {
         return $this->belongsTo(Album::class);
     }
-
     public function artists()
     {
-        return $this->belongsToMany(Artist::class);
+        return $this->belongsToMany(Artist::class,'artist_song','song_id')
+        ->withPivot('artist_category_id','role')
+        ->withTimestamps();
     }
     public function reviews()
     {

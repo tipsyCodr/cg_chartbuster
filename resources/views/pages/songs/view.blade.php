@@ -1,5 +1,7 @@
 <x-app-layout>
-    
+    @php
+    $artist = new App\Models\Artist();
+    @endphp
     <style>
         .hero {
             flex: 1; /* Make iframe take half the screen */
@@ -68,6 +70,16 @@
                         <p class="mb-5 text-gray-200">Release Date: {{ $song->release_date }}</p>
                         <p class="mb-5 text-gray-200">Genre: {{ $song->genre }}</p>
                         <p class="mb-5 text-gray-200">Duration: {{ $song->duration }} minutes</p>
+                        @if($song->singer_male && $singer_male = $artist->find($song->singer_male))
+                            <p class="mb-5 text-gray-200"><strong>Singer Male:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_male->id) }}">{{ $singer_male->name }}</a>
+                            </p>
+                        @endif
+                        @if($song->singer_female && $singer_female = $artist->find($song->singer_female))
+                            <p class="mb-5 text-gray-200"><strong>Singer Female:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_female->id) }}">{{ $singer_female->name }}</a>
+                            </p>
+                        @endif
                     </div>
                     <div class="w-full px-4 md:w-1/2">
                         <img src="{{ asset('storage/'.$song->poster_image) }}"  alt="{{ $song->title }}" class="w-full h-auto">

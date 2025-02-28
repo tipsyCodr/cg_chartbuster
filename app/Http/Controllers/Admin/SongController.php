@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Song;
 use App\Models\Genre;
+use App\Models\Artist;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SongController extends Controller{
     //
@@ -13,7 +14,9 @@ public function index()
 {
     $genres = Genre::where('for','Songs')->get();
     $songs = Song::latest()->paginate(5);
-    return view('admin.songs.index', compact('songs','genres'));
+    $singer_male = Artist::singerMale()->get();
+    $singer_female = Artist::singerFemale()->get();
+    return view('admin.songs.index', compact('songs','genres','singer_male','singer_female'));
 }
 
 
@@ -34,7 +37,6 @@ public function store(Request $request)
         'imdb_ratings' => 'nullable|numeric',
         'poster_logo' => 'nullable|string',
         'production_banner' => 'nullable|string',
-        'artists' => 'nullable|string|max:255',
         'support_artists' => 'nullable|string|max:255',
         'producer' => 'nullable|string|max:255',
         'singer_male' => 'nullable|string|max:255',
@@ -55,6 +57,9 @@ public function store(Request $request)
         'hyperlinks_links' => 'nullable|string',
         'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
         'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+        'artists' => 'nullable|array',
+        'artists.*.artist_id' => 'exists:artists,id',
+        'artists.*.role' => 'exists:artist_category,id',
     ]);
    
     if ($request->hasFile('poster_image')) {
@@ -78,6 +83,29 @@ public function store(Request $request)
     
     Song::create($validatedData);
 
+    // Remove artists array from validated data
+    $artists = $validatedData['artists'] ?? [];
+    unset($validatedData['artists']);
+
+    // Create the movie
+    $song = Song::create($validatedData);
+
+
+    // Prepare artist data for attachment
+    $artistData = [];
+    foreach ($artists as $artistEntry) {
+        if (!empty($artistEntry['artist_id'])) {
+            // Create a new entry for each artist-role combination
+            $artistId = $artistEntry['artist_id'];
+            $song->artists()->attach($artistId, [
+                'artist_category_id' => $artistEntry['role'] ?? null,
+                'role' => $artistEntry['role'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
     return redirect()->route('admin.songs.index')->with('success', 'Song created successfully.');
 }
 
@@ -87,7 +115,9 @@ public function edit($id)
 {
     $songs = Song::findOrFail($id);
     $genres = Genre::where('for','Songs')->get();
-    return view('admin.songs.edit', compact('songs','genres'));
+    $singer_male = Artist::singerMale()->get();
+    $singer_female = Artist::singerFemale()->get();
+    return view('admin.songs.edit', compact('songs','genres','singer_male','singer_female'));
 }
 
 public function update(Request $request, Song $song)
@@ -105,7 +135,6 @@ public function update(Request $request, Song $song)
         'region' => 'nullable|string|max:255',
         'cg_chartbusters_ratings' => 'nullable|numeric',
         'imdb_ratings' => 'nullable|numeric',
-        'artists' => 'nullable|string|max:255',
         'support_artists' => 'nullable|string|max:255',
         'producer' => 'nullable|string|max:255',
         'poster_logo' => 'nullable|string',
@@ -128,6 +157,9 @@ public function update(Request $request, Song $song)
         'hyperlinks_links' => 'nullable|string',
         'poster_image_portrait' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
         'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+        'artists' => 'nullable|array',
+        'artists.*.artist_id' => 'exists:artists,id',
+        'artists.*.role' => 'exists:artist_category,id',
     ]);
     if ($request->hasFile('poster_image')) {
         try {
@@ -147,24 +179,28 @@ public function update(Request $request, Song $song)
             return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
         }
     }
-    // if ($request->hasFile('production_banner')) {
-    //     try {
-    //         $path = $request->production_banner->store('banner', 'public');
-    //         $validatedData['production_banner'] = $path;
-    //     } catch (\Exception $e) {
-    //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-    //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-    //     }
-    // }
-    // if ($request->hasFile('poster_logo')) {
-    //     try {
-    //         $path = $request->poster_logo->store('poster_logo', 'public');
-    //         $validatedData['poster_logo'] = $path;
-    //     } catch (\Exception $e) {
-    //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-    //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-    //     }
-    // }
+
+    $artistData = [];
+    foreach ($validatedData['artists'] ?? [] as $artistEntry) {
+        if (!empty($artistEntry['artist_id'])) {
+            // Instead of using artist_id as the key, we'll add each entry as a separate array item
+            $artistData[] = [
+                'artist_id' => $artistEntry['artist_id'],
+                'artist_category_id' => $artistEntry['role'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+    }
+
+    // Use syncWithoutDetaching and attach methods instead of sync
+    $song->artists()->detach();
+    foreach ($artistData as $data) {
+        $artist_id = $data['artist_id'];
+        unset($data['artist_id']); // Remove artist_id from the pivot data
+        $song->artists()->attach($artist_id, $data);
+    }
+    
     
     $song->update($validatedData);
 

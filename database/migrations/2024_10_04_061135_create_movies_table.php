@@ -13,7 +13,7 @@ return new class extends Migration {
         // Schema::disableForeignKeyConstraints();
 
         Schema::create('movies', function (Blueprint $table) {
-            $table->integer('id')->primary()->autoIncrement();
+            $table->bigIncrements('id');
             $table->string('title', 255);
             $table->text('description')->nullable();
             $table->date('release_date')->nullable();

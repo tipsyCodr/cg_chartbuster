@@ -1,5 +1,7 @@
 <x-app-layout>
-   
+    @php
+    $artist = new App\Models\Artist();
+    @endphp
     <style>
         .hero {
             flex: 1; /* Make iframe take half the screen */
@@ -48,6 +50,7 @@
                             <small class="text-gray-200"><strong>{{ $tvshow->genre }}</strong></small> <br>
                             <small class="text-gray-200"><strong>{{ substr($tvshow->duration, 0, 5) }} </strong>mins</small> <br>
                         </div>
+
                     </div>
                 </div>
                 <div class="h-40 overflow-y-auto">
@@ -78,6 +81,16 @@
                         <p class="mb-5 text-gray-200">
                             Budget: <span class="font-bold text-black">Rs.</span>{{ $tvshow->budget }}
                         </p>
+                        @if($tvshow->singer_male && $singer_male = $artist->find($tvshow->singer_male))
+                            <p class="mb-5 text-gray-200"><strong>Singer Male:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_male->id) }}">{{ $singer_male->name }}</a>
+                            </p>
+                        @endif
+                        @if($tvshow->singer_female && $singer_female = $artist->find($tvshow->singer_female))
+                            <p class="mb-5 text-gray-200"><strong>Singer Female:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_female->id) }}">{{ $singer_female->name }}</a>
+                            </p>
+                        @endif
                         {{-- <p class="mb-5 text-gray-600">
                             Box Office: <span class="font-bold text-black">Rs.</span>{{ $tvshow->box_office }}
                         </p> --}}

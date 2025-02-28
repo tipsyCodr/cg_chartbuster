@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('artists', function (Blueprint $table) {
-            $table->integer('id')->primary()->autoIncrement();
+            $table->bigIncrements('id');
             $table->string('photo', 255);
             $table->string('name', 255);
             $table->text('bio')->nullable();

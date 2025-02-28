@@ -73,7 +73,9 @@ class TvShowController extends Controller
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
-            
+            'artists' => 'nullable|array',
+            'artists.*.artist_id' => 'exists:artists,id',
+            'artists.*.role' => 'exists:artist_category,id'
             // Add more validation rules as needed
         ]);
       
@@ -95,28 +97,32 @@ class TvShowController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        // if ($request->hasFile('production_banner')) {
-        //     try {
-        //         $path = $request->production_banner->store('banner', 'public');
-        //         $validatedData['production_banner'] = $path;
-        //     } catch (\Exception $e) {
-        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        //     }
-        // }
-        // if ($request->hasFile('poster_logo')) {
-        //     try {
-        //         $path = $request->poster_logo->store('poster_logo', 'public');
-        //         $validatedData['poster_logo'] = $path;
-        //     } catch (\Exception $e) {
-        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        //     }
-        // }
+
+        // Remove artists array from validated data
+        $artists = $validatedData['artists'] ?? [];
+        unset($validatedData['artists']);
 
         // Create the movie
         $tvShow = TvShow::create($validatedData);
 
+
+         // Prepare artist data for attachment
+         $artistData = [];
+         foreach ($artists as $artistEntry) {
+             if (!empty($artistEntry['artist_id'])) {
+                 // Create a new entry for each artist-role combination
+                 $artistId = $artistEntry['artist_id'];
+                 $tvShow->artists()->attach($artistId, [
+                     'artist_category_id' => $artistEntry['role'] ?? null,
+                     'role' => $artistEntry['role'] ?? null,
+                     'created_at' => now(),
+                     'updated_at' => now(),
+                 ]);
+             }
+         }
+   
+
+    
         return redirect()->route('admin.tvshows.index')
             ->with('success', 'TV Show created successfully.');
     }
@@ -185,7 +191,10 @@ class TvShowController extends Controller
             'hyperlinks_links' => 'nullable|string',
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
-            'show_on_banner' => 'nullable'
+            'show_on_banner' => 'nullable',
+            'artists' => 'nullable|array',
+            'artists.*.artist_id' => 'exists:artists,id',
+            'artists.*.role' => 'exists:artist_category,id',
             // Add more validation rules as needed
         ]);
 
@@ -208,24 +217,27 @@ class TvShowController extends Controller
                 return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
             }
         }
-        // if ($request->hasFile('production_banner')) {
-        //     try {   
-        //         $path = $request->production_banner->store('banner', 'public');
-        //         $validatedData['production_banner'] = $path;
-        //     } catch (\Exception $e) {
-        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        //     }
-        // }
-        // if ($request->hasFile('poster_logo')) {
-        //     try {
-        //         $path = $request->poster_logo->store('poster_logo', 'public');
-        //         $validatedData['poster_logo'] = $path;
-        //     } catch (\Exception $e) {
-        //         \Log::error('Production Banner upload failed: ' . $e->getMessage());
-        //         return redirect()->back()->with('error', 'Failed to upload poster image. Please try again.');
-        //     }
-        // }
+
+            $artistData = [];
+            foreach ($validatedData['artists'] ?? [] as $artistEntry) {
+                if (!empty($artistEntry['artist_id'])) {
+                    // Instead of using artist_id as the key, we'll add each entry as a separate array item
+                    $artistData[] = [
+                        'artist_id' => $artistEntry['artist_id'],
+                        'artist_category_id' => $artistEntry['role'] ?? null,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+
+            // Use syncWithoutDetaching and attach methods instead of sync
+            $tvShow->artists()->detach();
+            foreach ($artistData as $data) {
+                $artist_id = $data['artist_id'];
+                unset($data['artist_id']); // Remove artist_id from the pivot data
+                $tvShow->artists()->attach($artist_id, $data);
+            }
 
         try {
             // Explicitly convert show_on_banner to boolean

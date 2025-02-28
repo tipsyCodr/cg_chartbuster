@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Movie;
+use App\Models\TvShow;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Artist extends Model
 {
@@ -28,16 +30,19 @@ class Artist extends Model
     }
     public function movies()
     {
-        return $this->belongsToMany(Movie::class, 'movie_artist');
+        return $this->belongsToMany(Movie::class)->withPivot('role');
     }
-    public function tvshows()
-    {
-        return $this->belongsToMany(TvShow::class, 'artist_tvshow');
-    }
+
     public function songs()
     {
-        return $this->belongsToMany(Song::class, 'artist_song');
+        return $this->belongsToMany(Song::class)->withPivot('role');
     }
+
+    public function tvshows()
+    {
+        return $this->belongsToMany(TvShow::class)->withPivot('role');
+    }
+    
     public function albums()
     {
         return $this->hasMany(Album::class);

@@ -27,6 +27,7 @@ Route::get('/movie/{id}', [WebController::class, 'movie'])->name('movie.show');
 Route::get('/artists', [WebController::class, 'artists'])->name('artists');
 Route::post('/artists', [WebController::class, 'artists'])->name('artists.query');
 Route::get('/artist/{id}', [WebController::class, 'artist'])->name('artist.show');
+Route::get('admin/artists/list', [ArtistController::class, 'list'])->name('admin.artists.list');
 
 //TV Shows
 Route::get('/tv-shows', [WebController::class, 'tvShows'])->name('tv-shows');
@@ -65,7 +66,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin');
         Route::get('/user-management', [AdminController::class, 'userManagement'])->name('admin.user-management');
         Route::post('/toggle-user/{userId}', [AdminController::class, 'toggleUserStatus'])->name('admin.toggle-user');
         

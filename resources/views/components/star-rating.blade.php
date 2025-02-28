@@ -1,7 +1,7 @@
-<div x-data="{ rating: 0, hover: 0 }" class="flex space-x-1">
-    {{-- <input type="hidden" name="rating" x-model="rating" value="0"> <!-- Hidden rating field --> --}}
-    <div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex space-x-1">
-        <input type="hidden" name="{{ $name }}" x-model="rating" value="{{ $value ?? 0 }}">
+@props(['name', 'value' => null])
+
+<div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex space-x-1">
+    <input type="hidden" name="{{ $name }}" x-model="rating" value="{{ $value ?? 0 }}">
     
     @for ($i = 1; $i <= 5; $i++)
         <button 
@@ -18,5 +18,4 @@
             </svg>
         </button>
     @endfor
-</div>
 </div>

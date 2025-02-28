@@ -4,6 +4,9 @@
             {{ __('Movie') }}
         </h2>
     </x-slot>
+    @php
+    $artist = new App\Models\Artist();
+    @endphp
     <style>
         .hero {
             flex: 1; /* Make iframe take half the screen */
@@ -81,8 +84,16 @@
                         <p class="mb-5 text-gray-200"><strong>Support Artists:</strong> {{ $movie->support_artists }}</p>
                         <p class="mb-5 text-gray-200"><strong>Producer:</strong> {{ $movie->producer }}</p>
                         <p class="mb-5 text-gray-200"><strong>Songs:</strong> {{ $movie->songs }}</p>
-                        <p class="mb-5 text-gray-200"><strong>Singer Male:</strong> {{ $movie->singer_male }}</p>
-                        <p class="mb-5 text-gray-200"><strong>Singer Female:</strong> {{ $movie->singer_female }}</p>
+                        @if($movie->singer_male && $singer_male = $artist->find($movie->singer_male))
+                            <p class="mb-5 text-gray-200"><strong>Singer Male:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_male->id) }}">{{ $singer_male->name }}</a>
+                            </p>
+                        @endif
+                        @if($movie->singer_female && $singer_female = $artist->find($movie->singer_female))
+                            <p class="mb-5 text-gray-200"><strong>Singer Female:</strong> 
+                                <a class="text-yellow-300" href="{{ route('artist.show', $singer_female->id) }}">{{ $singer_female->name }}</a>
+                            </p>
+                        @endif
                         <p class="mb-5 text-gray-200"><strong>Lyrics:</strong> {{ $movie->lyrics }}</p>
                         <p class="mb-5 text-gray-200"><strong>Composition:</strong> {{ $movie->composition }}</p>
                         <p class="mb-5 text-gray-200"><strong>Mix Master:</strong> {{ $movie->mix_master }}</p>
