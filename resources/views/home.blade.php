@@ -80,10 +80,10 @@
                             <div class="flex flex-col justify-start">
                                 <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
                                 <small><i class='text-yellow-300 fas fa-calender'></i> {{ $banner_image['release_date'] }}</small>
-                                {{-- <p class="text-lg"><i class='fa fa-star text-yellow-300'></i> {{ $banner_image['cg_chartbusters_ratings'] }} stars</p> --}}
-                                <img class=" m-1" style="width:25px;height:25px;"
+                                {{-- <p class="text-lg"><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['cg_chartbusters_ratings'] }} stars</p> --}}
+                                <img class="m-1 " style="width:25px;height:25px;"
                                      src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
-                                <div class="flex flex-col justify-start  items-start">
+                                <div class="flex flex-col items-start justify-start">
                                     <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
                                     <small class='text-[9px]'>Chartbuster Ratings</small>
                                 </div>
@@ -106,13 +106,13 @@
             @foreach ($banner_images as $banner_image)
                 <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide max-w-[370px]">
                     <div class="flex items-end h-full gap-4">
-                        <img class="w-24 h-32 object-cover rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
-                        <div class="flex flex-col  justify-end flex-1">
+                        <img class="object-cover w-24 h-32 rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
+                        <div class="flex flex-col justify-end flex-1">
                             <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
                             <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
-                                <img class=" m-1" style="width:25px;height:25px;"
+                                <img class="m-1 " style="width:25px;height:25px;"
                                      src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
-                                <div class="flex flex-col justify-start  items-start">
+                                <div class="flex flex-col items-start justify-start">
                                     <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
                                     <small class='text-[9px]'>Chartbuster Ratings</small>
                                 </div>
@@ -136,7 +136,27 @@
                     <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                         <div class="relative">
                             <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                            <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+            @foreach ($movies as $movie)
+                <a href="{{ route('movie.show', $movie) }}">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
+                        <div class="relative">
+                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+            @foreach ($movies as $movie)
+                <a href="{{ route('movie.show', $movie) }}">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
+                        <div class="relative">
+                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
                         </div>
                     </div>
                 </a>
@@ -152,7 +172,7 @@
                         <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                             <div class="relative">
                                 <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                                <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($song->poster_image) }}"  alt="Song Image">
+                                <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($song->poster_image) }}"  alt="Song Image">
                             </div>
                         </div>
                     </a>
@@ -167,7 +187,7 @@
                         <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
                             <div class="relative">
                                 <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                                <img class="object-cover h-56 rounded-lg w-36" src="{{ Storage::url($artist->photo) }}" alt="Artist Image">
+                                <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($artist->photo) }}" alt="Artist Image">
                             </div>
                         </div>
                     </a>
