@@ -18,7 +18,7 @@ return new class extends Migration {
             // $table->foreign('user_id')->references('id')->on('users');
             $table->integer('movie_id');
             // $table->foreign('movie_id')->references('id')->on('movies');
-            $table->decimal('rating', 2, 1)->nullable();
+            $table->decimal('rating', 3, 1)->nullable();
             $table->text('review_text')->nullable();
             $table->timestamps();
 

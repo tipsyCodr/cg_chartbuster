@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('flagged')->after('user_id')->nullable();
             $table->integer('banned')->after('user_id')->nullable();
             $table->integer('removed')->after('user_id')->nullable();
-
+            $table->decimal('rating', 3, 1)->change();
         });
     }
 
@@ -36,6 +36,7 @@ return new class extends Migration
                                 'flagged',
                                 'banned',
                                 'removed']);
+            $table->decimal('rating', 2, 1)->change();
         });
     }
 };
