@@ -39,9 +39,9 @@
                 @endif
             </div>
             <div class="p-4 w-28 flex-shrink-1 content">
-                <div class="h-30 py-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                <div class="py-1 overflow-hidden h-30 text-ellipsis whitespace-nowrap">
                     <div class="flex gap-2">
-                        <div class="poster_image rounded-md overflow-hidden">
+                        <div class="overflow-hidden rounded-md poster_image">
                             @if($movie->poster_image != "" && $movie->poster_image != " ")
                                 <img class="w-full max-w-[110px] object-cover h-full" src="{{ asset("storage/{$movie->poster_image}") }}" alt="">
                             @endif
@@ -124,18 +124,18 @@
                         <div class="review">
                             <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>
                             <div class="p-4 bg-gray-900 rounded">
-                                <h1 class="font-bold text-xl">Post a Review</h1>
+                                <h1 class="text-xl font-bold">Post a Review</h1>
                             
                                 <form action="{{ route('movies.reviews.store', $movie) }}"  method="POST">
                                     @csrf
                                 @if (session('error'))
-                                    <div class="bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                    <div class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-500 rounded" role="alert">
                                         <strong class="font-bold">{{ session('error') }}</strong>
                                     </div>
                                 @endif
                             
                                 @if ($errors->any())
-                                    <div class="bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                    <div class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-500 rounded" role="alert">
                                         <strong class="font-bold">Whoops! Something went wrong!</strong>
                                         <ul>
                                         @foreach ($errors->all() as $error)
@@ -147,12 +147,12 @@
                                     <input type="hidden" name="movie_id" value="{{ $movie->id }}">
                                     <div class="mt-4">
                                         <x-input-label for="review_text" :value="__('Review')" />
-                                        <x-textarea id="review_text" class="block mt-1 w-full text-black py-4" name="review_text" required>{{ old('review_text') }}</x-textarea>
+                                        <x-textarea id="review_text" class="block w-full py-4 mt-1 text-black" name="review_text" required>{{ old('review_text') }}</x-textarea>
                                         <x-input-error :messages="$errors->get('review_text')" class="mt-2" />
                                     </div>
                                     <div class="mt-4">
                                         <x-input-label for="rating" :value="__('Rating')" />
-                                        <x-star-rating id="rating" class="block mt-1 w-full" name="rating" required></x-star-rating>
+                                        <x-star-rating id="rating" class="block w-full mt-1" name="rating" required></x-star-rating>
                                         <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                                         <x-input-submit class="my-6">Submit</x-input-submit>
                                 </form>
@@ -166,17 +166,17 @@
                                 </style>
                                 {{-- Uncomment this when reviews data is available --}}
                                 @foreach($reviews as $review)
-                                    <li class="flex flex-col  items-start border-b border-gray-800 p-2 hover:bg-gray-800 transition-all">
-                                        <div class="flex items-center  justify-between w-full mb-2">
-                                            <i class="fa-solid fa-user-circle fa-2x text-yellow-400 mr-2"></i> <strong class="mr-2">{!! $review->user ? $review->user->name : '<span class="text-gray-500">[deleted account]</span>' !!}</strong>
+                                    <li class="flex flex-col items-start p-2 transition-all border-b border-gray-800 hover:bg-gray-800">
+                                        <div class="flex items-center justify-between w-full mb-2">
+                                            <i class="mr-2 text-yellow-400 fa-solid fa-user-circle fa-2x"></i> <strong class="mr-2">{!! $review->user ? $review->user->name : '<span class="text-gray-500">[deleted account]</span>' !!}</strong>
                                             <p class="text-sm">{{ $review->review_text }}</p>
-                                            <span class="text-xs text-gray-500 ml-auto">({{ $review->created_at->format('M d, Y') }})</span>
+                                            <span class="ml-auto text-xs text-gray-500">({{ $review->created_at->format('M d, Y') }})</span>
                                         </div>
-                                        <small class="px-8"><i class='fa fa-star text-yellow-300 '></i> {{ $review->rating }} stars</small>
+                                        <small class="px-8"><i class='text-yellow-300 fa fa-star '></i> {{ $review->rating }} stars</small>
                                     </li>
                                 @endforeach
                             </ul>
-                            <span class='paginate text-white text-sm'>{{ $reviews->links() }}</span>
+                            <span class='text-sm text-white paginate'>{{ $reviews->links() }}</span>
                         </div>
                     </div>
                 </div>

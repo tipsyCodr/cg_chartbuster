@@ -1,6 +1,6 @@
 @props(['name', 'value' => null])
 
-<div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex space-x-1">
+<div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex flex-wrap gap-0.5 sm:gap-1">
     <input type="hidden" name="{{ $name }}" x-model="rating" value="{{ $value ?? 0 }}">
     
     @for ($i = 1; $i <= 10; $i++)
@@ -13,7 +13,7 @@
             @click="rating = {{ $i }}"
             @click.away="hover = 0"
         >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" viewBox="0 0 24 24">
                 <path d="M12 .587l3.668 7.429 8.2 1.192-5.934 5.786 1.4 8.171-7.334-3.857-7.333 3.857 1.399-8.171-5.933-5.786 8.2-1.192z"/>
             </svg>
         </button>
