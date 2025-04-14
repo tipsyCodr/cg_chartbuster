@@ -14,7 +14,7 @@ class ReviewController extends Controller
     public function storeMovieReview(Request $request){
         $request->validate([
             'review_text' => 'required|string',
-            'rating' => 'nullable|integer|max:5',
+            'rating' => 'nullable|integer|max:10',
         ]);
 
         $movie = Movie::findOrFail($request->movie_id);
@@ -39,7 +39,7 @@ class ReviewController extends Controller
     public function storeTvShowReview(Request $request){
         $request->validate([
             'review_text' => 'required|string',
-            'rating' => 'nullable|integer|min:1|max:5',
+            'rating' => 'nullable|integer|min:1|max:10',
         ]);
 
         $tvshow = TvShow::findOrFail($request->tvshow_id);
@@ -64,7 +64,7 @@ class ReviewController extends Controller
     public function storeAlbumReview(Request $request){
         $request->validate([
             'review_text' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'nullable|integer|min:1|max:10',
         ]);
 
         $album = Album::findOrFail($request->album_id);
@@ -89,7 +89,7 @@ class ReviewController extends Controller
     public function storeSongReview(Request $request){
         $request->validate([
             'review_text' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'nullable|integer|min:1|max:10',
         ]);
 
         $song = Song::findOrFail($request->song_id);

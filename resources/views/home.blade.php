@@ -100,23 +100,28 @@
 <div class="thumbnail-slider-container hidden lg:flex flex-col w-[500px] h-[600px] ml-4">
     <div class="h-full swiper thumbnail-slider">
         <div class="swiper-wrapper">
-            @foreach ($banner_images as $banner_image)
-                <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide max-w-[370px]">
-                    <div class="flex items-end h-full gap-4">
-                        <img class="object-cover w-24 h-32 rounded-lg" src="{{ asset('storage/' . ($banner_image['poster_image'] ?? 'storage/images/coming-soon.png')) }}" alt="Thumbnail">
-                        <div class="flex flex-col justify-end flex-1">
-                            <h1 class="text-xs font-bold truncate" style='width:165px'>{{ $banner_image['title'] }}</h1>
-                            <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
-                                <img class="m-1 " style="width:15px;height:15px;"
-                                     src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
-                                <div class="flex flex-col items-start justify-start">
-                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 Ratings</p>
+            <div class="flex items-center justify-between">
+                <div class="swiper-wrapper">
+                    @foreach ($banner_images as $banner_image)
+                        <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide max-w-[370px]">
+                            <div class="flex items-end h-full gap-4">
+                                <img class="object-cover w-24 h-32 rounded-lg" src="{{ asset('storage/' . ($banner_image['poster_image'] ?? 'storage/images/coming-soon.png')) }}" alt="Thumbnail">
+                                <div class="flex flex-col justify-end flex-1">
+                                    <h1 class="text-xs font-bold truncate" style='width:165px'>{{ $banner_image['title'] }}</h1>
+                                    <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
+                                        <img class="m-1 " style="width:15px;height:15px;"
+                                             src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
+                                        <div class="flex flex-col items-start justify-start">
+                                            <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 Ratings</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
+                <a href="{{ route('movies') }}" class="text-blue-500 hover:underline">View More</a>
+            </div>
         </div>
     </div>
 </div>
