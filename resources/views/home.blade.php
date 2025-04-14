@@ -141,26 +141,6 @@
                     </div>
                 </a>
             @endforeach
-            @foreach ($movies as $movie)
-                <a href="{{ route('movie.show', $movie) }}">
-                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                        <div class="relative">
-                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-            @foreach ($movies as $movie)
-                <a href="{{ route('movie.show', $movie) }}">
-                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                        <div class="relative">
-                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
-                        </div>
-                    </div>
-                </a>
-            @endforeach
         </div>
 
         </section>
