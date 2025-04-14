@@ -77,15 +77,12 @@
                     <div class="absolute text-left text-white transform bottom-6 left-6">
                         <div class="flex gap-3">
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
-                            <div class="flex flex-col justify-start">
-                                <h1 class="text-3xl font-bold">{{ $banner_image['title'] }}</h1>
+                            <div class="flex flex-col justify-end">
+                                <h1 class="text-xs font-bold md:text-3xl">{{ $banner_image['title'] }}</h1>
                                 <small><i class='text-yellow-300 fas fa-calender'></i> {{ $banner_image['release_date'] }}</small>
-                                {{-- <p class="text-lg"><i class='text-yellow-300 fa fa-star'></i> {{ $banner_image['cg_chartbusters_ratings'] }} stars</p> --}}
-                                <img class="m-1 " style="width:25px;height:25px;"
-                                     src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
-                                <div class="flex flex-col items-start justify-start">
-                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
-                                    <small class='text-[9px]'>Chartbuster Ratings</small>
+                                <div class="flex flex-row items-center ">
+                                    <img class="m-1 " style="width:25px;height:25px;" src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
+                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 Ratings</p>
                                 </div>
                             </div>
                         </div>
@@ -106,15 +103,14 @@
             @foreach ($banner_images as $banner_image)
                 <div class="p-2 bg-gray-800 rounded-lg cursor-pointer swiper-slide max-w-[370px]">
                     <div class="flex items-end h-full gap-4">
-                        <img class="object-cover w-24 h-32 rounded-lg" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="Thumbnail">
+                        <img class="object-cover w-24 h-32 rounded-lg" src="{{ asset('storage/' . ($banner_image['poster_image'] ?? 'storage/images/coming-soon.png')) }}" alt="Thumbnail">
                         <div class="flex flex-col justify-end flex-1">
-                            <h1 class="text-xs font-bold truncate" style='width:120px'>{{ $banner_image['title'] }}</h1>
+                            <h1 class="text-xs font-bold truncate" style='width:165px'>{{ $banner_image['title'] }}</h1>
                             <div class="flex flex-row items-center text-gray-300 truncate" style='width:170px'>
-                                <img class="m-1 " style="width:25px;height:25px;"
+                                <img class="m-1 " style="width:15px;height:15px;"
                                      src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating">
                                 <div class="flex flex-col items-start justify-start">
-                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 </p>
-                                    <small class='text-[9px]'>Chartbuster Ratings</small>
+                                    <p class="text-xs"> {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} /10 Ratings</p>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +123,6 @@
 </section>
 
 <div class="">
-    
         <section class="my-5">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
         <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
