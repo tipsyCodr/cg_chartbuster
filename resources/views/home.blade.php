@@ -73,7 +73,7 @@
             @foreach ($banner_images as $banner_image)
                 <div class="overflow-hidden swiper-slide rounded-xl">
                     <img style="width: 100%; object-fit: cover;" src="{{ asset('storage/' . $banner_image['poster_image_landscape']) }}" alt="Banner Image">
-                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottom"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottoms black-tint"></div>
                     <div class="absolute text-left text-white transform bottom-6 left-6">
                         <div class="flex gap-3">
                             <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]" src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
