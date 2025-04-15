@@ -23,7 +23,7 @@
      x-transition style='z-index: 99999;'>
     <div class="flex justify-between items-start space-x-2" >
         <div class="flex flex-col">
-            <div class="text-lg font-bold capitalize" x-text="type"></div>
+            {{-- <div class="text-lg font-bold capitalize" x-text="type"></div> --}}
             <span class="flex-1" x-text="message"></span>
         </div>
         <button @click="show = false" class="ml-4 text-xl leading-none hover:text-gray-300">&times;</button>

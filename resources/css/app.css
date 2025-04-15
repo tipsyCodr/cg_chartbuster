@@ -64,3 +64,24 @@
         @apply max-w-[160px] min-w-[130px];
     }
 } */
+
+/* Thumbnail Slider Active State */
+.swiper-slide-thumb-active {
+    transform: scale(1.1);
+    border: 2px solid #f59e0b;
+    background-color: rgba(245, 158, 11, 0.1);
+    transition: all 0.3s ease;
+}
+
+.swiper-slide-thumb-active img {
+    opacity: 1;
+}
+
+.thumbnail-slider .swiper-slide:not(.swiper-slide-thumb-active) {
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+
+.thumbnail-slider .swiper-slide:not(.swiper-slide-thumb-active):hover {
+    opacity: 0.5;
+}

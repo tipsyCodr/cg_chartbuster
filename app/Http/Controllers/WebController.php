@@ -15,8 +15,8 @@ class WebController extends Controller
     public function index()
     {
         $banner_images = array_merge(
-            Movie::where('show_on_banner', true)->get(['title','description','imdb_ratings','cg_chartbusters_ratings','release_date','poster_image', 'poster_image_landscape'])->toArray(),
-            TVShow::where('show_on_banner', true)->get(['title','description','imdb_ratings','cg_chartbusters_ratings','release_date','poster_image', 'poster_image_landscape'])->toArray()
+            Movie::where('show_on_banner', true)->get(['id','title','description','imdb_ratings','cg_chartbusters_ratings','release_date','poster_image', 'poster_image_landscape'])->toArray(),
+            TVShow::where('show_on_banner', true)->get(['id','title','description','imdb_ratings','cg_chartbusters_ratings','release_date','poster_image', 'poster_image_landscape'])->toArray()
         );
         // dd($banner_images );
         $movies = Movie::all()->take(10);

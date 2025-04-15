@@ -108,7 +108,7 @@
                             @endforeach --}}
                         </ul>
 
-                        <div class="review">
+                        <div class="review" id="review">
                             <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>
                             <div class="p-4 bg-gray-900 rounded">
                                 <h1 class="font-bold text-xl">Post a Review</h1>
