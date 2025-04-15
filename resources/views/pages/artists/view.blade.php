@@ -9,7 +9,7 @@
         <!-- Artist Profile Section -->
         <div class="flex flex-col items-start gap-6 lg:flex-row">
             <!-- Artist Photo -->
-            <div class="flex gap-4">
+            <div class="flex flex-col gap-4 md:flex-row">
                 <img
                     class="object-cover rounded-md shadow-md w-52 h-52"
                     src="{{ $artists->photo ? asset('storage/'.$artists->photo) : asset('images/placeholder.png') }}"
