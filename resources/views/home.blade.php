@@ -142,7 +142,7 @@
                             <img class="hover:brightness-90 transition-all duration-300 object-cover h-56 rounded-t-lg w-full" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
                             <div class="bg-gray-900 py-4 px-4 rounded-b-lg h-30">
                                 <div class="">
-                                    <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $movie->imdb_ratings }} / 10 </span>
+                                    <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $movie->cg_chartbusters_ratings }} / 10 </span>
                                     <a href="{{ route('movie.show', $movie) }}#review" class="text-center bg-gray-900 px-3 mx-1 py-2 my-2 rounded text-white font-bold hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
                                 </div>
                                 <h2 class="text-white text-sm py-6 font-normal normal-case w-38  text-nowrap text-ellipsis overflow-hidden"> {{ $loop->index + 1 }}. {{ ucwords(strtolower($movie->title)) }}</h2>
@@ -166,7 +166,7 @@
                                 <img class="hover:brightness-90 transition-all duration-300 object-cover h-56 rounded-t-lg w-full" src="{{ Storage::url($song->poster_image) }}" alt="Song Image">
                                 <div class="bg-gray-900 py-4 px-4 rounded-b-lg h-30">
                                     <div class="">
-                                        <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $song->imdb_ratings ?? 'N/A' }} / 10 </span>
+                                        <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $song->cg_chartbusters_ratings ?? 'N/A' }} / 10 </span>
                                         <a href="{{ route('song.show', $song) }}#review" class="text-center bg-gray-900 px-3 mx-1 py-2 my-2 rounded text-white font-bold hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
                                     </div>
                                     <h2 class="text-white text-sm py-6 font-normal normal-case w-38 text-nowrap text-ellipsis overflow-hidden">{{ $loop->index + 1 }}. {{ ucwords(strtolower($song->title)) }}</h2>
