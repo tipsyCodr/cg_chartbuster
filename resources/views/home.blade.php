@@ -134,9 +134,18 @@
             @foreach ($movies as $movie)
                 <a href="{{ route('movie.show', $movie) }}">
                     <div class="flex-shrink-0 mr-4 transition-all bg-gray-800 rounded-lg shadow-md last:mr-0 hover:scale-110">
-                        <div class="relative">
-                            <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
-                            <img class="object-cover h-56 rounded-lg min-w-36 max-w-36" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                        <div class="relative min-w-48 max-w-48">
+                            {{-- <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span> --}}
+                            {{-- rating --}}
+                            
+                            <img class="object-cover h-56 rounded-t-lg w-full" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                            <div class="bg-gray-800 py-4 px-4 rounded-b-lg h-30">
+                                <div class="">
+                                    <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $movie->imdb_ratings }}</span>
+                                </div>
+                                <h2 class="text-white text-xs py-2 ">{{ $movie->title }}</h2>
+                                <a href="{{ route('movie.show', $movie) }}" class="text-center bg-yellow-500 px-2 py-2 my-2 rounded-full w-full block text-white font-bold hover:underline">View More</a>
+                            </div>
                         </div>
                     </div>
                 </a>
