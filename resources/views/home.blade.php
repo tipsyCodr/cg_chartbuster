@@ -186,7 +186,7 @@
                 @foreach ($artists as $artist)
                     <a href="{{ route('artist.show', $artist) }}" class="flex flex-col items-center">
                         <div class="relative flex-shrink-0 transition-all group">
-                            <div class="absolute font-bold text-yellow-500 transition-opacity opacity-50 -left-5 -bottom-5 text-8xl text-stroke stroke-white group-hover:opacity-100">
+                            <div class="absolute z-50 font-bold text-yellow-500 transition-opacity opacity-50 -left-5 -bottom-5 text-8xl text-stroke stroke-white group-hover:opacity-100">
                                 {{ $loop->index + 1 }}
                             </div>
                             <div class="w-40 h-40 overflow-hidden rounded-full ">
