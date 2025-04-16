@@ -136,18 +136,18 @@
                 <a href="{{ route('movie.show', $movie) }}">
                     <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0 ">
                         <div class="relative min-w-48 max-w-48">
-                            {{-- <span class="absolute mr-2 font-bold text-yellow-500 bottom-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span> --}}
                             {{-- rating --}}
+                            <span class="absolute z-50 mr-2 font-bold text-yellow-500 top-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
                             
-                            <img class="hover:brightness-90 transition-all duration-300 object-cover h-56 rounded-t-lg w-full" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
-                            <div class="bg-gray-900 py-4 px-4 rounded-b-lg h-30">
+                            <img class="object-cover w-full h-56 transition-all duration-300 rounded-t-lg hover:brightness-90" src="{{ Storage::url($movie->poster_image) }}"  alt="Movie Image">
+                            <div class="px-4 py-4 bg-gray-900 rounded-b-lg h-30">
                                 <div class="">
                                     <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $movie->cg_chartbusters_ratings }} / 10 </span>
-                                    <a href="{{ route('movie.show', $movie) }}#review" class="text-center bg-gray-900 px-3 mx-1 py-2 my-2 rounded text-white font-bold hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
+                                    <a href="{{ route('movie.show', $movie) }}#review" class="px-3 py-2 mx-1 my-2 font-bold text-center text-white bg-gray-900 rounded hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
                                 </div>
-                                <h2 class="text-white text-sm py-6 font-normal normal-case w-38  text-nowrap text-ellipsis overflow-hidden"> {{ $loop->index + 1 }}. {{ ucwords(strtolower($movie->title)) }}</h2>
+                                <h2 class="py-6 overflow-hidden text-sm font-normal text-white normal-case w-38 text-nowrap text-ellipsis"> {{ $loop->index + 1 }}. {{ ucwords(strtolower($movie->title)) }}</h2>
 
-                                <a href="{{ route('movie.show', $movie) }}" class="text-center bg-gray-700 px-2 py-2 my-2 rounded-full w-full block text-white font-bold hover:bg-gray-600 active:bg-gray-500 ">Details</a>
+                                <a href="{{ route('movie.show', $movie) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500 ">Details</a>
                             </div>
                         </div>
                     </div>
@@ -163,14 +163,16 @@
                     <a href="{{ route('song.show', $song) }}">
                         <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0">
                             <div class="relative min-w-48 max-w-48">
-                                <img class="hover:brightness-90 transition-all duration-300 object-cover h-56 rounded-t-lg w-full" src="{{ Storage::url($song->poster_image) }}" alt="Song Image">
-                                <div class="bg-gray-900 py-4 px-4 rounded-b-lg h-30">
+                            <span class="absolute z-50 mr-2 font-bold text-yellow-500 top-2 -left-5 text-shadow-md text-8xl text-stroke stroke-white">{{ $loop->index + 1 }}</span>
+
+                                <img class="object-cover w-full h-56 transition-all duration-300 rounded-t-lg hover:brightness-90" src="{{ Storage::url($song->poster_image) }}" alt="Song Image">
+                                <div class="px-4 py-4 bg-gray-900 rounded-b-lg h-30">
                                     <div class="">
                                         <span class="text-white"> <i class="text-yellow-500 fa-solid fa-star"></i> {{ $song->cg_chartbusters_ratings ?? 'N/A' }} / 10 </span>
-                                        <a href="{{ route('song.show', $song) }}#review" class="text-center bg-gray-900 px-3 mx-1 py-2 my-2 rounded text-white font-bold hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
+                                        <a href="{{ route('song.show', $song) }}#review" class="px-3 py-2 mx-1 my-2 font-bold text-center text-white bg-gray-900 rounded hover:bg-gray-600 active:bg-gray-500 "><i class="fa-regular fa-star"></i></a>
                                     </div>
-                                    <h2 class="text-white text-sm py-6 font-normal normal-case w-38 text-nowrap text-ellipsis overflow-hidden">{{ $loop->index + 1 }}. {{ ucwords(strtolower($song->title)) }}</h2>
-                                    <a href="{{ route('song.show', $song) }}" class="text-center bg-gray-700 px-2 py-2 my-2 rounded-full w-full block text-white font-bold hover:bg-gray-600 active:bg-gray-500">Details</a>
+                                    <h2 class="py-6 overflow-hidden text-sm font-normal text-white normal-case w-38 text-nowrap text-ellipsis">{{ $loop->index + 1 }}. {{ ucwords(strtolower($song->title)) }}</h2>
+                                    <a href="{{ route('song.show', $song) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -184,14 +186,14 @@
                 @foreach ($artists as $artist)
                     <a href="{{ route('artist.show', $artist) }}" class="flex flex-col items-center">
                         <div class="relative flex-shrink-0 transition-all group">
-                            {{-- <div class="absolute -left-5 -bottom-5 text-8xl font-bold text-yellow-500 text-stroke stroke-white opacity-50 group-hover:opacity-100 transition-opacity">
+                            <div class="absolute font-bold text-yellow-500 transition-opacity opacity-50 -left-5 -bottom-5 text-8xl text-stroke stroke-white group-hover:opacity-100">
                                 {{ $loop->index + 1 }}
-                            </div> --}}
+                            </div>
                             <div class="w-40 h-40 overflow-hidden rounded-full ">
                                 <img class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110" src="{{ Storage::url($artist->photo) }}" alt="Artist Image">
                             </div>
                         </div>
-                        <h3 class="mt-4 text-lg  text-white text-center">{{ ucwords(strtolower($artist->name)) }}</h3>
+                        <h3 class="mt-4 text-lg text-center text-white">{{ ucwords(strtolower($artist->name)) }}</h3>
                     </a>
                 @endforeach
             </div>
