@@ -47,21 +47,21 @@
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold">Follow Us</h2>
                         <div class="flex space-x-4">
-                            <a href="https://www.facebook.com/cgchartbusters/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                            <a href="https://www.facebook.com/share/12KUPCYD8ud/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-facebook fa-xl"></i>
                             </a>
-                            <a href="https://www.youtube.com/channel/UC7Q8nQvXWwf9s8UO_2hXGZg" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                            <a href="https://www.youtube.com/@CGchartbusters" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-youtube fa-xl"></i>
                             </a>
-                            <a href="https://twitter.com/cgchartbusters" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                            {{-- <a href="https://twitter.com/cgchartbusters" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-twitter fa-xl"></i>
-                            </a>
-                            <a href="https://www.instagram.com/cgchartbusters/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                            </a> --}}
+                            <a href="https://www.instagram.com/cgchartbusters?igsh=amF5cHJjaDdmcmJ1" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-instagram fa-xl"></i>
                             </a>
-                            <a href="https://www.linkedin.com/company/cgchartbusters/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                            {{-- <a href="https://www.linkedin.com/company/cgchartbusters/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-linkedin fa-xl"></i>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>
