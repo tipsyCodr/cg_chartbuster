@@ -114,4 +114,20 @@ class WebController extends Controller
         return view('pages.artists.view', compact('artists'));   
     }
 
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (!$query || strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        return response()->json([
+            'movies' => Movie::where('title', 'like', "%$query%")->limit(5)->get(),
+            'tvshows' => TvShow::where('title', 'like', "%$query%")->limit(5)->get(),
+            'songs' => Song::where('title', 'like', "%$query%")->limit(5)->get(),
+            'artists' => Artist::where('name', 'like', "%$query%")->limit(5)->get(),
+        ]);
+    }
+
 }

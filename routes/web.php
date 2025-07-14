@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [WebController::class, 'index']);
 Route::get('/home', [WebController::class, 'index'])->name('home');
 
+Route::get('/live-search', [WebController::class, 'liveSearch'])->name('live.search');
+
 //Region
 Route::get('/regions', [RegionController::class, 'index'])->name('regions');
 Route::get('/region/add/{name}', [RegionController::class, 'add'])->name('region.add');

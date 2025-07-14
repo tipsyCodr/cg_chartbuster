@@ -1,4 +1,4 @@
-<x-app-layout  >
+<x-app-layout >
 <style>
     /* Optional: You can add these custom styles in case you want to refine appearance, 
    but Tailwind's responsive utilities will handle most of this. */
