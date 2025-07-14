@@ -203,7 +203,7 @@
 
 
                                 
-                                <div>
+                                {{-- <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
                                     <input type="text" name="director" id="director"
@@ -214,7 +214,7 @@
                                             </div>
                                         @endforeach
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div x-data="{ 
                                     regions: [], 
                                     selectedRegion: '', 
@@ -275,84 +275,62 @@
                                         <option value="S">S</option>
                                         <option value="NA">NA</option>
                                     </select>
-                                </div>
+                      
 
-                            <div>
+                   
                                 <label for="cg_chartbusters_ratings" class="block my-1 text-sm font-medium text-gray-700">CG Chartbusters Ratings</label>
                                 <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" required></x-star-rating>
 
-                            </div>
-
-                            <div>
+                         
+                            {{-- <div>
                                 <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
                                 <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
-                            </div>
+                            </div> --}}
 
-                                <div>
-                                    <label for="cinematographer"
+                                    {{-- <label for="cinematographer"
                                         class="block my-1 text-sm font-medium text-gray-700">Cinematographer</label>
                                     <input type="text" name="cinematographer" id="cinematographer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                             
                                     <label for="dop" class="block my-1 text-sm font-medium text-gray-700">DOP</label>
                                     <input type="text" name="dop" id="dop"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                                
                                     <label for="screen_play" class="block my-1 text-sm font-medium text-gray-700">Screen
                                         Play</label>
                                     <input type="text" name="screen_play" id="screen_play"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                             
                                     <label for="writer_story_concept"
                                         class="block my-1 text-sm font-medium text-gray-700">Writer Story Concept</label>
                                     <textarea name="writer_story_concept" id="writer_story_concept" rows="3"
                                         class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                                </div>
 
-                                <div>
                                     <label for="male_lead" class="block my-1 text-sm font-medium text-gray-700">Male
                                         Lead</label>
                                     <input type="text" name="male_lead" id="male_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                              
                                     <label for="female_lead" class="block my-1 text-sm font-medium text-gray-700">Female
                                         Lead</label>
                                     <input type="text" name="female_lead" id="female_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                           
                                     <label for="support_artists"
                                         class="block my-1 text-sm font-medium text-gray-700">Support Artists</label>
                                     <input type="text" name="support_artists" id="support_artists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-
-
-                                <div>
+                       
                                     <label for="producer"
                                         class="block my-1 text-sm font-medium text-gray-700">Producer</label>
                                     <input type="text" name="producer" id="producer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                               
                                     <label for="songs"
                                         class="block my-1 text-sm font-medium text-gray-700">Songs</label>
                                     <input type="text" name="songs" id="songs"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                           
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
                                     <select name="singer_male" id="singer_male" class="w-full p-2 my-2 border border-gray-300 rounded">
@@ -361,9 +339,7 @@
                                             <option value="{{ $singer->id }}">{{ $singer->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-
-                                <div>
+                            
                                     <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Female</label>
                                         <select name="singer_female" id="singer_female" class="w-full p-2 my-2 border border-gray-300 rounded">
@@ -372,50 +348,37 @@
                                                 <option value="{{ $singer->id }}">{{ $singer->name }}</option>
                                             @endforeach
                                         </select>
-                                </div>
-
-                                <div>
+                                
                                     <label for="lyrics"
                                         class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
                                     <textarea name="lyrics" id="lyrics" rows="3"
                                         class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                                </div>
-
-                                <div>
+                             
                                     <label for="composition"
                                         class="block my-1 text-sm font-medium text-gray-700">Composition</label>
                                     <input type="text" name="composition" id="composition"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                               
                                     <label for="mix_master" class="block my-1 text-sm font-medium text-gray-700">Mix
                                         Master</label>
                                     <input type="text" name="mix_master" id="mix_master"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                              
                                     <label for="music"
                                         class="block my-1 text-sm font-medium text-gray-700">Music</label>
                                     <input type="text" name="music" id="music"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                               
                                     <label for="recordists"
                                         class="block my-1 text-sm font-medium text-gray-700">Recordists</label>
                                     <input type="text" name="recordists" id="recordists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
+                              
                                     <label for="audio_studio" class="block my-1 text-sm font-medium text-gray-700">Audio
                                         Studio</label>
                                     <input type="text" name="audio_studio" id="audio_studio"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-                                <div>
+                                
                                     <label for="editor"
                                         class="block my-1 text-sm font-medium text-gray-700">Editor</label>
                                     <input type="text" name="editor" id="editor"
@@ -425,15 +388,15 @@
                                             class="block my-1 text-sm font-medium text-gray-700">Video Studio</label>
                                         <input type="text" name="video_studio" id="video_studio"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
 
-                                    <div>
+                                    {{-- <div>
                                         <label for="poster_logo"
                                             class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
                                         <input type="text" name="poster_logo" id="poster_logo"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-                                    <div>
+                                    </div> --}}
+                                    {{-- <div>
                                         <label for="production_banner"
                                             class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
                                         <input type="text" name="production_banner" id="production_banner"
@@ -474,7 +437,7 @@
                                             Description</label>
                                         <textarea name="content_description" id="content_description" rows="3"
                                             class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                                    </div>
+                                    </div> --}}
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>

@@ -48,7 +48,8 @@ class WebController extends Controller
     }
 
     public function movie($id){
-        $movie = Movie::findOrFail($id);
+        // $movie = Movie::findOrFail($id);
+        $movie = Movie::with('artists')->find($id);
         $reviews = Movie::find($id)->reviews()->orderBy('created_at','asc')->paginate(15);
         return view('pages.movies.view', compact(['movie','reviews']));
     }
