@@ -67,11 +67,11 @@
                 <div class="flex flex-wrap -mx-4">
                     <div class="w-full px-4 md:w-1/2">
                         <h2 class="mb-5 text-2xl font-semibold leading-tight text-gray-100">{{ $tvshow->title }}</h2>
-                        <p class="mb-5 text-gray-200">{{ $tvshow->description }}</p>
+                        {{-- <p class="mb-5 text-gray-200">{{ $tvshow->description }}</p>
                         <p class="mb-5 text-gray-200">Rating: {{ $tvshow->rating }}</p>
                         <p class="mb-5 text-gray-200">Release Date: {{ $tvshow->release_date }}</p>
-                        <p class="mb-5 text-gray-200">Genre: {{ $tvshow->genre }}</p>
-                        <p class="mb-5 text-gray-200">Duration: {{ $tvshow->duration }} minutes</p>
+                        <p class="mb-5 text-gray-200">Genre: {{ $tvshow->genre }}</p> --}}
+                        {{-- <p class="mb-5 text-gray-200">Duration: {{ $tvshow->duration }} minutes</p> --}}
                         <p class="mb-5 text-gray-200">Director: {{ $tvshow->director }}</p>
                         <p class="mb-5 text-gray-200">Writer: {{ $tvshow->writer }}</p>
                         <p class="mb-5 text-gray-200">Producer: {{ $tvshow->producer }}</p>
@@ -102,11 +102,26 @@
 
                     <div class="w-full px-4">
                         <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Cast</h3>
-                        <ul class="mb-5 text-gray-600">
-                            {{-- @foreach($tvshow->cast as $cast)
-                                <li>{{ $cast->name }} as {{ $cast->character }}</li>
-                            @endforeach --}}
-                        </ul>
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-5 text-gray-200">
+                            {{-- Uncomment this when cast data is available --}}
+                            @foreach ($tvshow->artists as $artist)
+                                <a href="{{ route('artist.show',$artist->id) }}" class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
+                                    <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
+                                        class="w-16 h-16 rounded-full object-cover border" />
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-100">{{ $artist->name }}</h4>
+
+                                        @php
+                                            $roleId = $artist->pivot->artist_category_id;
+                                            $roleName = \App\Models\ArtistCategory::find($roleId)?->name ?? 'Unknown';
+                                        @endphp
+
+                                        <p class="text-sm text-gray-500">{{ $roleName }}</p>
+                                    </div>
+                                </a>
+                            @endforeach
+
+                        </div>
 
                         <div class="review" id="review">
                             <h3 class="mb-5 text-xl font-semibold leading-tight text-gray-100"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Reviews</h3>

@@ -136,65 +136,8 @@
     </div>
 
     <div class="overflow-hidden bg-white rounded-lg shadow-md">
-        <table class="min-w-full leading-normal">
-            <thead>
-                <tr>
-                    <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Photo
-                    </th>
-                    <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Name
-                    </th>
-                    <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Born On
-                    </th>
-                    <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Country
-                    </th>
-                    <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($artists as $artist)
-                    <tr>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <img class="block object-cover w-full mt-1 rounded-md" src="{{ asset('storage/'.$artist->photo) }}" style="width: 100px; max-height: 300px;" alt="">
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $artist->name }}
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $artist->birth_date }}
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $artist->city }}
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <div class="flex space-x-2">
-                                <a href="{{ route('admin.artists.edit', $artist) }}" 
-                                   class="text-blue-600 hover:text-blue-900">Edit</a>
-                                <form action="{{ route('admin.artists.destroy', $artist) }}" method="POST" 
-                                      onsubmit="return confirm('Are you sure you want to delete this artist?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="px-5 py-5 text-center text-gray-500">
-                            No artists found.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+            <livewire:dynamic-search model="Artist"  :columns="['photo','name','birth_date','city']" /> 
 
-        {{ $artists->links() }}
     </div>
 </div>
 @endsection

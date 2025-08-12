@@ -236,7 +236,7 @@
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
                                             })
-                                            .catch(error => console.error('Error adding region:', error));
+                                            .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
                                         this.selectedRegion = ''; // Reset the selected region
@@ -245,7 +245,7 @@
                                 }" 
                                 x-init="fetchRegions()"
                             >
-                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
                                 <select name="region" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"
@@ -499,67 +499,9 @@
             <div class="fixed inset-0 bg-black opacity-25 -z-10 backdrop-blur-lg" @click="showMovieModal = false"></div>
         </div>
 
+        
         <div class="overflow-hidden bg-white rounded-lg shadow-md">
-            <table class="min-w-full leading-normal">
-                <thead>
-                    <tr>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Poster
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Title
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Release Year
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($movies as $movie)
-                        <tr>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                <img src="{{ Storage::url($movie->poster_image) }}" alt="{{ $movie->title }}"
-                                    class="object-cover w-16 h-24 rounded">
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                {{ $movie->title }}
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                {{ $movie->release_date }}
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                <div class="flex space-x-2">
-                                    <a href="{{ route('admin.movies.edit', $movie) }}"
-                                        class="text-blue-600 hover:text-blue-900">Edit</a>
-                                    <form action="{{ route('admin.movies.destroy', $movie) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this movie?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="px-5 py-5 text-center text-gray-500">
-                                No movies found.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div class="flex justify-center p-2 space-x-4">
-                {{ $movies->links() }}
-            </div>
+            <livewire:dynamic-search model="Movie"  :columns="['poster_image','title','release_date']" /> 
         </div>
     </div>
 @endsection

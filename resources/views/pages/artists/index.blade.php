@@ -23,13 +23,14 @@
                             {{ $artist->name }}
                         </a>
                         <span class="text-sm text-gray-500">
-                            {{ date('Y', strtotime($artist->debut_date)) }}
-                            {{ $artist->duration }} mins
+                            {{-- {{ date('Y', strtotime($artist->debut_date)) }} --}}
+                            <p class="text-gray-400 text-xs">Born on:{{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }}</p>
                         </span>
-                        <small class="text-xs text-gray-500">
+                        <small>{{$artist->city}}</small>
+                        {{-- <small class="text-xs text-gray-500">
                             <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
-                            4.3
-                        </small>
+                            {{ $artist->cg_chartbusters_rating }}
+                        </small> --}}
                     </div>
                 </li>
             @endforeach

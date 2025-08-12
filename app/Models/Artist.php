@@ -21,12 +21,12 @@ class Artist extends Model
     ];
     public function scopeSingerMale($query)
     {
-        return $query->where('category', '11')->select('id', 'name');
+        return $query->where('category', '10')->select('id', 'name');
     }
 
     public function scopeSingerFemale($query)
     {
-        return $query->where('category', '10')->select('id', 'name');
+        return $query->where('category', '11')->select('id', 'name');
     }
     public function movies()
     {

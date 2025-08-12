@@ -11,10 +11,6 @@ import 'swiper/css/pagination';
 // Register Swiper modules
 Swiper.use([Navigation, Pagination, Thumbs, Autoplay]);
 
-window.Alpine = Alpine;
-
-Alpine.start();
-
 document.addEventListener('DOMContentLoaded', () => {
     // First initialize the thumbnail slider
     const thumbnailSlider = new Swiper('.thumbnail-slider', {
@@ -71,14 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Better synchronization approach
-    mainSlider.on('slideChangeTransitionEnd', function() {
+    mainSlider.on('slideChangeTransitionEnd', function () {
         if (thumbnailSlider && !thumbnailSlider.destroyed) {
             let realIndex = this.realIndex;
             thumbnailSlider.slideToLoop(realIndex, 300, true);
         }
     });
 
-    thumbnailSlider.on('click', function() {
+    thumbnailSlider.on('click', function () {
         if (mainSlider && !mainSlider.destroyed) {
             let clickedIndex = thumbnailSlider.clickedIndex;
             if (clickedIndex !== undefined) {
@@ -89,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Optional: restart autoplay after user interaction
-    thumbnailSlider.on('click', function() {
+    thumbnailSlider.on('click', function () {
         mainSlider.autoplay.start();
     });
 
-   
+
 });

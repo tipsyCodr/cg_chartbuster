@@ -8,6 +8,7 @@
 
     <title>Admin Dashboard | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased " x-data="{ 
@@ -32,7 +33,8 @@
 
         <!-- Sidebar -->
         <aside
-            x-show="isSidebarOpen || $screen('md')"
+            {{-- x-show="isSidebarOpen || $screen('md')" --}}
+            x-show="isSidebarOpen"
             x-transition:enter="transition ease-out duration-300 transform"
             x-transition:enter-start="-translate-x-full"
             x-transition:enter-end="translate-x-0"
@@ -206,6 +208,7 @@
             @yield('content')
         </main>
     </div>
+    @livewireScripts
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -226,6 +229,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

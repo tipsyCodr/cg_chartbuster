@@ -214,7 +214,7 @@
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
                                             })
-                                            .catch(error => console.error('Error adding region:', error));
+                                            .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
                                         this.selectedRegion = ''; // Reset the selected region
@@ -223,7 +223,7 @@
                                 }" 
                                 x-init="fetchRegions()"
                             >
-                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
                                 <select name="region" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"
@@ -444,13 +444,13 @@
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         <label for="content_description"
                                             class="block my-1 text-sm font-medium text-gray-700">Content
                                             Description</label>
                                         <textarea name="content_description" id="content_description" rows="3"
                                             class="w-full p-2 my-2 border border-gray-300 rounded"> {{ $tvshows->content_description }}</textarea>
-                                    </div>
+                                    </div> --}}
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>

@@ -41,10 +41,18 @@
     <div class="px-5">
         <div class="flex flex-col overflow-hidden bg-gray-600 shadow-2xl rounded-xl shadow-gray-600 md:flex-row">
             <div class="flex-grow-1 hero">
-                @if($movie->trailer_url != "" && $movie->trailer_url != " ")
+                {{-- @if($movie->trailer_url != "" && $movie->trailer_url != " ")
                     {!! $movie->trailer_url !!}
                 @elseif($movie->poster_image_landscape != "" && $movie->poster_image_landscape != " ")
                     <img class="w-full h-auto" src="{{ asset("storage/{$movie->poster_image_landscape}") }}" alt="">
+                @endif --}}
+
+                @if($movie->trailer_url != "" && $movie->trailer_url != " " && str_contains($movie->trailer_url,'http'))
+                    {!! $movie->trailer_url !!}
+                @elseif($movie->poster_image_landscape != "" && $movie->poster_image_landscape != " ")
+                    <img class="w-full h-auto" src="{{ asset("storage/{$movie->poster_image_landscape}") }}" alt="">
+                @elseif($movie->poster_image != "" && $movie->poster_image != " ")
+                    <img class="w-full h-full object-cover" src="{{ asset('storage/'.$movie->poster_image) }}" alt="">
                 @endif
             </div>
             <div class="p-4 w-28 flex-shrink-1 content">
@@ -85,50 +93,50 @@
                     <div class="w-full px-4 md:w-1/2">
                         <h2 class="mb-5 text-xl font-semibold leading-tight"><span
                                 class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> About:</h2>
-                        <h2 class="mb-5 text-2xl font-semibold leading-tight text-gray-100">{{ $movie->title }}</h2>
-                        <p class="mb-5 text-gray-200"><strong>Region:</strong> {{ ucwords($movie->region) }}</p>
+                                <h2 class="mb-5 text-2xl font-semibold leading-tight text-gray-100">{{ $movie->title }}</h2>
+                                {{-- <p class="mb-5 text-gray-200">{{ $movie->description }}</p> --}}
+                        <p class="mb-5 text-gray-200"><strong>Language:</strong> {{ ucwords($movie->region) }}</p>
                         <p class="mb-5 text-gray-200"><strong>CBFC:</strong> {{ $movie->cbfc }}</p>
-                        <p class="mb-5 text-gray-200"><strong>Description:</strong> <br> <br> {{ $movie->description }}</p>
 
                         <div class="">
                             
-                                                    {{-- <p class="mb-5 text-gray-200"><strong>Cinematographer:</strong> {{ $movie->cinematographer
-                                                        }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>DOP:</strong> {{ $movie->dop }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Screen Play:</strong> {{ $movie->screen_play }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Writer Story Concept:</strong> {{
-                                                        $movie->writer_story_concept }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Male Lead:</strong> {{ $movie->male_lead }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Female Lead:</strong> {{ $movie->female_lead }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Support Artists:</strong> {{ $movie->support_artists }}
-                                                    </p>
-                                                    <p class="mb-5 text-gray-200"><strong>Producer:</strong> {{ $movie->producer }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Songs:</strong> {{ $movie->songs }}</p> --}}
-                                                    {{-- @if($movie->singer_male && $singer_male = $artist->find($movie->singer_male))
-                                                    <p class="mb-5 text-gray-200"><strong>Singer Male:</strong>
-                                                        <a class="text-yellow-300" href="{{ route('artist.show', $singer_male->id) }}">{{
-                                                            $singer_male->name }}</a>
-                                                    </p>
-                                                    @endif
-                                                    @if($movie->singer_female && $singer_female = $artist->find($movie->singer_female))
-                                                    <p class="mb-5 text-gray-200"><strong>Singer Female:</strong>
-                                                        <a class="text-yellow-300" href="{{ route('artist.show', $singer_female->id) }}">{{
-                                                            $singer_female->name }}</a>
-                                                    </p>
-                                                    @endif --}}
-                                                    {{-- <p class="mb-5 text-gray-200"><strong>Lyrics:</strong> {{ $movie->lyrics }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Composition:</strong> {{ $movie->composition }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Mix Master:</strong> {{ $movie->mix_master }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Music:</strong> {{ $movie->music }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Recordists:</strong> {{ $movie->recordists }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Audio Studio:</strong> {{ $movie->audio_studio }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Editor:</strong> {{ $movie->editor }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Video Studio:</strong> {{ $movie->video_studio }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Poster Logo:</strong> {{ $movie->poster_logo }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>VFX:</strong> {{ $movie->vfx }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Make Up:</strong> {{ $movie->make_up }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Drone:</strong> {{ $movie->drone }}</p>
-                                                    <p class="mb-5 text-gray-200"><strong>Others:</strong> {{ $movie->others }}</p> --}}
+                        {{-- <p class="mb-5 text-gray-200"><strong>Cinematographer:</strong> {{ $movie->cinematographer
+                            }}</p>
+                        <p class="mb-5 text-gray-200"><strong>DOP:</strong> {{ $movie->dop }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Screen Play:</strong> {{ $movie->screen_play }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Writer Story Concept:</strong> {{
+                            $movie->writer_story_concept }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Male Lead:</strong> {{ $movie->male_lead }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Female Lead:</strong> {{ $movie->female_lead }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Support Artists:</strong> {{ $movie->support_artists }}
+                        </p>
+                        <p class="mb-5 text-gray-200"><strong>Producer:</strong> {{ $movie->producer }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Songs:</strong> {{ $movie->songs }}</p> --}}
+                        {{-- @if($movie->singer_male && $singer_male = $artist->find($movie->singer_male))
+                        <p class="mb-5 text-gray-200"><strong>Singer Male:</strong>
+                            <a class="text-yellow-300" href="{{ route('artist.show', $singer_male->id) }}">{{
+                                $singer_male->name }}</a>
+                        </p>
+                        @endif
+                        @if($movie->singer_female && $singer_female = $artist->find($movie->singer_female))
+                        <p class="mb-5 text-gray-200"><strong>Singer Female:</strong>
+                            <a class="text-yellow-300" href="{{ route('artist.show', $singer_female->id) }}">{{
+                                $singer_female->name }}</a>
+                        </p>
+                        @endif --}}
+                        {{-- <p class="mb-5 text-gray-200"><strong>Lyrics:</strong> {{ $movie->lyrics }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Composition:</strong> {{ $movie->composition }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Mix Master:</strong> {{ $movie->mix_master }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Music:</strong> {{ $movie->music }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Recordists:</strong> {{ $movie->recordists }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Audio Studio:</strong> {{ $movie->audio_studio }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Editor:</strong> {{ $movie->editor }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Video Studio:</strong> {{ $movie->video_studio }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Poster Logo:</strong> {{ $movie->poster_logo }}</p>
+                        <p class="mb-5 text-gray-200"><strong>VFX:</strong> {{ $movie->vfx }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Make Up:</strong> {{ $movie->make_up }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Drone:</strong> {{ $movie->drone }}</p>
+                        <p class="mb-5 text-gray-200"><strong>Others:</strong> {{ $movie->others }}</p> --}}
                         </div>
                     </div>
                     {{-- <div class="w-full px-4 md:w-1/2 ">
@@ -143,7 +151,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-5 text-gray-200">
                             {{-- Uncomment this when cast data is available --}}
                             @foreach ($movie->artists as $artist)
-                                <a href="{{ route('artist.show',$artist->id) }}" class="flex items-center bg-gray-900 rounded gap-6 px-4 py-2 mx-2 mb-4">
+                                <a href="{{ route('artist.show',$artist->id) }}" class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
                                     <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
                                         class="w-16 h-16 rounded-full object-cover border" />
                                     <div>

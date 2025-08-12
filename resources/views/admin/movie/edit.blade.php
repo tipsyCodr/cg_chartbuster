@@ -208,7 +208,7 @@
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
                                             })
-                                            .catch(error => console.error('Error adding region:', error));
+                                            .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
                                         this.selectedRegion = ''; // Reset the selected region
@@ -217,7 +217,7 @@
                                 }" 
                                 x-init="fetchRegions()"
                             >
-                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
                                 <select name="region" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"

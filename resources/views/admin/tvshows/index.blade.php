@@ -242,7 +242,7 @@
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
                                             })
-                                            .catch(error => console.error('Error adding region:', error));
+                                            .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
                                         this.selectedRegion = ''; // Reset the selected region
@@ -251,7 +251,7 @@
                                 }" 
                                 x-init="fetchRegions()"
                             >
-                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Region</label>
+                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
                                 <select name="region" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"
@@ -473,13 +473,13 @@
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         <label for="content_description"
                                             class="block my-1 text-sm font-medium text-gray-700">Content
                                             Description</label>
                                         <textarea name="content_description" id="content_description" rows="3"
                                             class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                                    </div>
+                                    </div> --}}
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
@@ -542,66 +542,8 @@
         </div>
 
         <div class="overflow-hidden bg-white rounded-lg shadow-md">
-            <table class="min-w-full leading-normal">
-                <thead>
-                    <tr>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Poster
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Title
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Release Year
-                        </th>
-                        <th
-                            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($tvShows as $tvShow)
-                        <tr>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                <img src="{{ Storage::url($tvShow->poster_image) }}" alt="{{ $tvShow->title }}"
-                                    class="object-cover w-16 h-24 rounded">
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                {{ $tvShow->title }}
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                {{ $tvShow->release_date }}
-                            </td>
-                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                <div class="flex space-x-2">
-                                    <a href="{{ route('admin.tvshows.edit', $tvShow) }}"
-                                        class="text-blue-600 hover:text-blue-900">Edit</a>
-                                    <form action="{{ route('admin.tvshows.destroy', $tvShow) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this movie?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="px-5 py-5 text-center text-gray-500">
-                                No TV Shows found.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div class="flex justify-center p-2 space-x-4">
-                {{ $tvShows->links() }}
-            </div>
+            <livewire:dynamic-search model="TvShow"  :columns="['poster_image','title','release_date']"/> 
+            
         </div>
     </div>
 @endsection
