@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\TvShowController;
 use App\Http\Controllers\Admin\SongController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RegionController;

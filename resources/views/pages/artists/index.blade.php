@@ -1,40 +1,61 @@
 <x-app-layout>
 
     <section class="mt-9  min-h-[50vh]">
-        <h1 class="text-2xl font-bold">Artists
-            {{-- <span class='inline-block ms-5'>
-                <form action="{{ route('artists.query') }}" method="GET" class="flex items-center justify-start gap-5" onchange="this.submit()">
-                    <select name="genre" id="genre" class="px-4 py-2 bg-gray-800 border-gray-800 rounded text-white">
-                        <option value="" class="text-white" {{ request()->query('genre') == '' ? 'selected' : '' }}>All</option>
-                        @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ request()->query('genre') == $genre->id ? 'selected' : '' }} class="text-white">{{ $genre->name }}</option>
-                        @endforeach
-                    </select>
-                </form>
-            </span> --}}
-
+        <h1 class="text-2xl font-bold flex ">Artists
         </h1>
-        <ul class="mt-4">
+           
+            <form action="{{ route('artists') }}" method="GET" class="mb-6 flex gap-3 flex-wrap justify-center lg:justify-start items-center">
+                <label for="category" class="text-gray-200">Filter by Category:</label>
+                <select name="category" id="category" onchange="this.form.submit()"
+                    class="px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" {{ (isset($categoryId) && $categoryId == $cat->id) ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($artists as $artist)
-                <li class="flex items-center justify-start gap-5 px-2 py-2 transition-all border-b border-gray-800 rounded hover:bg-gray-800">
-                    <img src="{{ asset('storage/'.$artist->photo) }}" class="w-20 rounded-md" alt="">
-                    <div class="flex flex-col">
-                        <a href="{{ route('artist.show', $artist) }}" class="font-bold text-gray-100 hover:text-gray-300">
+                <div
+                    class="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition p-4 flex flex-col justify-center items-center">
+
+                    {{-- Artist Photo --}}
+                    <a href="{{ route('artist.show', $artist) }}">
+
+                        <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
+                            class="w-56 h-56 object-cover rounded-full mb-3">
+                    </a>
+
+                    {{-- Artist Info --}}
+                    <div class="flex flex-col gap-1 w-full">
+                        <a href="{{ route('artist.show', $artist) }}"
+                            class="font-bold text-lg sm:text-xl text-gray-100 hover:text-gray-300 truncate">
                             {{ $artist->name }}
                         </a>
-                        <span class="text-sm text-gray-500">
-                            {{-- {{ date('Y', strtotime($artist->debut_date)) }} --}}
-                            <p class="text-gray-400 text-xs">Born on:{{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }}</p>
-                        </span>
-                        <small>{{$artist->city}}</small>
-                        {{-- <small class="text-xs text-gray-500">
-                            <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
-                            {{ $artist->cg_chartbusters_rating }}
-                        </small> --}}
+
+                        {{-- CG Chartbusters Rating --}}
+                        @if($artist->cgcb_rating)
+                            <div class="flex justify-center items-center gap-1 text-xs text-gray-300">
+                                <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
+                                <span>{{ $artist->cgcb_rating }} / 10 Ratings</span>
+                            </div>
+                        @endif
+
+                        {{-- Birthdate --}}
+                        <p class="text-gray-400 text-xs">
+                            Born on: {{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }}
+                        </p>
+
+                        {{-- City --}}
+                        <p class="text-gray-400 text-xs">{{ $artist->city }}</p>
                     </div>
-                </li>
+                </div>
             @endforeach
-        </ul>
+        </div>
+
     </section>
 
 </x-app-layout>

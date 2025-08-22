@@ -10,13 +10,13 @@ use Illuminate\Http\Request;
 class ArtistController extends Controller
 {
     public function index()
-    {   
+    {
         $category = ArtistCategory::all();
         $artists = Artist::latest()->paginate(10);
         return view('admin.artist.index', compact('artists', 'category'));
     }
     public function list()
-    {   
+    {
         // return Artist::select('id', 'name')->get();
         $data = [
             'artists' => Artist::select('id', 'name')->get(),
@@ -35,11 +35,12 @@ class ArtistController extends Controller
             'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'name' => 'required|max:255',
             'category' => 'nullable',
+            'cgcb_rating' => 'nullable',
             'bio' => 'nullable',
             'birth_date' => 'nullable',
             'city' => 'nullable|max:255',
         ]);
-
+        $validatedData['category'] = json_encode($validatedData['category']);
         if ($request->hasFile('photo')) {
             try {
                 $path = $request->photo->store('artists', 'public');
@@ -59,7 +60,7 @@ class ArtistController extends Controller
     public function edit(Artist $artist)
     {
         $category = ArtistCategory::all();
-        return view('admin.artist.edit', compact('artist','category'));
+        return view('admin.artist.edit', compact('artist', 'category'));
     }
 
     public function update(Request $request, Artist $artist)
@@ -68,11 +69,12 @@ class ArtistController extends Controller
             'name' => 'required|max:255',
             'category' => 'nullable',
             'bio' => 'nullable',
-            'genre' => 'nullable|max:255',
+            'cgcb_rating' => 'nullable',
             'birth_date' => 'nullable',
             'city' => 'nullable|max:255',
         ]);
 
+        // dd($validatedData);
         if ($request->hasFile('photo')) {
             try {
                 $path = $request->photo->store('artists', 'public');

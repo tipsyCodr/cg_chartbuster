@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Movie extends Model
 {
-    
+
     use HasFactory;
     protected $fillable = [
         'title',
@@ -68,16 +68,20 @@ class Movie extends Model
     public function artists()
     {
         return $this->belongsToMany(Artist::class)
-        ->withPivot('artist_category_id','role')
-        ->withTimestamps();
+            ->withPivot('artist_category_id', 'role')
+            ->withTimestamps();
     }
     public function albums()
     {
         return $this->belongsToMany(Album::class, 'movie_album');
     }
-    
+
     public function reviews()
     {
         return $this->hasMany(Review::class, 'movie_id');
+    }
+    public function pivotCategory()
+    {
+        return $this->belongsTo(ArtistCategory::class, 'artist_category_id');
     }
 }

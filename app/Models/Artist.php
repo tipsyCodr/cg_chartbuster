@@ -13,6 +13,7 @@ class Artist extends Model
     protected $fillable = [
         'name',
         'bio',
+        'cgcb_rating',
         'category',
         'birth_date',
         'photo',
@@ -30,7 +31,12 @@ class Artist extends Model
     }
     public function movies()
     {
-        return $this->belongsToMany(Movie::class)->withPivot('role');
+        // return $this->belongsToMany(Movie::class)->withPivot('role');
+        return $this->belongsToMany(Movie::class, 'artist_movie')
+            ->withPivot('artist_category_id', 'role') // include extra pivot columns
+            ->withTimestamps()
+            ->with('pivotCategory'); // eager load pivot category
+
     }
 
     public function songs()
@@ -42,7 +48,7 @@ class Artist extends Model
     {
         return $this->belongsToMany(TvShow::class)->withPivot('role');
     }
-    
+
     public function albums()
     {
         return $this->hasMany(Album::class);

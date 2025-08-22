@@ -42,25 +42,25 @@
                                 @endforeach
                                 @enderror
                             </div>
-                            <div class="">
-                                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                                <select name="category" id="category" required 
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="">Select Category</option>
-                                   
-                                @foreach($category as $name)
-                                    <option value="{{ $name->id }}">{{ $name->name }}</option>
-                                @endforeach
-                                </select>
-                                @error('category')
-                                @foreach ($errors->get('category') as $message)
-                                    <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                @endforeach
-                                @enderror
-                            </div>
+
                             
+                            
+                            
+                            <div x-data="{ selected: {{ $artist->category }} }" >
+                                <label class="block text-sm font-medium text-gray-700 mb-2" >Categories</label>
+                                <div class="space-y-2 bg-gray-300 p-2" style='height:200px;overflow-y: auto;'>
+                                    @foreach($category as $cat)
+                                        <label class="flex items-center space-x-2">
+                                            <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
+                                                name="category[]">
+                                            <span>{{ $cat->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <x-star-rating id="cgcb_rating" class="block mt-1 w-full" :value="$artist->cgcb_rating ?? old('cgcb_rating')"  name="cgcb_rating" required></x-star-rating>
                             <div>
-                                <label for="birth_date" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                                <label for="birth_date" class="block text-sm font-medium text-gray-700">Date of Birth</label>
                                 <input type="date" name="birth_date" id="birth_date"
                                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                        value="{{ $artist->birth_date }}">

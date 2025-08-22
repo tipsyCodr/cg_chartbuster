@@ -36,6 +36,7 @@ class Song extends Model
         'vfx',
         'make_up',
         'drone',
+        'show_on_banner',
         'others',
         'content_description',
         'hyperlinks_links',

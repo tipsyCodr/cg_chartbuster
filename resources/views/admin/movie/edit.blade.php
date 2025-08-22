@@ -103,13 +103,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{ json_encode($movie->artists->map(function($artist) {
-                                    return [
-                                        'artist' => $artist->id,
-                                        'role' => $artist->pivot->artist_category_id  // Update this to use category ID
-                                    ];
-                                }))}},
-
                                 
                                 <div x-data="{ 
                                      artistEntries: {{ json_encode($movie->artists->map(function($artist) {

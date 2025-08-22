@@ -62,6 +62,7 @@ class SongController extends Controller
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
+            'show_on_banner' => 'nullable',
         ]);
 
         // Step 2: Handle file uploads
@@ -162,6 +163,8 @@ class SongController extends Controller
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
+            'show_on_banner' => 'nullable',
+
         ]);
         if ($request->hasFile('poster_image')) {
             try {

@@ -22,7 +22,13 @@
 
                         <div class="">
                             <div class="mb-4 ">
-
+                            <div class="mb-4">
+                                <label for="show_on_banner" class="block my-1 text-sm font-medium text-gray-700">Show on banner</label>
+                                <select name="show_on_banner" id="show_on_banner" class="mt-1 block w-full rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="1" {{ $songs->show_on_banner ? 'selected' : '' }}>Yes</option>
+                                    <option value="0" {{ !$songs->show_on_banner ? 'selected' : '' }}>No</option>
+                                </select>
+                            </div>
 
                                 <div>
                                     <label for="title" class="block my-1 text-sm font-medium text-gray-700">Song
