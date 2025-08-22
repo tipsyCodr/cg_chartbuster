@@ -441,7 +441,7 @@
                             </button>
                             <button type="submit"
                                 class="px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring">
-                                Save Movie
+                                Save 
                             </button>
                         </div>
                     </form>
