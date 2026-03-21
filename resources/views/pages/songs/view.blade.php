@@ -35,10 +35,7 @@
                             </div>
                     <div class="text-gray-300 mb-2"><strong>Released:</strong> {{ date('Y', strtotime($song->release_date)) }}</div>
                     
-                     @php
-                    $genre = \App\Models\Genre::find((int)$song->genre);
-                    @endphp
-                    <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $genre?->name ?? 'N/A' }}</div>
+                    <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $song->genre?->name ?? 'N/A' }}</div>
                     <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $song->region?->name ?? 'N/A' }}</div>
                     <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ substr($song->duration,0,5) }} Hrs</div>
 

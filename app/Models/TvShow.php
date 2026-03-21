@@ -13,7 +13,7 @@ class TvShow extends Model
         'title',
         'description',
         'release_date',
-        'genre',
+        'genre_id',
         'duration',
         'director',
         'poster_image',
@@ -68,6 +68,10 @@ class TvShow extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'tvshow_id');
+    }
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id');
     }
     public function region()
     {

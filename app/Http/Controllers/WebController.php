@@ -50,7 +50,7 @@ class WebController extends Controller
         $query = Movie::query();
 
         if ($genre) {
-            $query->where('genre', $genre);
+            $query->where('genre_id', $genre);
         }
 
         $movies = $query->get();
@@ -62,7 +62,7 @@ class WebController extends Controller
     public function movie($id)
     {
         // $movie = Movie::findOrFail($id);
-        $movie = Movie::with(['artists', 'region'])->find($id);
+        $movie = Movie::with(['artists', 'region', 'genre'])->find($id);
         $reviews = Movie::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
@@ -74,7 +74,7 @@ class WebController extends Controller
         $tvshows = TvShow::query();
 
         if ($genre) {
-            $tvshows->where('genre', $genre);
+            $tvshows->where('genre_id', $genre);
         }
 
         $tvshows = $tvshows->get();
@@ -84,7 +84,7 @@ class WebController extends Controller
 
     public function tvShow($id)
     {
-        $tvshow = TvShow::with('region')->findOrFail($id);
+        $tvshow = TvShow::with(['region', 'genre'])->findOrFail($id);
         $reviews = TvShow::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
@@ -97,7 +97,7 @@ class WebController extends Controller
 
         if ($genre) {
             // dd($genre);
-            $query->where('genre', $genre);
+            $query->where('genre_id', $genre);
         }
 
         $songs = $query->get();  // Use the query builder result instead of Song::all()
@@ -107,7 +107,7 @@ class WebController extends Controller
 
     public function song($id)
     {
-        $song = Song::with('region')->findOrFail($id);
+        $song = Song::with(['region', 'genre'])->findOrFail($id);
         $reviews = Song::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }

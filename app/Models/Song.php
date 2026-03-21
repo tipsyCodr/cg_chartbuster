@@ -12,7 +12,7 @@ class Song extends Model
         'title',
         'description',
         'release_date',
-        'genre',
+        'genre_id',
         'duration',
         'director',
         'album',
@@ -56,6 +56,10 @@ class Song extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id');
     }
     public function region()
     {

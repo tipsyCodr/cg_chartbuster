@@ -14,7 +14,7 @@ class Movie extends Model
         'title',
         'description',
         'release_date',
-        'genre',
+        'genre_id',
         'duration',
         'director',
         'poster_image',
@@ -86,7 +86,7 @@ class Movie extends Model
     }
     public function genre()
     {
-        return $this->belongsTo(Genre::class, 'genre');
+        return $this->belongsTo(Genre::class, 'genre_id');
     }
     public function region()
     {
