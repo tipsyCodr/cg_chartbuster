@@ -4,8 +4,8 @@
     <h1 class="text-xl font-bold mb-4">Welcome, {{ auth()->user()->name }}!</h1>
     
     <x-movies :movies="$movies" :artists="$artists" />
-    <x-albums />
-    <x-artists />
+    <x-albums :movies="$movies" :artists="$artists" />
+    <x-artists :movies="$movies" :artists="$artists" />
 
 
 </x-app-layout>
