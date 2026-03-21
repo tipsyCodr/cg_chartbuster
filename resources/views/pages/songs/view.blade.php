@@ -25,13 +25,23 @@
             <div class="lg:col-span-1 p-6 flex flex-col justify-between">
                 <div>
                     <h1 class="text-3xl font-bold text-white mb-4">{{ $song->title }}</h1>
-                    <div class="flex items-center gap-2 mb-3">
+                    {{-- <div class="flex items-center gap-2 mb-3">
                         <i class="fa fa-star text-yellow-400"></i>
-                        <span class="text-gray-300">{{ $song->rating }} / 5</span>
-                    </div>
+                        <span class="text-gray-300">{{ $song->cg_chartbusters_ratings ?? 0 }} / 10</span>
+                    </div> --}}
+                    <div class="flex justify-start items-center gap-1 text-xs mb-4 text-gray-300">
+                                <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
+                                <span>{{ $song->cg_chartbusters_ratings }} / 10 Ratings</span>
+                            </div>
                     <div class="text-gray-300 mb-2"><strong>Released:</strong> {{ date('Y', strtotime($song->release_date)) }}</div>
-                    <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $song->genre }}</div>
-                    <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ substr($song->duration,0,5) }} mins</div>
+                    
+                     @php
+                    $genre = \App\Models\Genre::find((int)$song->genre);
+                    @endphp
+                    <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $genre?->name ?? 'N/A' }}</div>
+
+                    {{-- <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $song->genre }}</div> --}}
+                    <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ substr($song->duration,0,5) }} Hrs</div>
 
                     <!-- Plot -->
                     <div>
@@ -133,3 +143,4 @@
         </div>
     </div>
 </x-app-layout>
+

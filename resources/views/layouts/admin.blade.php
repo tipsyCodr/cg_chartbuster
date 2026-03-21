@@ -99,6 +99,33 @@
                         </a>
                     </li>
                     <li>
+                        <div x-data="{ open: {{ (request()->routeIs('admin.regions.*') || request()->routeIs('admin.genres.*')) ? 'true' : 'false' }} }">
+                            <button @click="open = !open" 
+                                class="flex items-center justify-between w-full py-2 px-4 hover:bg-gray-100 hover:text-black text-gray-700 transition-colors">
+                                <span>Settings</span>
+                                <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <ul x-show="open" x-cloak class="pl-4 space-y-1 mt-1">
+                                <li>
+                                    <a href="{{ route('admin.regions.index') }}"
+                                        class="block py-2 px-4 hover:bg-gray-100 hover:text-black rounded
+                                       {{ request()->routeIs('admin.regions.index') ? 'bg-accent-light text-accent font-semibold text-sm' : 'text-gray-600 text-sm' }}">
+                                        Regions
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.genres.index') }}"
+                                        class="block py-2 px-4 hover:bg-gray-100 hover:text-black rounded
+                                       {{ request()->routeIs('admin.genres.index') ? 'bg-accent-light text-accent font-semibold text-sm' : 'text-gray-600 text-sm' }}">
+                                        Genres
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
                             <button type="submit" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-red-50 hover:text-red-600">
@@ -169,6 +196,33 @@
                            {{ request()->routeIs('admin.artists.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Artists
                         </a>
+                    </li>
+                    <li>
+                        <div x-data="{ open: {{ (request()->routeIs('admin.regions.*') || request()->routeIs('admin.genres.*')) ? 'true' : 'false' }} }">
+                            <button @click="open = !open" 
+                                class="flex items-center justify-between w-full py-2 px-4 hover:bg-gray-100 hover:text-black text-gray-700 transition-colors">
+                                <span>Settings</span>
+                                <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <ul x-show="open" x-cloak class="pl-4 space-y-1 mt-1">
+                                <li>
+                                    <a href="{{ route('admin.regions.index') }}"
+                                        class="block py-2 px-4 hover:bg-gray-100 hover:text-black rounded
+                                       {{ request()->routeIs('admin.regions.index') ? 'bg-accent-light text-accent font-semibold text-sm' : 'text-gray-600 text-sm' }}">
+                                        Regions
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.genres.index') }}"
+                                        class="block py-2 px-4 hover:bg-gray-100 hover:text-black rounded
+                                       {{ request()->routeIs('admin.genres.index') ? 'bg-accent-light text-accent font-semibold text-sm' : 'text-gray-600 text-sm' }}">
+                                        Genres
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}" class="w-full">

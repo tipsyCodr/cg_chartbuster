@@ -215,6 +215,7 @@
                                         @endforeach
                                     @enderror
                                 </div> --}}
+                                
                                 <div x-data="{ 
                                     regions: [], 
                                     selectedRegion: '', 
@@ -252,7 +253,7 @@
                                     @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                     <option value="">Select</option>    
                                     <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.name" x-text="region.name.toUpperCase()"></option>
+                                        <option :value="region.name" style='text-transform: capitalize;' x-text="region.name"></option>
                                     </template>
                                     <option value="other">Other</option>    
                                 </select>
@@ -282,16 +283,17 @@
                                 <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" required></x-star-rating>
 
                          
-                            {{-- <div>
-                                <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
-                                <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
-                            </div> --}}
-
-                                    {{-- <label for="cinematographer"
+                            {{--
+                                <div>
+                                    <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
+                                    <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
+                                </div>
+                                <div class="">
+                                    <label for="cinematographer"
                                         class="block my-1 text-sm font-medium text-gray-700">Cinematographer</label>
                                     <input type="text" name="cinematographer" id="cinematographer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                             
+                                
                                     <label for="dop" class="block my-1 text-sm font-medium text-gray-700">DOP</label>
                                     <input type="text" name="dop" id="dop"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
@@ -300,7 +302,7 @@
                                         Play</label>
                                     <input type="text" name="screen_play" id="screen_play"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                             
+                                
                                     <label for="writer_story_concept"
                                         class="block my-1 text-sm font-medium text-gray-700">Writer Story Concept</label>
                                     <textarea name="writer_story_concept" id="writer_story_concept" rows="3"
@@ -310,27 +312,27 @@
                                         Lead</label>
                                     <input type="text" name="male_lead" id="male_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                              
+                                
                                     <label for="female_lead" class="block my-1 text-sm font-medium text-gray-700">Female
                                         Lead</label>
                                     <input type="text" name="female_lead" id="female_lead"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                           
+                            
                                     <label for="support_artists"
                                         class="block my-1 text-sm font-medium text-gray-700">Support Artists</label>
                                     <input type="text" name="support_artists" id="support_artists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                       
+                        
                                     <label for="producer"
                                         class="block my-1 text-sm font-medium text-gray-700">Producer</label>
                                     <input type="text" name="producer" id="producer"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                               
+                                
                                     <label for="songs"
                                         class="block my-1 text-sm font-medium text-gray-700">Songs</label>
                                     <input type="text" name="songs" id="songs"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                           
+                            
                                     <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
                                         Male</label>
                                     <select name="singer_male" id="singer_male" class="w-full p-2 my-2 border border-gray-300 rounded">
@@ -353,27 +355,27 @@
                                         class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
                                     <textarea name="lyrics" id="lyrics" rows="3"
                                         class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                             
+                                
                                     <label for="composition"
                                         class="block my-1 text-sm font-medium text-gray-700">Composition</label>
                                     <input type="text" name="composition" id="composition"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                               
+                                
                                     <label for="mix_master" class="block my-1 text-sm font-medium text-gray-700">Mix
                                         Master</label>
                                     <input type="text" name="mix_master" id="mix_master"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                              
+                                
                                     <label for="music"
                                         class="block my-1 text-sm font-medium text-gray-700">Music</label>
                                     <input type="text" name="music" id="music"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                               
+                                
                                     <label for="recordists"
                                         class="block my-1 text-sm font-medium text-gray-700">Recordists</label>
                                     <input type="text" name="recordists" id="recordists"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                              
+                                
                                     <label for="audio_studio" class="block my-1 text-sm font-medium text-gray-700">Audio
                                         Studio</label>
                                     <input type="text" name="audio_studio" id="audio_studio"
@@ -437,7 +439,9 @@
                                             Description</label>
                                         <textarea name="content_description" id="content_description" rows="3"
                                             class="w-full p-2 my-2 border border-gray-300 rounded"></textarea>
-                                    </div> --}}
+                                    </div> 
+                                </div>
+                            --}}
                                     <div>
                                         <label for="trailer_url"
                                             class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>

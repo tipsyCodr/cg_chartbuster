@@ -112,23 +112,6 @@ class WebController extends Controller
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
 
-
-
-    // public function artists(Request $request)
-
-    // {
-    //     $genre = $request->input('genre');
-    //     $query = Artist::query();
-
-    //     if ($genre) {
-    //         $query->where('genre', $genre);
-    //     }
-
-    //     $artists = $query->get();  // Use the query builder result instead of Artist::all()
-    //     $genres = Genre::all()->where('for', 'Artists');
-    //     return view('pages.artists.index', compact('artists', 'genres'));
-    // }
-
     public function artists(Request $request)
     {
         $categoryId = $request->input('category');

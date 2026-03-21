@@ -258,7 +258,7 @@
                                     @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                     <option value="">Select</option>    
                                     <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.name" x-text="region.name.toUpperCase()"></option>
+                                        <option :value="region.name"  style='text-transform: capitalize;' x-text="region.name"></option>
                                     </template>
                                     <option value="other">Other</option>    
                                 </select>
@@ -532,7 +532,7 @@
                             </button>
                             <button type="submit"
                                 class="px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring">
-                                Save Movie
+                                Save
                             </button>
                         </div>
                     </form>

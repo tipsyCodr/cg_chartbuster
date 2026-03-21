@@ -251,7 +251,7 @@
                                 @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                 <option value="">Select</option>    
                                 <template x-for="region in regions" :key="region.id">
-                                    <option :value="region.name" x-text="region.name.toUpperCase()"></option>
+                                    <option :value="region.name"  style='text-transform: capitalize;' x-text="region.name"></option>
                                 </template>
                                 <option value="other">Other</option>    
                             </select>

@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 
 class RegionController extends Controller
 {
-    //
-    public function index(){
+    //for API
+    public function index()
+    {
         $regions = Region::all();
         return $regions;
     }
-    public function add(Request $request){
+    public function add(Request $request)
+    {
         $region = Region::where('name', $request->name)->first();
         if ($region) {
             return [

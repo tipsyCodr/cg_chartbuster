@@ -84,4 +84,8 @@ class Movie extends Model
     {
         return $this->belongsTo(ArtistCategory::class, 'artist_category_id');
     }
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre');
+    }
 }

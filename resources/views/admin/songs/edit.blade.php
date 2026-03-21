@@ -236,10 +236,10 @@
                                     @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                     <option value="">Select</option>    
                                     <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.name" x-text="region.name.toUpperCase()" :selected="region.name === selectedRegion"></option>
+                                        <option :value="region.name"  style='text-transform: capitalize;' x-text="region.name" :selected="region.name === selectedRegion"></option>
                                     </template>
                                     <option value="other" :selected="selectedRegion === 'other'">Other</option>    
-                                </select>
+                                </select>   
                                 <div class="hidden" id="regionInput" x-ref="regionInput">
                                     <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded" value="{{ old('region_other', $songs->region_other) }}">
                                     <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>
