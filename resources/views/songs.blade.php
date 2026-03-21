@@ -7,7 +7,7 @@
                 <li class="flex items-center justify-start gap-5 px-2 py-2 transition-all border-b border-gray-800 rounded hover:bg-gray-800">
                     <img src="{{ asset('storage/'.$song->photo) }}" class="w-20 rounded-md" alt="">
                     <div class="flex flex-col">
-                        <a href="{{ route('song.show', $song) }}" class="font-bold text-gray-100 hover:text-gray-300">
+                        <a href="{{ route('song.show', $song->slug) }}" class="font-bold text-gray-100 hover:text-gray-300">
                             {{ $song->name }}
                         </a>
                         <span class="text-sm text-gray-500">

@@ -155,7 +155,7 @@
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
             <div class="flex flex-row gap-2 px-4 py-4 overflow-x-auto scrollbar-hide">
                 @foreach ($movies as $movie)
-                    <a href="{{ route('movie.show', $movie) }}">
+                    <a href="{{ route('movie.show', $movie->slug) }}">
                         <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0 ">
                             <div class="relative min-w-48 max-w-48">
                                 {{-- rating --}}
@@ -173,7 +173,7 @@
                                                 class="w-4 h-4">
                                             <span>{{ $movie->cg_chartbusters_ratings }} / 10 Ratings</span>
                                         </div>
-                                        <a href="{{ route('movie.show', $movie) }}#review"
+                                        <a href="{{ route('movie.show', $movie->slug) }}#review"
                                             class="px-3 py-2 mx-1 my-2 font-bold text-center text-white bg-gray-900 rounded hover:bg-gray-600 active:bg-gray-500 "><i
                                                 class="fa-regular fa-star"></i></a>
                                     </div>
@@ -182,7 +182,7 @@
                                         {{ $loop->index + 1 }}. {{ ucwords(strtolower($movie->title)) }}
                                     </h2>
 
-                                    <a href="{{ route('movie.show', $movie) }}"
+                                    <a href="{{ route('movie.show', $movie->slug) }}"
                                         class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500 ">Details</a>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Songs</h1>
             <div class="flex flex-row gap-2 px-4 py-4 overflow-x-auto scrollbar-hide">
                 @foreach ($songs as $song)
-                    <a href="{{ route('song.show', $song) }}">
+                    <a href="{{ route('song.show', $song->slug) }}">
                         <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0">
                             <div class="relative min-w-48 max-w-48">
                                 <span
@@ -214,7 +214,7 @@
                                                 class="w-4 h-4">
                                             <span>{{ $song->cg_chartbusters_ratings }} / 10 Ratings</span>
                                         </div>
-                                        <a href="{{ route('song.show', $song) }}#review"
+                                        <a href="{{ route('song.show', $song->slug) }}#review"
                                             class="px-3 py-2 mx-1 my-2 font-bold text-center text-white bg-gray-900 rounded hover:bg-gray-600 active:bg-gray-500 "><i
                                                 class="fa-regular fa-star"></i></a>
                                     </div>
@@ -222,7 +222,7 @@
                                         class="py-6 overflow-hidden text-sm font-normal text-white normal-case w-38 text-nowrap text-ellipsis">
                                         {{ $loop->index + 1 }}. {{ ucwords(strtolower($song->title)) }}
                                     </h2>
-                                    <a href="{{ route('song.show', $song) }}"
+                                    <a href="{{ route('song.show', $song->slug) }}"
                                         class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500">Details</a>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Artists</h1>
             <div class="flex flex-row gap-5 px-4 py-4 overflow-x-auto scrollbar-hide">
                 @foreach ($artists as $artist)
-                    <a href="{{ route('artist.show', $artist) }}" class="flex flex-col items-center">
+                    <a href="{{ route('artist.show', $artist->slug) }}" class="flex flex-col items-center">
                         <div class="relative flex-shrink-0 transition-all group">
                             <div
                                 class="absolute z-50 font-bold text-yellow-500 transition-opacity opacity-50 -left-5 -bottom-5 text-8xl text-stroke stroke-white group-hover:opacity-100">

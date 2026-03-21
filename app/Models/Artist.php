@@ -20,7 +20,8 @@ class Artist extends Model
         'birth_date',
         'photo',
         'city',
-
+        'hyperlinks_links',
+        'is_release_year_only'
     ];
 
     public function getSlugField(): string

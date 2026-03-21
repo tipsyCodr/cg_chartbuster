@@ -52,10 +52,15 @@ class Movie extends Model
         'others',
         'content_description',
         'hyperlinks_links',
+        'is_release_year_only',
         'poster_image_portrait',
         'poster_image_landscape',
         'show_on_banner'
 
+    ];
+
+    protected $casts = [
+        'release_date' => 'date',
     ];
 
     public function singer_male()

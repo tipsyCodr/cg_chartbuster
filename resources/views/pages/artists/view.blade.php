@@ -74,7 +74,7 @@
                     <div class="mt-4">
                         <h3 class="text-lg font-semibold text-gray-100">Date of Birth</h3>
                         <p class="text-gray-200">
-                            {{ $artists->birth_date ? \Carbon\Carbon::parse($artists->birth_date)->format('F j, Y') : 'N/A' 
+                            {{ $artists->birth_date ? \Carbon\Carbon::parse($artists->birth_date)->format($artists->is_release_year_only ? 'Y' : 'F j, Y') : 'N/A' 
                             }}
                             {{-- {{ optional($artists->birth_date)->format('F j, Y') ?? 'N/A' }} --}}
                             {{-- {{ \Carbon\Carbon::parse($artists->birth_date)->format('F j, Y') }} --}}
@@ -99,7 +99,7 @@
             @else
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-6">
                     @foreach($artists->movies as $movie)
-                        <a href="{{ route('movie.show', $movie) }}">
+                        <a href="{{ route('movie.show', $movie->slug) }}">
                             <div class="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
                                 @if($movie->poster_image)
                                     <img src="{{ asset('storage/' . $movie->poster_image) }}" alt="{{ $movie->title }}"
@@ -114,7 +114,7 @@
                                         {{ $movie->title }}
                                     </h4>
                                     <p class="text-gray-400 text-sm">
-                                        {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}
+                                        {{ $movie->release_date ? \Carbon\Carbon::parse($movie->release_date)->format($movie->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}
                                     </p>
                                     {{-- Show Artist Category --}}
                                     @php

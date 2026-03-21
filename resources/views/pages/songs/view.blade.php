@@ -1,6 +1,6 @@
 <x-app-layout>
     @php
-    $artistModel = new App\Models\Artist();
+        $artistModel = new App\Models\Artist();
     @endphp
 
     <div class="container mx-auto px-4 py-6">
@@ -11,12 +11,14 @@
             <!-- Left: Media -->
             <div class="lg:col-span-2 hero-section p-4">
                 <div class="hero-media h-full w-full">
-                    @if($song->trailer_url && str_contains($song->trailer_url,'http'))
+                    @if($song->trailer_url && str_contains($song->trailer_url, 'http'))
                         {!! $song->trailer_url !!}
                     @elseif($song->poster_image_landscape)
-                        <img src="{{ asset("storage/{$song->poster_image_landscape}") }}" alt="{{ $song->title }}" class="w-full h-full object-cover rounded-lg">
+                        <img src="{{ asset("storage/{$song->poster_image_landscape}") }}" alt="{{ $song->title }}"
+                            class="w-full h-full object-cover rounded-lg">
                     @elseif($song->poster_image)
-                        <img src="{{ asset("storage/{$song->poster_image}") }}" alt="{{ $song->title }}" class="w-full h-full object-cover rounded-lg">
+                        <img src="{{ asset("storage/{$song->poster_image}") }}" alt="{{ $song->title }}"
+                            class="w-full h-full object-cover rounded-lg">
                     @endif
                 </div>
             </div>
@@ -30,15 +32,24 @@
                         <span class="text-gray-300">{{ $song->cg_chartbusters_ratings ?? 0 }} / 10</span>
                     </div> --}}
                     <div class="flex justify-start items-center gap-1 text-xs mb-4 text-gray-300">
-                                <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
-                                <span>{{ $song->cg_chartbusters_ratings }} / 10 Ratings</span>
-                            </div>
-                    <div class="text-gray-300 mb-2"><strong>Released:</strong> {{ date('Y', strtotime($song->release_date)) }}</div>
-                    
-                    <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $song->genres->pluck('name')->implode(', ') ?: 'N/A' }}</div>
+                        <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
+                        <span>{{ $song->cg_chartbusters_ratings }} / 10 Ratings</span>
+                    </div>
+                    <div class="text-gray-300 mb-2"><strong>Released:</strong>
+                        @if($song->release_date)
+                            {{ \Carbon\Carbon::parse($song->release_date)->format($song->is_release_year_only ? 'Y' : 'd M Y') }}
+                        @else
+                            N/A
+                        @endif
+                    </div>
+
+                    <div class="text-gray-300 mb-2"><strong>Genre:</strong>
+                        {{ $song->genres->pluck('name')->implode(', ') ?: 'N/A' }}</div>
                     <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $song->region?->name ?? 'N/A' }}</div>
                     @if(!empty($song->duration) && $song->duration !== '00:00' && $song->duration !== '00:00:00')
-                    <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }} mins</div>
+                        <div class="text-gray-300 mb-4"><strong>Duration:</strong>
+                            {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }}
+                            mins</div>
                     @endif
 
                     <!-- Plot -->
@@ -60,11 +71,13 @@
                 <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
                     <span class="w-1 h-6 bg-yellow-500 mr-3"></span>Cast & Roles
                 </h2>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($song->artists as $artist)
-                        <a href="{{ route('artist.show', $artist) }}" class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
-                            <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}" class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-gray-600">
+                        <a href="{{ route('artist.show', $artist->slug) }}"
+                            class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
+                            <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
+                                class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-gray-600">
                             <div>
                                 <h4 class="text-lg font-semibold text-white">{{ $artist->name }}</h4>
                                 @php
@@ -92,7 +105,10 @@
                         <input type="hidden" name="song_id" value="{{ $song->id }}">
                         <div class="mb-4">
                             <x-input-label for="review_text" :value="__('Review')" class="text-gray-300" />
-                            <x-textarea id="review_text" class="block mt-2 w-full bg-gray-700 border-gray-600 text-white rounded-md" name="review_text" rows="4" placeholder="Write your review..." required>{{ old('review_text') }}</x-textarea>
+                            <x-textarea id="review_text"
+                                class="block mt-2 w-full bg-gray-700 border-gray-600 text-white rounded-md"
+                                name="review_text" rows="4" placeholder="Write your review..."
+                                required>{{ old('review_text') }}</x-textarea>
                             <x-input-error :messages="$errors->get('review_text')" class="mt-2" />
                         </div>
 
@@ -102,7 +118,8 @@
                             <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                         </div>
 
-                        <x-input-submit class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-6 rounded-md transition-colors">
+                        <x-input-submit
+                            class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-6 rounded-md transition-colors">
                             Submit Review
                         </x-input-submit>
                     </form>
@@ -121,7 +138,8 @@
                                         </strong>
                                         <div class="flex items-center mt-1">
                                             @for($i = 1; $i <= 10; $i++)
-                                                <i class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-xs"></i>
+                                                <i
+                                                    class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-xs"></i>
                                             @endfor
                                             <span class="text-gray-400 text-sm ml-2">{{ $review->rating }}/10</span>
                                         </div>
@@ -141,4 +159,3 @@
         </div>
     </div>
 </x-app-layout>
-

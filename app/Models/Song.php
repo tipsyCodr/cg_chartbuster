@@ -43,7 +43,11 @@ class Song extends Model
         'content_description',
         'hyperlinks_links',
         'poster_image_portrait',
-        'poster_image_landscape'
+        'poster_image_landscape',
+        'is_release_year_only'
+    ];
+    protected $casts = [
+        'release_date' => 'date',
     ];
     public function album()
     {
@@ -51,9 +55,9 @@ class Song extends Model
     }
     public function artists()
     {
-        return $this->belongsToMany(Artist::class,'artist_song','song_id')
-        ->withPivot('artist_category_id','role')
-        ->withTimestamps();
+        return $this->belongsToMany(Artist::class, 'artist_song', 'song_id')
+            ->withPivot('artist_category_id', 'role')
+            ->withTimestamps();
     }
     public function reviews()
     {

@@ -24,7 +24,7 @@
                     class="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition p-4 flex flex-col justify-center items-center">
 
                     {{-- Artist Photo --}}
-                    <a href="{{ route('artist.show', $artist) }}">
+                    <a href="{{ route('artist.show', $artist->slug) }}">
 
                         <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
                             class="w-56 h-56 object-cover rounded-full mb-3">
@@ -32,10 +32,11 @@
 
                     {{-- Artist Info --}}
                     <div class="flex flex-col gap-1 w-full">
-                        <a href="{{ route('artist.show', $artist) }}"
+                        <a href="{{ route('artist.show', $artist->slug) }}"
                             class="font-bold text-lg sm:text-xl text-gray-100 hover:text-gray-300 truncate">
                             {{ $artist->name }}
                         </a>
+                        <a href="{{ route('artist.show', $artist->slug) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500">Details</a>
 
                         {{-- CG Chartbusters Rating --}}
                         @if($artist->cgcb_rating)
@@ -49,7 +50,7 @@
                         <p class="text-gray-400 text-xs">
                             {{-- {{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }} --}}
                             Born on:
-                            {{ $artist->birth_date ? \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') : 'N/A' }}
+                            {{ $artist->birth_date ? \Carbon\Carbon::parse($artist->birth_date)->format($artist->is_release_year_only ? 'Y' : 'F j, Y') : 'N/A' }}
                         </p>
 
                         {{-- City --}}

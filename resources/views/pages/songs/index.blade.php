@@ -4,11 +4,14 @@
         <h1 class="text-2xl font-bold">Songs
 
             <span class='inline-block ms-5'>
-                <form action="{{ route('songs.query') }}" method="GET" class="flex items-center justify-start gap-5" onchange="this.submit()">
+                <form action="{{ route('songs.query') }}" method="GET" class="flex items-center justify-start gap-5"
+                    onchange="this.submit()">
                     <select name="genre" id="genre" class="px-4 py-2 bg-gray-800 border-gray-800 rounded text-white">
-                        <option value="" class="text-white" {{ request()->query('genre') == '' ? 'selected' : '' }}>All</option>
+                        <option value="" class="text-white" {{ request()->query('genre') == '' ? 'selected' : '' }}>All
+                        </option>
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ request()->query('genre') == $genre->id ? 'selected' : '' }} class="text-white">{{ $genre->name }}</option>
+                            <option value="{{ $genre->id }}" {{ request()->query('genre') == $genre->id ? 'selected' : '' }}
+                                class="text-white">{{ $genre->name }}</option>
                         @endforeach
                     </select>
                 </form>
@@ -17,16 +20,24 @@
         </h1>
         <ul class="mt-4">
             @foreach ($songs as $song)
-                <li class="flex items-center justify-start gap-5 px-2 py-2 transition-all border-b border-gray-800 rounded hover:bg-gray-800">
-                    <img src="{{ asset('storage/'.$song->poster_image) }}" class="w-20 rounded-md" alt="">
+                <li
+                    class="flex items-center justify-start gap-5 px-2 py-2 transition-all border-b border-gray-800 rounded hover:bg-gray-800">
+                    <img src="{{ asset('storage/' . $song->poster_image) }}" class="w-20 rounded-md" alt="">
                     <div class="flex flex-col">
-                        <a href="{{ route('song.show', $song)   }}" class="font-bold text-gray-100 hover:text-gray-300">
+                        <a href="{{ route('song.show', $song->slug) }}" class="font-bold text-gray-100 hover:text-gray-300">
                             {{ $song->title }}
                         </a>
                         <span class="text-sm text-gray-500">
-                            {{ date('Y', strtotime($song->debut_date)) }}
+                            Released on:
+                            @if($song->release_date)
+                                {{ \Carbon\Carbon::parse($song->release_date)->format($song->is_release_year_only ? 'Y' : 'd M Y') }}
+                            @else
+                                N/A
+                            @endif
                             @if(!empty($song->duration) && $song->duration !== '00:00' && $song->duration !== '00:00:00')
-                                {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }} mins
+                                Duration:
+                                {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }}
+                                mins
                             @endif
                         </span>
                         <small class="text-xs text-gray-500">

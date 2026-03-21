@@ -95,6 +95,11 @@
                                         Date</label>
                                     <input type="date" name="release_date" id="release_date"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
+                                    <div class="flex items-center">
+                                        <input type="hidden" name="is_release_year_only" value="0">
+                                        <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only') ? 'checked' : '' }} class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">
+                                        <label for="is_release_year_only" class="block ml-2 text-sm text-gray-900">Show Year Only</label>
+                                    </div>
                                     @error('release_date')
                                         @foreach ($errors->get('release_date') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}

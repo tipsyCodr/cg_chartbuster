@@ -53,15 +53,18 @@ class TvShow extends Model
         'hyperlinks_links',
         'poster_image_portrait',
         'poster_image_landscape',
-        'show_on_banner'
+        'show_on_banner',
+        'is_release_year_only'
     ];
-    
-    
+
+    protected $casts = [
+        'release_date' => 'date',
+    ];
     public function artists()
     {
-        return $this->belongsToMany(Artist::class,'artist_tvshow','tvshow_id')
-        ->withPivot('artist_category_id','role')
-        ->withTimestamps();
+        return $this->belongsToMany(Artist::class, 'artist_tvshow', 'tvshow_id')
+            ->withPivot('artist_category_id', 'role')
+            ->withTimestamps();
     }
     public function albums()
     {
