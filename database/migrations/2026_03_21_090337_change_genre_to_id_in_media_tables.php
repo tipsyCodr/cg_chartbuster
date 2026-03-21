@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         $tables = ['movies', 'songs', 'tvshows'];
 
         foreach ($tables as $tableName) {
@@ -31,6 +32,7 @@ return new class extends Migration
                 $table->foreign('genre_id')->references('id')->on('genres')->onDelete('set null');
             });
         }
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
