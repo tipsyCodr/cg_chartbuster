@@ -55,7 +55,7 @@ class WebController extends Controller
             });
         }
 
-        $movies = $query->get();
+        $movies = $query->orderBy('release_date', 'desc')->get();
         $genres = Genre::all()->where('for', 'Movies');
 
         return view('pages.movies.index', compact('movies', 'genres'));
@@ -80,7 +80,7 @@ class WebController extends Controller
             });
         }
 
-        $tvshows = $tvshows->get();
+        $tvshows = $tvshows->orderBy('release_date', 'desc')->get();
         $genres = Genre::all()->where('for', 'Tv Shows');
         return view('pages.tvshows.index', compact('tvshows', 'genres'));
     }
@@ -104,7 +104,7 @@ class WebController extends Controller
             });
         }
 
-        $songs = $query->get();  // Use the query builder result instead of Song::all()
+        $songs = $query->orderBy('release_date', 'desc')->get();  // Use the query builder result instead of Song::all()
         $genres = Genre::all()->where('for', 'Songs');
         return view('pages.songs.index', compact('songs', 'genres'));
     }
@@ -140,7 +140,9 @@ class WebController extends Controller
 
     public function artist($slug)
     {
-        $artists = Artist::with(['movies.pivotCategory'])->where('slug', $slug)->firstOrFail();
+        $artists = Artist::with(['movies' => function ($query) {
+            $query->orderBy('release_date', 'desc');
+        }, 'movies.pivotCategory'])->where('slug', $slug)->firstOrFail();
         return view('pages.artists.view', compact('artists'));
     }
 
