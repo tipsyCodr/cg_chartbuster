@@ -100,6 +100,47 @@
                                         <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only') ? 'checked' : '' }} class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">
                                         <label for="is_release_year_only" class="block ml-2 text-sm text-gray-900">Show Year Only</label>
                                     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.getElementById('is_release_year_only');
+        const dateInput = document.getElementById('release_date') || document.getElementById('birth_date');
+        function toggleDateInput() {
+            if (checkbox.checked) {
+                if (dateInput.value && dateInput.value.includes('-')) {
+                    dateInput.dataset.fullDate = dateInput.value;
+                    dateInput.value = dateInput.value.split('-')[0];
+                }
+                dateInput.type = 'number';
+                dateInput.min = '1900';
+                dateInput.max = '2100';
+                dateInput.placeholder = 'YYYY';
+            } else {
+                dateInput.type = 'date';
+                dateInput.removeAttribute('min');
+                dateInput.removeAttribute('max');
+                dateInput.removeAttribute('placeholder');
+                if (dateInput.dataset.fullDate && !dateInput.value.includes('-')) {
+                    dateInput.value = dateInput.dataset.fullDate;
+                } else if (dateInput.value && !dateInput.value.includes('-') && dateInput.value.length === 4) {
+                    dateInput.value = dateInput.value + '-01-01';
+                }
+            }
+        }
+        if (checkbox && dateInput) {
+            checkbox.addEventListener('change', toggleDateInput);
+            toggleDateInput();
+            const form = dateInput.closest('form');
+            if (form) {
+                form.addEventListener('submit', function() {
+                    if (checkbox.checked && dateInput.value && !dateInput.value.includes('-')) {
+                        dateInput.type = 'text';
+                        dateInput.value = dateInput.value + '-01-01';
+                    }
+                });
+            }
+        }
+    });
+</script>
                                     @error('release_date')
                                         @foreach ($errors->get('release_date') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
