@@ -1,6 +1,6 @@
 @props(['name', 'value' => null])
 
-<div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" class="flex flex-wrap gap-0.5 sm:gap-1">
+<div x-data="{ rating: {{ $value ?? 0 }}, hover: 0 }" {{ $attributes->merge(['class' => 'flex flex-wrap gap-0.5 sm:gap-1']) }}>
     <input type="hidden" name="{{ $name }}" x-model="rating" value="{{ $value ?? 0 }}">
     
     @for ($i = 1; $i <= 10; $i++)

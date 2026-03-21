@@ -13,7 +13,7 @@
      "
      x-show="show"
      x-cloak
-     class="fixed top-5 right-5 max-w-xs w-full p-4 rounded-lg shadow-lg text-white"
+     {{ $attributes->merge(['class' => 'fixed top-5 right-5 max-w-xs w-full p-4 rounded-lg shadow-lg text-white']) }}
      :class="{
         'bg-green-500': type === 'success',
         'bg-red-500': type === 'error',
