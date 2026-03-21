@@ -23,7 +23,9 @@
                         </a>
                         <span class="text-sm text-gray-500">
                             {{ date('Y', strtotime($tvshow->release_date)) }}
-                            {{ $tvshow->duration }} mins
+                            @if(!empty($tvshow->duration) && !in_array($tvshow->duration, ['00:00', '00:00:00', '05:00', '00:05:00']))
+                                {{ $tvshow->duration }} mins
+                            @endif
                         </span>
                         <small class="text-xs text-gray-500">
                             <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>

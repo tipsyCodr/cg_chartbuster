@@ -36,7 +36,9 @@
                     <div class="text-gray-300 mb-2"><strong>Released:</strong> {{ date('Y', strtotime($tvshow->release_date)) }}</div>
                     <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $tvshow->genres->pluck('name')->implode(', ') ?: 'N/A' }}</div>
                     <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $tvshow->region?->name ?? 'N/A' }}</div>
+                    @if(!empty($tvshow->duration) && !in_array($tvshow->duration, ['00:00', '00:00:00', '05:00', '00:05:00']))
                     <div class="text-gray-300 mb-2"><strong>Duration:</strong> {{ substr($tvshow->duration,0,5) }} Hrs</div>
+                    @endif
                     <div class="text-gray-300 mb-2"><strong>CBFC:</strong> {{ $tvshow->cbfc }} </div>
 
                     <!-- Plot -->

@@ -37,7 +37,9 @@
                     
                     <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $song->genres->pluck('name')->implode(', ') ?: 'N/A' }}</div>
                     <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $song->region?->name ?? 'N/A' }}</div>
-                    <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ substr($song->duration,0,5) }} Hrs</div>
+                    @if(!empty($song->duration) && $song->duration !== '00:00' && $song->duration !== '00:00:00')
+                    <div class="text-gray-300 mb-4"><strong>Duration:</strong> {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }} mins</div>
+                    @endif
 
                     <!-- Plot -->
                     <div>

@@ -12,7 +12,9 @@
                         </a>
                         <span class="text-gray-500 text-sm">
                             {{ date('Y', strtotime($artist->debut_date)) }}
-                            {{ $artist->duration }} mins
+                            @if(!empty($artist->duration) && !in_array($artist->duration, ['00:00', '00:00:00', '05:00', '00:05:00']))
+                                {{ $artist->duration }} mins
+                            @endif
                         </span>
                         <small class="text-gray-500 text-xs">
                             <i class="fa fa-star text-yellow-300 text-xs" aria-hidden="true"></i>

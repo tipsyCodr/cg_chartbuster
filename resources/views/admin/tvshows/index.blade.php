@@ -118,26 +118,6 @@
                                         @endforeach
                                     @enderror
                                 </div>
-                                <div x-data="{ hours: 0, minutes: 0 }">
-                                    <input type="hidden" name="duration" id="duration" 
-                                        :value="`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`" 
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    
-                                    <label class="block my-1 text-sm font-medium text-gray-700">Duration</label>
-                                    <div class="flex items-center space-x-2">
-                                        <div>
-                                            <label for="movie-duration-hour" class="block my-1 text-sm font-medium text-gray-700">Hour</label>
-                                            <input type="number" placeholder="HH" id="movie-duration-hour" name="movie_duration_hour" 
-                                                x-model.number="hours" min="0" step="1" class="w-20 p-2 my-2 border border-gray-300 rounded">
-                                        </div>
-                                        <span class="pt-5 mx-2">:</span>
-                                        <div>
-                                            <label for="movie-duration-minute" class="block my-1 text-sm font-medium text-gray-700">Minute</label>
-                                            <input type="number" placeholder="MM" id="movie-duration-minute" name="movie_duration_minute" 
-                                                x-model.number="minutes" min="0" max="59" step="1" class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        </div>
-                                    </div>
-                                </div>
 
 
 

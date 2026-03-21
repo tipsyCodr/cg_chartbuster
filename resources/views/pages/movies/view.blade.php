@@ -35,7 +35,9 @@
                     </div>
                     <div class="text-gray-300 mb-2"><strong>Released:</strong> {{ date('Y', strtotime($movie->release_date)) }}</div>
                     <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $movie->genres->pluck('name')->implode(', ') ?: 'N/A' }}</div>
+                    @if(!empty($movie->duration) && !in_array($movie->duration, ['00:00', '00:00:00', '05:00', '00:05:00']))
                     <div class="text-gray-300 mb-2"><strong>Duration:</strong> {{ substr($movie->duration,0,5) }} Hrs</div>
+                    @endif
                     <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $movie->region?->name ?? 'N/A' }}</div>
 
                     <div class="text-gray-300 mb-2"><strong>CBFC:</strong> {{ $movie->cbfc }}</div>

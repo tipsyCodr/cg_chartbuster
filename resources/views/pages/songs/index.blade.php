@@ -25,7 +25,9 @@
                         </a>
                         <span class="text-sm text-gray-500">
                             {{ date('Y', strtotime($song->debut_date)) }}
-                            {{ $song->duration }} mins
+                            @if(!empty($song->duration) && $song->duration !== '00:00' && $song->duration !== '00:00:00')
+                                {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }} mins
+                            @endif
                         </span>
                         <small class="text-xs text-gray-500">
                             <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
