@@ -35,7 +35,8 @@ class TvShowController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
             'trailer_url' => 'nullable|string',
@@ -103,7 +104,11 @@ class TvShowController extends Controller
         unset($validatedData['artists']);
 
         // Create the movie
+        $genreIds = $validatedData['genre_ids'] ?? [];
+        unset($validatedData['genre_ids']);
+
         $tvShow = TvShow::create($validatedData);
+        $tvShow->genres()->sync($genreIds);
 
 
          // Prepare artist data for attachment
@@ -154,7 +159,8 @@ class TvShowController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
             'trailer_url' => 'nullable|string',
@@ -244,6 +250,10 @@ class TvShowController extends Controller
             $validatedData['show_on_banner'] = filter_var($validatedData['show_on_banner'], FILTER_VALIDATE_BOOLEAN);
             
             
+            $genreIds = $validatedData['genre_ids'] ?? [];
+            unset($validatedData['genre_ids']);
+            $tvShow->genres()->sync($genreIds);
+
             $updateResult = $tvShow->update($validatedData);
             \Log::info('Update Result:', ['success' => $updateResult, 'tvShow' => $tvShow->toArray()]);
             

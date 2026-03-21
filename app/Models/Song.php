@@ -59,7 +59,11 @@ class Song extends Model
     }
     public function genre()
     {
-        return $this->belongsTo(Genre::class, 'genre_id');
+        return $this->genres()->limit(1);
+    }
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'song_genre', 'song_id', 'genre_id');
     }
     public function region()
     {

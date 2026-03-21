@@ -33,7 +33,8 @@ class MovieController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string',
             'director' => 'nullable|string',
             'trailer_url' => 'nullable|string',
@@ -103,7 +104,11 @@ class MovieController extends Controller
 
 
         // Create the movie
+        $genreIds = $validatedData['genre_ids'] ?? [];
+        unset($validatedData['genre_ids']);
+
         $movie = Movie::create($validatedData);
+        $movie->genres()->sync($genreIds);
 
         // Prepare artist data for attachment
         $artistData = [];
@@ -151,7 +156,8 @@ class MovieController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string',
             // 'director' => 'nullable|string',
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
@@ -236,6 +242,10 @@ class MovieController extends Controller
         }
         
          // Update movie
+         $genreIds = $validatedData['genre_ids'] ?? [];
+         unset($validatedData['genre_ids']);
+         
+         $movie->genres()->sync($genreIds);
          unset($validatedData['artists']);
         $movie->update($validatedData);
 

@@ -29,7 +29,8 @@ class SongController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string|max:255',
             'director' => 'nullable|string|max:255',
             'album' => 'nullable|string|max:255',
@@ -89,7 +90,11 @@ class SongController extends Controller
             $artists = $validatedData['artists'] ?? [];
             unset($validatedData['artists']);
 
+            $genreIds = $validatedData['genre_ids'] ?? [];
+            unset($validatedData['genre_ids']);
+
             $song = Song::create($validatedData);
+            $song->genres()->sync($genreIds);
 
             foreach ($artists as $artistEntry) {
                 if (!empty($artistEntry['artist_id'])) {
@@ -129,7 +134,8 @@ class SongController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'release_date' => 'nullable|date',
-            'genre_id' => 'nullable|exists:genres,id',
+            'genre_ids' => 'nullable|array',
+            'genre_ids.*' => 'exists:genres,id',
             'duration' => 'nullable|string|max:255',
             'director' => 'nullable|string|max:255',
             'album' => 'nullable|string|max:255',
@@ -207,6 +213,10 @@ class SongController extends Controller
         }
 
 
+        $genreIds = $validatedData['genre_ids'] ?? [];
+        unset($validatedData['genre_ids']);
+        $song->genres()->sync($genreIds);
+        
         $song->update($validatedData);
 
         return redirect()->route('admin.songs.index')->with('success', 'Song updated successfully.');

@@ -104,15 +104,17 @@
                                 </div>
 
                                 <div>
-                                    <label for="genre_id" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
-                                    <select name="genre_id" id="genre_id" class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        <option value="">N/A</option>
+                                    <label class="block my-1 text-sm font-medium text-gray-700">Genres</label>
+                                    <div class="grid grid-cols-2 gap-2 bg-gray-50 p-3 border border-gray-300 rounded-md max-h-40 overflow-y-auto">
                                         @foreach ($genres as $genre)
-                                        <option value="{{ $genre->id }}" >{{ $genre->name }}</option>
+                                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-1 rounded">
+                                                <input type="checkbox" name="genre_ids[]" value="{{ $genre->id }}" class="rounded border-gray-300 text-accent focus:ring-accent">
+                                                <span class="text-sm text-gray-700">{{ $genre->name }}</span>
+                                            </label>
                                         @endforeach
-                                    </select>
-                                    @error('genre_id')
-                                        @foreach ($errors->get('genre_id') as $message)
+                                    </div>
+                                    @error('genre_ids')
+                                        @foreach ($errors->get('genre_ids') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
                                             </div>
                                         @endforeach

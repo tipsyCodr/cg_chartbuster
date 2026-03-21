@@ -50,7 +50,9 @@ class WebController extends Controller
         $query = Movie::query();
 
         if ($genre) {
-            $query->where('genre_id', $genre);
+            $query->whereHas('genres', function($q) use ($genre) {
+                $q->where('genres.id', $genre);
+            });
         }
 
         $movies = $query->get();
@@ -62,7 +64,7 @@ class WebController extends Controller
     public function movie($id)
     {
         // $movie = Movie::findOrFail($id);
-        $movie = Movie::with(['artists', 'region', 'genre'])->find($id);
+        $movie = Movie::with(['artists', 'region', 'genres'])->find($id);
         $reviews = Movie::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
@@ -74,7 +76,9 @@ class WebController extends Controller
         $tvshows = TvShow::query();
 
         if ($genre) {
-            $tvshows->where('genre_id', $genre);
+            $tvshows->whereHas('genres', function($q) use ($genre) {
+                $q->where('genres.id', $genre);
+            });
         }
 
         $tvshows = $tvshows->get();
@@ -84,7 +88,7 @@ class WebController extends Controller
 
     public function tvShow($id)
     {
-        $tvshow = TvShow::with(['region', 'genre'])->findOrFail($id);
+        $tvshow = TvShow::with(['region', 'genres'])->findOrFail($id);
         $reviews = TvShow::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
@@ -96,8 +100,9 @@ class WebController extends Controller
         $query = Song::query();
 
         if ($genre) {
-            // dd($genre);
-            $query->where('genre_id', $genre);
+            $query->whereHas('genres', function($q) use ($genre) {
+                $q->where('genres.id', $genre);
+            });
         }
 
         $songs = $query->get();  // Use the query builder result instead of Song::all()
@@ -107,7 +112,7 @@ class WebController extends Controller
 
     public function song($id)
     {
-        $song = Song::with(['region', 'genre'])->findOrFail($id);
+        $song = Song::with(['region', 'genres'])->findOrFail($id);
         $reviews = Song::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
