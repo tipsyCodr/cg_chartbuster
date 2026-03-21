@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
         $tables = ['movies', 'songs', 'tvshows'];
 
         foreach ($tables as $tableName) {
-            // Step 1: Rename the column if it hasn't been renamed yet (partial failure guard)
+            // Step 1: Rename the column if it hasn't been renamed yet
             if (Schema::hasColumn($tableName, 'genre')) {
                 Schema::table($tableName, function (Blueprint $table) {
                     $table->renameColumn('genre', 'genre_id');
@@ -27,10 +28,23 @@ return new class extends Migration
                 $table->integer('genre_id')->nullable()->change();
             });
 
-            // Step 3: Add foreign key constraint
-            Schema::table($tableName, function (Blueprint $table) {
-                $table->foreign('genre_id')->references('id')->on('genres')->onDelete('set null');
-            });
+            // Step 3: Add foreign key constraint ONLY if it doesn't exist
+            // This avoids "Duplicate foreign key constraint name" error (MySQL Error 1826) 
+            // from previous aborted runs.
+            $foreignKeyName = $tableName . '_genre_id_foreign';
+            $exists = DB::select("
+                SELECT CONSTRAINT_NAME 
+                FROM information_schema.REFERENTIAL_CONSTRAINTS 
+                WHERE CONSTRAINT_SCHEMA = DATABASE() 
+                AND TABLE_NAME = ? 
+                AND CONSTRAINT_NAME = ?
+            ", [$tableName, $foreignKeyName]);
+
+            if (empty($exists)) {
+                Schema::table($tableName, function (Blueprint $table) use ($foreignKeyName) {
+                    $table->foreign('genre_id', $foreignKeyName)->references('id')->on('genres')->onDelete('set null');
+                });
+            }
         }
         Schema::enableForeignKeyConstraints();
     }
@@ -40,19 +54,27 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
         $tables = ['movies', 'songs', 'tvshows'];
 
         foreach ($tables as $tableName) {
-            Schema::table($tableName, function (Blueprint $table) use ($tableName) {
+            $foreignKeyName = $tableName . '_genre_id_foreign';
+            
+            Schema::table($tableName, function (Blueprint $table) use ($tableName, $foreignKeyName) {
+                // Check if foreign key exists before dropping
+                $exists = DB::select("
+                    SELECT CONSTRAINT_NAME 
+                    FROM information_schema.REFERENTIAL_CONSTRAINTS 
+                    WHERE CONSTRAINT_SCHEMA = DATABASE() 
+                    AND TABLE_NAME = ? 
+                    AND CONSTRAINT_NAME = ?
+                ", [$tableName, $foreignKeyName]);
+
+                if (!empty($exists)) {
+                    $table->dropForeign($foreignKeyName);
+                }
+
                 if (Schema::hasColumn($tableName, 'genre_id')) {
-                    // Try to drop foreign key (swallow error if it doesn't exist to allow rolling back dirty state)
-                    try {
-                        $table->dropForeign(['genre_id']);
-                    } catch (\Exception $e) {
-                         // Fallback for some drivers/versions
-                         // $table->dropForeign($tableName . '_genre_id_foreign');
-                    }
-                    
                     $table->renameColumn('genre_id', 'genre');
                 }
             });
@@ -63,5 +85,6 @@ return new class extends Migration
                 });
             }
         }
+        Schema::enableForeignKeyConstraints();
     }
 };
