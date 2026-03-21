@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class input-submit extends Component
+class StarRating extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class input-submit extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.input-submit');
+        return view('components.star-rating');
     }
 }
