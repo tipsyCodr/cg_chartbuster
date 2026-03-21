@@ -73,7 +73,7 @@
                                 <div>
                                     <label for="genre_id" class="block my-1 text-sm font-medium text-gray-700">Genre</label>
                                     <select name="genre_id" id="genre_id" class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        <option value="">Select</option>
+                                        <option value="">N/A</option>
                                         @foreach ($genres as $genre)
                                             <option value="{{ $genre->id }}" {{ old('genre_id', $songs->genre_id) == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
                                         @endforeach
