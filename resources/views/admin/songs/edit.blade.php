@@ -201,7 +201,7 @@
 
                                 <div x-data="{ 
                                     regions: [], 
-                                    selectedRegion: '{{ old('region', $songs->region) }}', 
+                                    selectedRegion: '{{ old('region_id', $songs->region_id) }}', 
                                     fetchRegions() {
                                         fetch('{{ route('regions') }}')
                                             .then(response => response.json())
@@ -219,24 +219,24 @@
                                             .then(data => {
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
+                                                this.selectedRegion = data.region.id;
                                             })
                                             .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
-                                        this.selectedRegion = ''; // Reset the selected region
                                         $refs.regionInput.classList.add('hidden'); // Hide the input field
                                     } 
                                 }" 
                                 x-init="fetchRegions()"
                             >
                                 <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
-                                <select name="region" id="region" 
+                                <select name="region_id" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"
                                     @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                     <option value="">Select</option>    
                                     <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.name"  style='text-transform: capitalize;' x-text="region.name" :selected="region.name === selectedRegion"></option>
+                                        <option :value="region.id"  style='text-transform: capitalize;' x-text="region.name" :selected="region.id == selectedRegion"></option>
                                     </template>
                                     <option value="other" :selected="selectedRegion === 'other'">Other</option>    
                                 </select>   

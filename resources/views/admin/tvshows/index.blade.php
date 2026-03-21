@@ -241,27 +241,27 @@
                                             .then(data => {
                                                 console.log('Region added:', data);
                                                 this.fetchRegions(); // Refresh the regions after adding a new region
+                                                this.selectedRegion = data.region.id;
                                             })
                                             .catch(error => console.error('Error adding language:', error));
                             
                                         document.getElementById('region_other').value = ''; // Clear the input field
-                                        this.selectedRegion = ''; // Reset the selected region
                                         $refs.regionInput.classList.add('hidden'); // Hide the input field
                                     } 
                                 }" 
                                 x-init="fetchRegions()"
                             >
                                 <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
-                                <select name="region" id="region" 
+                                <select name="region_id" id="region" 
                                     x-model="selectedRegion" 
                                     class="w-full p-2 my-2 border border-gray-300 rounded"
                                     @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
                                     <option value="">Select</option>    
                                     <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.name"  style='text-transform: capitalize;' x-text="region.name"></option>
+                                        <option :value="region.id"  style='text-transform: capitalize;' x-text="region.name"></option>
                                     </template>
                                     <option value="other">Other</option>    
-                                </select>
+                                </select>   
                                 <div class="hidden" id="regionInput" x-ref="regionInput">
                                     <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded">
                                     <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>

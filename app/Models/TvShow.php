@@ -18,7 +18,7 @@ class TvShow extends Model
         'director',
         'poster_image',
         'trailer_url',
-        'region',
+        'region_id',
         'cbfc',
         'cg_chartbusters_ratings',
         'imdb_ratings',
@@ -68,5 +68,9 @@ class TvShow extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'tvshow_id');
+    }
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }

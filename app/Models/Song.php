@@ -18,7 +18,7 @@ class Song extends Model
         'album',
         'poster_image',
         'trailer_url',
-        'region',
+        'region_id',
         'cg_chartbusters_ratings',
         'imdb_ratings',
         'support_artists',
@@ -56,5 +56,9 @@ class Song extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }

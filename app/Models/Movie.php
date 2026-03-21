@@ -19,7 +19,7 @@ class Movie extends Model
         'director',
         'poster_image',
         'trailer_url',
-        'region',
+        'region_id',
         'cbfc',
         'cg_chartbusters_ratings',
         'imdb_ratings',
@@ -87,5 +87,9 @@ class Movie extends Model
     public function genre()
     {
         return $this->belongsTo(Genre::class, 'genre');
+    }
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }

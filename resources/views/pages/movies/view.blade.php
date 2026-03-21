@@ -39,7 +39,8 @@
                     @endphp
                     <div class="text-gray-300 mb-2"><strong>Genre:</strong> {{ $genre?->name ?? 'N/A' }}</div>
                     <div class="text-gray-300 mb-2"><strong>Duration:</strong> {{ substr($movie->duration,0,5) }} Hrs</div>
-                    <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ ucwords($movie->region) }}</div>
+                    <div class="text-gray-300 mb-2"><strong>Language:</strong> {{ $movie->region?->name ?? 'N/A' }}</div>
+
                     <div class="text-gray-300 mb-2"><strong>CBFC:</strong> {{ $movie->cbfc }}</div>
 
                     <!-- Plot -->

@@ -62,7 +62,7 @@ class WebController extends Controller
     public function movie($id)
     {
         // $movie = Movie::findOrFail($id);
-        $movie = Movie::with('artists')->find($id);
+        $movie = Movie::with(['artists', 'region'])->find($id);
         $reviews = Movie::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
@@ -84,7 +84,7 @@ class WebController extends Controller
 
     public function tvShow($id)
     {
-        $tvshow = TvShow::findOrFail($id);
+        $tvshow = TvShow::with('region')->findOrFail($id);
         $reviews = TvShow::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
@@ -107,7 +107,7 @@ class WebController extends Controller
 
     public function song($id)
     {
-        $song = Song::findOrFail($id);
+        $song = Song::with('region')->findOrFail($id);
         $reviews = Song::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
