@@ -3,19 +3,20 @@
     <section class="mt-9  min-h-[50vh]">
         <h1 class="text-2xl font-bold flex ">Artists
         </h1>
-           
-            <form action="{{ route('artists') }}" method="GET" class="mb-6 flex gap-3 flex-wrap justify-center lg:justify-start items-center">
-                <label for="category" class="text-gray-200">Filter by Category:</label>
-                <select name="category" id="category" onchange="this.form.submit()"
-                    class="px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white">
-                    <option value="">All Categories</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ (isset($categoryId) && $categoryId == $cat->id) ? 'selected' : '' }}>
-                            {{ $cat->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </form>
+
+        <form action="{{ route('artists') }}" method="GET"
+            class="mb-6 flex gap-3 flex-wrap justify-center lg:justify-start items-center">
+            <label for="category" class="text-gray-200">Filter by Category:</label>
+            <select name="category" id="category" onchange="this.form.submit()"
+                class="px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white">
+                <option value="">All Categories</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ (isset($categoryId) && $categoryId == $cat->id) ? 'selected' : '' }}>
+                        {{ $cat->name }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
 
         <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($artists as $artist)
@@ -46,7 +47,9 @@
 
                         {{-- Birthdate --}}
                         <p class="text-gray-400 text-xs">
-                            Born on: {{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }}
+                            {{-- {{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }} --}}
+                            Born on:
+                            {{ $artist->birth_date ? \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') : 'N/A' }}
                         </p>
 
                         {{-- City --}}

@@ -73,7 +73,12 @@
                     <!-- Birth Date -->
                     <div class="mt-4">
                         <h3 class="text-lg font-semibold text-gray-100">Date of Birth</h3>
-                        <p class="text-gray-200">{{ \Carbon\Carbon::parse($artists->birth_date)->format('F j, Y') }}</p>
+                        <p class="text-gray-200">
+                            {{ $artists->birth_date ? \Carbon\Carbon::parse($artists->birth_date)->format('F j, Y') : 'N/A' 
+                            }}
+                            {{-- {{ optional($artists->birth_date)->format('F j, Y') ?? 'N/A' }} --}}
+                            {{-- {{ \Carbon\Carbon::parse($artists->birth_date)->format('F j, Y') }} --}}
+                        </p>
                     </div>
                     <!-- Biography -->
                     <div class="mt-4">
