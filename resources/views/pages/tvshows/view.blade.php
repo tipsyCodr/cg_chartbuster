@@ -122,10 +122,10 @@
                                             {!! $review->user ? $review->user->name : '<span class="text-gray-500">[deleted account]</span>' !!}
                                         </strong>
                                         <div class="flex items-center mt-1">
-                                            @for($i = 1; $i <= 5; $i++)
-                                                <i class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-sm"></i>
+                                            @for($i = 1; $i <= 10; $i++)
+                                                <i class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-xs"></i>
                                             @endfor
-                                            <span class="text-gray-400 text-sm ml-2">{{ $review->rating }}/5</span>
+                                            <span class="text-gray-400 text-sm ml-2">{{ $review->rating }}/10</span>
                                         </div>
                                     </div>
                                 </div>
