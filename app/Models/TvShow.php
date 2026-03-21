@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasSlug;
 
 class TvShow extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
     protected $table = 'tvshows';
     protected $fillable = [
+        'slug',
         'title',
         'description',
         'release_date',

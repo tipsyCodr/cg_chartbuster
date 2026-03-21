@@ -6,11 +6,13 @@ use App\Models\Movie;
 use App\Models\TvShow;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasSlug;
 
 class Artist extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
     protected $fillable = [
+        'slug',
         'name',
         'bio',
         'cgcb_rating',
@@ -20,6 +22,12 @@ class Artist extends Model
         'city',
 
     ];
+
+    public function getSlugField(): string
+    {
+        return 'name';
+    }
+
     public function scopeSingerMale($query)
     {
         return $query->where('category', '10')->select('id', 'name');

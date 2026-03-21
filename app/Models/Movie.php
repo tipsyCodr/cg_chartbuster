@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Models\Artist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasSlug;
 
 class Movie extends Model
 {
 
-    use HasFactory;
+    use HasFactory, HasSlug;
     protected $fillable = [
+        'slug',
         'title',
         'description',
         'release_date',

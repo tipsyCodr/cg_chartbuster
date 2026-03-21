@@ -61,7 +61,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($song->artists as $artist)
-                        <a href="{{ route('artist.show', $artist->id) }}" class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
+                        <a href="{{ route('artist.show', $artist) }}" class="cast-member flex items-center bg-gray-800 rounded-lg p-4 hover:bg-gray-700">
                             <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}" class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-gray-600">
                             <div>
                                 <h4 class="text-lg font-semibold text-white">{{ $artist->name }}</h4>

@@ -61,11 +61,10 @@ class WebController extends Controller
         return view('pages.movies.index', compact('movies', 'genres'));
     }
 
-    public function movie($id)
+    public function movie($slug)
     {
-        // $movie = Movie::findOrFail($id);
-        $movie = Movie::with(['artists', 'region', 'genres'])->find($id);
-        $reviews = Movie::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
+        $movie = Movie::with(['artists', 'region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $reviews = $movie->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
 
@@ -86,10 +85,10 @@ class WebController extends Controller
         return view('pages.tvshows.index', compact('tvshows', 'genres'));
     }
 
-    public function tvShow($id)
+    public function tvShow($slug)
     {
-        $tvshow = TvShow::with(['region', 'genres'])->findOrFail($id);
-        $reviews = TvShow::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
+        $tvshow = TvShow::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $reviews = $tvshow->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
 
@@ -110,10 +109,10 @@ class WebController extends Controller
         return view('pages.songs.index', compact('songs', 'genres'));
     }
 
-    public function song($id)
+    public function song($slug)
     {
-        $song = Song::with(['region', 'genres'])->findOrFail($id);
-        $reviews = Song::find($id)->reviews()->orderBy('created_at', 'asc')->paginate(15);
+        $song = Song::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $reviews = $song->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
 
@@ -139,11 +138,9 @@ class WebController extends Controller
         return view('pages.artists.index', compact('artists', 'categories', 'categoryId'));
     }
 
-    public function artist($id)
+    public function artist($slug)
     {
-        // $artists = Artist::findOrFail($id);
-        // return view('pages.artists.view', compact('artists'));   
-        $artists = Artist::with(['movies.pivotCategory'])->findOrFail($id);
+        $artists = Artist::with(['movies.pivotCategory'])->where('slug', $slug)->firstOrFail();
         return view('pages.artists.view', compact('artists'));
     }
 

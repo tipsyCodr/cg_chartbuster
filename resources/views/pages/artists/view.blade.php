@@ -94,7 +94,7 @@
             @else
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-6">
                     @foreach($artists->movies as $movie)
-                        <a href="{{ route('movie.show', $movie->id) }}">
+                        <a href="{{ route('movie.show', $movie) }}">
                             <div class="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
                                 @if($movie->poster_image)
                                     <img src="{{ asset('storage/' . $movie->poster_image) }}" alt="{{ $movie->title }}"

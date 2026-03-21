@@ -20,23 +20,23 @@ Route::get('/home', [WebController::class, 'index'])->name('home');
 //Movies Frontend
 Route::get('/movies', [WebController::class, 'movies'])->name('movies');
 Route::post('/movies', [WebController::class, 'movies'])->name('movies.query');
-Route::get('/movie/{id}', [WebController::class, 'movie'])->name('movie.show');
+Route::get('/movie/{slug}', [WebController::class, 'movie'])->name('movie.show');
 
 //Artists Frontend
 Route::get('/artists', [WebController::class, 'artists'])->name('artists');
 Route::post('/artists', [WebController::class, 'artists'])->name('artists.query');
-Route::get('/artist/{id}', [WebController::class, 'artist'])->name('artist.show');
+Route::get('/artist/{slug}', [WebController::class, 'artist'])->name('artist.show');
 Route::get('admin/artists/list', [ArtistController::class, 'list'])->name('admin.artists.list');
 
 //TV Shows Frontend
 Route::get('/tv-shows', [WebController::class, 'tvShows'])->name('tv-shows');
 Route::post('/tv-shows', [WebController::class, 'tvShows'])->name('tv-shows.query');
-Route::get('/tv-show/{id}', [WebController::class, 'tvShow'])->name('tv-show.show');
+Route::get('/tv-show/{slug}', [WebController::class, 'tvShow'])->name('tv-show.show');
 
 //Songs Frontend
 Route::get('/songs', [WebController::class, 'songs'])->name('songs');
 Route::post('/songs', [WebController::class, 'songs'])->name('songs.query');
-Route::get('/song/{id}', [WebController::class, 'song'])->name('song.show');
+Route::get('/song/{slug}', [WebController::class, 'song'])->name('song.show');
 
 
 //reviews Frontend
