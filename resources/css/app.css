@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .dark-mode {
     background-color: #1a202c; /* bg-gray-900 */
     color: #e2e8f0; /* text-gray-200 */
@@ -100,6 +106,8 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     min-height: 220px;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .hero-media iframe,
@@ -122,4 +130,8 @@
     max-width: 100% !important;
     object-fit: cover;
     border-radius: 0.5rem;
+}
+
+.hero-media * {
+    max-width: 100% !important;
 }

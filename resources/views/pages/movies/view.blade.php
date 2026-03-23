@@ -57,8 +57,8 @@
         <div class="mb-8 grid gap-4 overflow-hidden rounded-xl bg-gray-800 shadow-2xl md:gap-6 lg:grid-cols-3">
 
             <!-- Left: Media -->
-            <div class="hero-section p-2 sm:p-4 lg:col-span-2">
-                <div class="hero-media h-full w-full overflow-hidden rounded-lg bg-black">
+            <div class="hero-section min-w-0 p-2 sm:p-4 lg:col-span-2">
+                <div class="hero-media w-full overflow-hidden rounded-lg bg-black">
                     @if($trailerEmbedIframeSrc)
                         <iframe src="{{ $trailerEmbedIframeSrc }}" title="{{ $movie->title }} trailer" loading="lazy"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
