@@ -265,6 +265,7 @@ class MovieController extends Controller
          unset($validatedData['artists']);
          
          $movie->update($validatedData);
+         
          $movie->genres()->sync($genreIds);
 
         return redirect()->route('admin.movies.index')

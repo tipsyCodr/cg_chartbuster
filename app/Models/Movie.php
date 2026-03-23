@@ -63,12 +63,12 @@ class Movie extends Model
         'release_date' => 'date',
     ];
 
-    public function singer_male()
+    public function maleSingerArtist()
     {
         return $this->belongsTo(Artist::class, 'singer_male');
     }
 
-    public function singer_female()
+    public function femaleSingerArtist()
     {
         return $this->belongsTo(Artist::class, 'singer_female');
     }
@@ -95,6 +95,10 @@ class Movie extends Model
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'movie_genre', 'movie_id', 'genre_id');
+    }
+    public function directorRelation()
+    {
+        return $this->belongsTo(Artist::class, 'director');
     }
     public function region()
     {
