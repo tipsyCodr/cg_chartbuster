@@ -1,11 +1,12 @@
-<div class="container flex flex-col items-center justify-between gap-4 py-5 mx-auto md:flex-row md:gap-0 max-w-7xl">
+<div class="container flex flex-col items-center justify-between gap-4 py-4 mx-auto md:flex-row md:gap-0 md:py-5 max-w-7xl">
     <!-- Logo + Nav Links -->
-    <div class="flex flex-col items-center justify-center w-full gap-4 md:flex-row md:justify-start md:w-auto">
+    <div class="flex flex-col items-center justify-center w-full gap-3 md:flex-row md:justify-start md:w-auto md:gap-4">
         <a href="{{ route('home') }}"
             class="flex items-center font-medium text-gray-100 lg:w-auto">
             <img src="{{ asset('images/logo.png') }}" class="w-auto h-auto max-w-[150px]" alt="">
         </a>
-        <nav class="flex flex-wrap items-center justify-center gap-12 text-base md:ml-8 md:pl-8 md:border-l md:border-gray-200">
+        <nav
+            class="flex w-full items-center justify-start gap-6 overflow-x-auto whitespace-nowrap text-sm scrollbar-hide md:ml-8 md:w-auto md:justify-center md:gap-8 md:overflow-visible md:border-l md:border-gray-200 md:pl-8 md:text-base">
             <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300">Home</a>
             <a href="{{ route('movies') }}" class="font-medium text-gray-300 hover:text-yellow-300">Movies</a>
             <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300">TV Shows</a>
@@ -15,10 +16,10 @@
     </div>
 
     <!-- Search Bar + Auth Links -->
-    <div class="flex items-center justify-end w-full md:w-auto gap-4 md:gap-6">
+    <div class="flex items-center justify-end w-full md:w-auto gap-3 md:gap-6">
 
         <!-- Search Box -->
-        <div class="relative max-w-xs w-full">
+        <div class="relative w-full max-w-sm">
             <input
                 type="text"
                 id="liveSearchInput"
@@ -48,9 +49,9 @@
         </div>
 
         <!-- Auth / User Menu -->
-        <div>
+        <div class="shrink-0">
             @auth
-                <div x-data="{ open: false }">
+                <div x-data="{ open: false }" class="relative">
                     <button @click="open = ! open"
                         class="flex items-center font-medium text-gray-300 hover:text-gray-100">
                         {{ explode(' ', auth()->user()->name)[0] }}

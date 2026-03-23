@@ -85,3 +85,41 @@
 .thumbnail-slider .swiper-slide:not(.swiper-slide-thumb-active):hover {
     opacity: 0.5;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hero-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+}
+
+.hero-media iframe,
+.hero-media video,
+.hero-media embed,
+.hero-media object {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    border: 0;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.hero-media img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}

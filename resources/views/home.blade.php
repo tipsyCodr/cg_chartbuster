@@ -112,7 +112,7 @@
             scrollbar-width: none;
         }
     </style>
-    <section class="flex flex-col items-stretch gap-6 carousel lg:flex-row h-[350px] md:h-[450px] lg:h-[480px] xl:h-[550px]">
+    <section class="flex flex-col items-stretch gap-6 carousel lg:flex-row h-[280px] sm:h-[350px] md:h-[450px] lg:h-[480px] xl:h-[550px]">
         <div class="w-full swiper main-slider lg:flex-1 h-full rounded-xl overflow-hidden shadow-2xl">
             <!-- Main slider -->
             <div class="swiper-wrapper h-full">
@@ -121,12 +121,12 @@
                         <img class="w-full h-full object-cover"
                             src="{{ asset('storage/' . $banner_image['poster_image_landscape']) }}" alt="Banner Image">
                         <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-bottoms black-tint"></div>
-                        <div class="absolute text-left text-white transform bottom-6 left-6">
+                        <div class="absolute right-4 bottom-4 left-4 text-left text-white transform sm:bottom-6 sm:left-6 sm:right-auto">
                             <div class="flex gap-3">
                                 <img class="rounded-lg w-full h-auto max-w-[80px] md:max-w-[120px]"
                                     src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
                                 <div class="flex flex-col justify-end">
-                                    <h1 class="text-xs font-bold md:text-3xl">{{ $banner_image['title'] }}</h1>
+                                    <h1 class="text-sm font-bold break-words md:text-3xl">{{ $banner_image['title'] }}</h1>
                                     <small><i class='text-yellow-300 fas fa-calender'></i>
                                         {{ $banner_image['release_date'] }}</small>
                                     <div class="flex flex-row items-center ">
@@ -190,12 +190,12 @@
         <section class="my-5 relative group">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Movies</h1>
-            <div class="swiper movie-slider !px-10">
+            <div class="swiper movie-slider !px-3 sm:!px-10">
                 <div class="swiper-wrapper py-4">
                     @foreach ($movies as $movie)
                         <div class="swiper-slide">
                             <div class="flex-shrink-0 transition-all bg-gray-900 rounded-lg shadow-md">
-                                <div class="relative min-w-48 max-w-48">
+                                <div class="relative min-w-40 max-w-40 sm:min-w-48 sm:max-w-48">
                                     {{-- rating --}}
                                     <span
                                         class="absolute z-50 mr-2 font-bold text-yellow-500 top-2 -left-5 text-shadow-md text-8xl text-stroke">{{ $loop->index + 1 }}</span>
@@ -217,7 +217,7 @@
                                         </div>
                                         <a href="{{ route('movie.show', $movie->slug) }}">
                                             <h2
-                                                class="overflow-hidden text-sm font-normal text-white normal-case w-38 text-nowrap text-ellipsis">
+                                                class="truncate text-sm font-normal text-white normal-case">
                                                 {{ $loop->index + 1 }}. {{ ucwords(strtolower($movie->title)) }}
                                             </h2>
                                         </a>
@@ -231,10 +231,10 @@
                     @endforeach
                 </div>
                 <!-- Navigation -->
-                <div class="movie-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="movie-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-right text-lg"></i>
                 </div>
-                <div class="movie-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="movie-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-left text-lg"></i>
                 </div>
             </div>
@@ -243,12 +243,12 @@
         <section class="my-5 relative group">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Songs</h1>
-            <div class="swiper song-slider !px-10">
+            <div class="swiper song-slider !px-3 sm:!px-10">
                 <div class="swiper-wrapper py-4">
                     @foreach ($songs as $song)
                         <div class="swiper-slide">
                             <div class="flex-shrink-0 transition-all bg-gray-900 rounded-lg shadow-md">
-                                <div class="relative min-w-48 max-w-48">
+                                <div class="relative min-w-40 max-w-40 sm:min-w-48 sm:max-w-48">
                                     <span
                                         class="absolute z-50 mr-2 font-bold text-yellow-500 top-2 -left-5 text-shadow-md text-8xl text-stroke">{{ $loop->index + 1 }}</span>
 
@@ -269,7 +269,7 @@
                                         </div>
                                         <a href="{{ route('song.show', $song->slug) }}">
                                             <h2
-                                                class="overflow-hidden text-sm font-normal text-white normal-case w-38 text-nowrap text-ellipsis">
+                                                class="truncate text-sm font-normal text-white normal-case">
                                                 {{ $loop->index + 1 }}. {{ ucwords(strtolower($song->title)) }}
                                             </h2>
                                         </a>
@@ -282,10 +282,10 @@
                     @endforeach
                 </div>
                 <!-- Navigation -->
-                <div class="song-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="song-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-right text-lg"></i>
                 </div>
-                <div class="song-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="song-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-left text-lg"></i>
                 </div>
             </div>
@@ -293,7 +293,7 @@
         <section class="pb-32 mt-5 relative group">
             <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"> <span
                     class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Top 10 Artists</h1>
-            <div class="swiper artist-slider !px-10">
+            <div class="swiper artist-slider !px-3 sm:!px-10">
                 <div class="swiper-wrapper py-4">
                     @foreach ($artists as $artist)
                         <div class="swiper-slide">
@@ -319,10 +319,10 @@
                     @endforeach
                 </div>
                 <!-- Navigation -->
-                <div class="artist-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="artist-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-right text-lg"></i>
                 </div>
-                <div class="artist-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-0 group-hover:opacity-100 -translate-y-1/2 border border-white/10">
+                <div class="artist-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gray-800/90 hover:bg-yellow-500 text-white hover:text-black rounded-full cursor-pointer shadow-xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 -translate-y-1/2 border border-white/10">
                     <i class="fa-solid fa-chevron-left text-lg"></i>
                 </div>
             </div>

@@ -10,7 +10,7 @@
         genreName: '{{ old('name') }}',
         genreFor: '{{ old('for') }}'
     }" class="container px-4 py-8 mx-auto">
-        <div class="flex items-center justify-between mb-6">
+        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h1 class="text-2xl font-bold">Genre Management</h1>
             <button @click="showModal = true; editMode = false; genreName = ''; genreId = ''; genreFor = ''"
                 class="px-4 py-2 text-white transition rounded bg-accent hover:bg-accent-dark">
@@ -25,7 +25,8 @@
         @endif
 
         <div class="overflow-hidden bg-white rounded-lg shadow-md">
-            <table class="min-w-full divide-y divide-gray-200">
+            <div class="overflow-x-auto">
+            <table class="min-w-[700px] w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase text-black">ID</th>
@@ -64,11 +65,12 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Modal -->
         <div x-show="showModal" x-cloak
-            class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none py-10">
+            class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto px-3 py-6 outline-none focus:outline-none sm:px-4 sm:py-10">
             <div class="relative w-full max-w-lg mx-auto">
                 <div x-show="showModal" @click.away="showModal = false"
                     x-transition:enter="ease-out duration-300"
@@ -87,7 +89,7 @@
                     </div>
 
                     <!-- Modal Body -->
-                    <form :action="editMode ? `/admin/genres/${genreId}` : '{{ route('admin.genres.store') }}'" method="POST" class="p-6">
+                    <form :action="editMode ? `/admin/genres/${genreId}` : '{{ route('admin.genres.store') }}'" method="POST" class="p-4 sm:p-6">
                         @csrf
                         <template x-if="editMode">
                             @method('PUT')
@@ -121,13 +123,13 @@
                         </div>
 
                         <!-- Modal Footer -->
-                        <div class="flex items-center justify-end mt-6 space-x-3">
+                        <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end sm:space-x-3 sm:gap-0">
                             <button type="button" @click="showModal = false"
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto">
                                 Cancel
                             </button>
                             <button type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-accent rounded-md shadow-sm hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="w-full px-4 py-2 text-sm font-medium text-white bg-accent rounded-md shadow-sm hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto">
                                 <span x-text="editMode ? 'Update Genre' : 'Save Genre'"></span>
                             </button>
                         </div>

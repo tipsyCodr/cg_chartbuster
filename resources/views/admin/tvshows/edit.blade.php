@@ -7,8 +7,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="py-6 sm:py-12">
+        <div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -192,10 +192,10 @@
                                     <label class="block my-1 text-sm font-medium text-gray-700">Artists</label>
                                     
                                     <template x-for="(entry, index) in artistEntries" :key="index">
-                                        <div class="flex gap-2 mt-2">
+                                        <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-12">
                                             <select x-model="entry.artist" 
                                                     :name="'artists[' + index + '][artist_id]'" 
-                                                    class="w-2/3 p-2 border border-gray-300 rounded">
+                                                    class="w-full p-2 border border-gray-300 rounded sm:col-span-5">
                                                 <option value="">Select Artist</option>
                                                 <template x-for="artist in artists" :key="artist.id">
                                                     <option :value="artist.id" x-text="artist.name"  :selected="entry.artist == artist.id"  ></option>
@@ -204,7 +204,7 @@
                                             
                                             <select x-model="entry.role" 
                                                     :name="'artists[' + index + '][role]'" 
-                                                    class="w-1/3 p-2 border border-gray-300 rounded">
+                                                    class="w-full p-2 border border-gray-300 rounded sm:col-span-4">
                                                 <option value="">Select Role</option>
                                                 <template x-for="category in categories" :key="category.id">
                                                     <option :value="category.id" x-text="category.name"   :selected="entry.role == category.id"  ></option>
@@ -213,7 +213,7 @@
                                             
                                             <button type="button" 
                                                     @click="removeArtistEntry(index)"
-                                                    class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600">
+                                                    class="w-full px-2 py-2 text-white bg-red-500 rounded hover:bg-red-600 sm:col-span-3 sm:w-auto">
                                                 Remove
                                             </button>
                                         </div>
@@ -221,7 +221,7 @@
                                 
                                     <button type="button" 
                                             @click="addArtistEntry()"
-                                            class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600">
+                                            class="w-full px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600 sm:w-auto">
                                         Add Another Artist
                                     </button>
                                 </div>
@@ -290,7 +290,7 @@
                                 </select>
                                 <div class="hidden" id="regionInput" x-ref="regionInput">
                                     <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded" value="{{ old('region_other', $tvshows->region_other) }}">
-                                    <button type="button" @click="addRegion" class="px-4 py-2 my-2 bg-blue-500 text-white rounded">Add</button>
+                                    <button type="button" @click="addRegion" class="w-full px-4 py-2 my-2 bg-blue-500 text-white rounded sm:w-auto">Add</button>
                                 </div>
                             </div>
                             
@@ -549,9 +549,9 @@
                             </div>
                         </div>
 
-                        <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
+                        <div class="flex justify-end px-4 py-3 bg-gray-50 sm:px-6">
                             <button type="submit"
-                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="inline-flex w-full justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto">
                                 Save
                             </button>
                         </div>
@@ -561,3 +561,4 @@
         </div>
     </div>
     @endsection
+

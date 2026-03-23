@@ -12,13 +12,13 @@
     @endif
 
 
-   <div class="p-2 bg-white rounded shadow">
+   <div class="bg-white rounded shadow p-3 sm:p-4">
        <!-- Modal Body -->
-       <form action="{{ route('admin.artists.update', $artist) }}" enctype="multipart/form-data" method="POST" class="relative flex-auto p-6">
+       <form action="{{ route('admin.artists.update', $artist) }}" enctype="multipart/form-data" method="POST" class="relative flex-auto p-3 sm:p-6">
                         @csrf
                         @method('PUT')
                         <div class="grid grid-cols-1 gap-6">
-                            <img class="block object-cover w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" src="{{ asset('storage/'.$artist->photo) }}" style="width: 200px; max-height: 300px;" alt="">
+                            <img class="block h-48 w-40 rounded-md border-gray-300 object-cover shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:h-64 sm:w-52" src="{{ asset('storage/'.$artist->photo) }}" alt="">
                             <div>
                                 <label for="photo" class="block text-sm font-medium text-gray-700">Artist Photo</label>
                                 <input type="file" name="photo" id="photo" accept="image/*"
@@ -48,7 +48,7 @@
                             
                             <div x-data="{ selected: @json($artist->category ?? []) }" >
                                 <label class="block text-sm font-medium text-gray-700 mb-2" >Categories</label>
-                                <div class="space-y-2 bg-gray-300 p-2" style='height:200px;overflow-y: auto;'>
+                                <div class="h-52 space-y-2 overflow-y-auto bg-gray-300 p-2">
                                     @foreach($category as $cat)
                                         <label class="flex items-center space-x-2">
                                             <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
@@ -142,20 +142,19 @@
                         </div>
        
                         <!-- Modal Footer -->
-                        <div class="flex items-center justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
+                        <div class="flex flex-col-reverse gap-2 p-4 border-t border-solid rounded-b border-blueGray-200 sm:flex-row sm:items-center sm:justify-end sm:p-6">
                             <button type="button"
                                     onclick="window.history.back()"
-                                    class="px-6 py-2 mr-4 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none">
+                                    class="w-full px-6 py-2 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none sm:mr-4 sm:w-auto">
                                 Cancel
                             </button>
                             <button type="submit"
-                                    class="px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring">
+                                    class="w-full px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring sm:w-auto">
                                 Save Artist
                             </button>
                         </div>
                     </form>
    </div>
-</div>
 @endsection
 
 @push('styles')

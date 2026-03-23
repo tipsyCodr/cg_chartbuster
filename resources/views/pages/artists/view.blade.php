@@ -5,16 +5,16 @@
         </h2>
     </x-slot>
 
-    <div class="px-5 py-6">
+    <div class="px-3 py-6 sm:px-5">
         <!-- Artist Profile Section -->
         <div class="flex flex-col items-start gap-6 lg:flex-row">
             <!-- Artist Photo -->
             <div class="flex flex-col gap-4 md:flex-row">
-                <img class="object-cover rounded-md shadow-md w-52 h-52"
+                <img class="h-40 w-40 rounded-md object-cover shadow-md sm:h-52 sm:w-52"
                     src="{{ $artists->photo ? asset('storage/' . $artists->photo) : asset('images/placeholder.png') }}"
                     alt="{{ $artists->name }}">
                 <div class="">
-                    <h1 class="text-3xl font-bold text-gray-100">{{ $artists->name }}</h1>
+                    <h1 class="break-words text-2xl font-bold text-gray-100 sm:text-3xl">{{ $artists->name }}</h1>
                     @if($artists->cgcb_rating)
                         <div class="flex items-center justify-start">
                             <img class="m-1 " style="width:25px;height:25px;" src="{{ asset('images/badge.png') }}"
@@ -34,24 +34,11 @@
                             $selectedCategories = \App\Models\ArtistCategory::whereIn('id', $categoryIds)->get();
                         }
                     @endphp
-                    <style>
-                        .hide-scrollbar::-webkit-scrollbar {
-                            display: none;
-                            /* Chrome, Safari, Opera */
-                        }
-
-                        .hide-scrollbar {
-                            -ms-overflow-style: none;
-                            /* IE and Edge */
-                            scrollbar-width: none;
-                            /* Firefox */
-                        }
-                    </style>
                     @if($selectedCategories->isNotEmpty())
-                        <div class="flex gap-3 py-2 overflow-x-auto hide-scrollbar max-w-[600px]">
+                        <div class="flex gap-3 py-2 overflow-x-auto hide-scrollbar w-full max-w-full sm:max-w-[600px]">
                             @foreach ($selectedCategories as $cat)
                                 <small
-                                    class=" flex-1 text-nowrap w-fit px-2 py-1 bg-gray-700 text-white cursor-pointer hover:bg-gray-900 rounded">
+                                    class="w-fit shrink-0 whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-white cursor-pointer hover:bg-gray-900">
                                     {{ $cat->name }}
                                 </small>
                             @endforeach
@@ -87,7 +74,7 @@
             @if($artists->movies->isEmpty())
                 <p class="text-gray-400 italic">No movies found</p>
             @else
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach($artists->movies as $movie)
                         <a href="{{ route('movie.show', $movie->slug) }}">
                             <div class="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
@@ -111,16 +98,16 @@
                                         $categoryNames = $movie->pivot->category_names;
                                     @endphp
                                     @if(!empty($categoryNames))
-                                        <p class="text-indigo-400 text-xs mt-1">
-                                            Role:
-                                            <div class="flex flex-wrap gap-1 mt-1">
+                                        <div class="mt-1 text-indigo-300 text-xs">
+                                            <p>Role:</p>
+                                            <div class="mt-1 flex flex-wrap gap-1">
                                                 @foreach($categoryNames as $name)
                                                     <span class="px-2 py-0.5 bg-gray-700 text-white cursor-pointer hover:bg-gray-900 rounded text-[10px]">
                                                         {{ $name }}
                                                     </span>
                                                 @endforeach
                                             </div>
-                                        </p>
+                                        </div>
                                     @endif
                                 </div>
                             </div>

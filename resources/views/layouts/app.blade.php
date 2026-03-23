@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="text-sm text-white font-montserrat">
+<body class="overflow-x-hidden text-sm text-white font-montserrat">
     <div class="px-2 lg:px-20 bg-gradient-dark">
         <x-top-bar />
         {{ $slot }}

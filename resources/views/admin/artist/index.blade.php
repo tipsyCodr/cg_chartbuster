@@ -3,8 +3,8 @@
 @section('page-title', 'Artist Management')
 
 @section('content')
-    <div x-data="{ showArtistModal: false }" class="container px-4 py-8 mx-auto">
-        <div class="flex items-center justify-between mb-6">
+    <div x-data="{ showArtistModal: false }" class="container px-3 py-6 mx-auto sm:px-4 sm:py-8">
+        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h1 class="text-2xl font-bold">Artist Management</h1>
             <button @click="showArtistModal = true"
                 class="px-4 py-2 text-white transition rounded bg-accent hover:bg-accent-dark">
@@ -20,8 +20,8 @@
 
         <!-- Artist Creation Modal -->
         <div x-show="showArtistModal" x-cloak
-            class="fixed inset-0 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-            <div class="relative w-full max-w-6xl mx-auto my-6">
+            class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto px-2 py-4 outline-none focus:outline-none sm:px-4 sm:py-6">
+            <div class="relative w-full max-w-6xl mx-auto my-2 sm:my-6">
                 <div x-show="showArtistModal" x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
@@ -39,7 +39,7 @@
 
                     <!-- Modal Body -->
                     <form action="{{ route('admin.artists.store') }}" enctype="multipart/form-data" method="POST"
-                        class="relative flex-auto p-6">
+                        class="relative flex-auto p-4 sm:p-6">
                         @csrf
                         <div class="grid grid-cols-1 gap-6">
                             <div>
@@ -171,13 +171,13 @@
                         </div>
 
                         <!-- Modal Footer -->
-                        <div class="flex items-center justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
+                        <div class="flex flex-col-reverse gap-2 p-4 border-t border-solid rounded-b border-blueGray-200 sm:flex-row sm:items-center sm:justify-end sm:p-6">
                             <button type="button" @click="showArtistModal = false"
-                                class="px-6 py-2 mr-4 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none">
+                                class="w-full px-6 py-2 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none sm:mr-4 sm:w-auto">
                                 Cancel
                             </button>
                             <button type="submit"
-                                class="px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring">
+                                class="w-full px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring sm:w-auto">
                                 Save Artist
                             </button>
                         </div>
