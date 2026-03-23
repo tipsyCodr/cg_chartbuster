@@ -16,9 +16,18 @@ class WebController extends Controller
     public function index()
     {
         $banner_images = array_merge(
-            Movie::where('show_on_banner', true)->get(['id', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])->toArray(),
-            Song::where('show_on_banner', true)->get(['id', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])->toArray(),
-            TVShow::where('show_on_banner', true)->get(['id', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])->toArray()
+            Movie::where('show_on_banner', true)
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->map(fn($item) => array_merge($item->toArray(), ['type' => 'movie']))
+                ->toArray(),
+            Song::where('show_on_banner', true)
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->map(fn($item) => array_merge($item->toArray(), ['type' => 'song']))
+                ->toArray(),
+            TvShow::where('show_on_banner', true)
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->map(fn($item) => array_merge($item->toArray(), ['type' => 'tv_show']))
+                ->toArray()
         );
         // dd($banner_images );
         $movies = Movie::orderByDesc('cg_chartbusters_ratings') // highest rating first

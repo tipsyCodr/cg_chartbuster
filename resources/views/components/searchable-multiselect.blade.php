@@ -22,18 +22,18 @@
     }
 }" class="relative w-full" @click.away="open = false">
     <div @click="open = !open" 
-         class="w-full p-2 border border-gray-300 rounded cursor-pointer flex justify-between items-center bg-white min-h-[42px] hover:border-gray-400 transition-colors">
-        <div class="flex flex-wrap gap-1 max-w-[90%] pointer-events-none overflow-hidden">
+         class="w-full p-3 border border-gray-300 rounded-lg cursor-pointer flex justify-between items-center bg-white min-h-[48px] hover:border-gray-400 transition-colors shadow-sm">
+        <div class="flex flex-wrap gap-1.5 max-w-[90%] pointer-events-none overflow-hidden">
             <template x-if="selected.length === 0">
-                <span class="text-sm text-gray-400">{{ $placeholder }}</span>
+                <span class="text-sm sm:text-base text-gray-400">{{ $placeholder }}</span>
             </template>
             <template x-for="id in selected" :key="id">
-                <span class="bg-accent/10 border border-accent/20 text-accent px-2 py-0.5 rounded text-xs flex items-center gap-1">
+                <span class="bg-accent/10 border border-accent/20 text-accent px-2.5 py-1 rounded-md text-xs sm:text-sm font-medium flex items-center gap-1">
                     <span x-text="options.find(o => o.id == id)?.name"></span>
                 </span>
             </template>
         </div>
-        <svg class="w-4 h-4 text-gray-500 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
         </svg>
     </div>
@@ -47,16 +47,16 @@
          x-transition:enter="transition ease-out duration-100"
          x-transition:enter-start="transform opacity-0 scale-95"
          x-transition:enter-end="transform opacity-100 scale-100"
-         class="absolute z-[100] w-full mt-1 bg-white border border-gray-300 rounded shadow-xl max-h-60 flex flex-col pt-1 overflow-hidden">
-        <div class="px-2 py-2 border-b border-gray-100 bg-gray-50">
+         class="absolute z-[100] w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-72 flex flex-col pt-1 overflow-hidden">
+        <div class="px-3 py-3 border-b border-gray-100 bg-gray-50">
             <input type="text" x-model="search" placeholder="Search..." 
                    @keydown.enter.prevent="if(filteredOptions.length > 0) toggle(filteredOptions[0].id)"
-                   class="w-full p-1.5 text-sm border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent">
+                   class="w-full p-2.5 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all">
         </div>
         <div class="overflow-y-auto flex-1 custom-scrollbar">
             <template x-for="option in filteredOptions" :key="option.id">
                 <div @click="toggle(option.id)" 
-                     class="px-3 py-2.5 text-sm cursor-pointer hover:bg-gray-100 flex items-center justify-between transition-colors"
+                     class="px-4 py-3 text-base cursor-pointer hover:bg-gray-50 flex items-center justify-between transition-colors border-b border-gray-50 last:border-0"
                      :class="{'bg-accent/5 font-semibold text-accent': selected.includes(option.id)}">
                     <span x-text="option.name"></span>
                     <span x-show="selected.includes(option.id)" class="text-accent">

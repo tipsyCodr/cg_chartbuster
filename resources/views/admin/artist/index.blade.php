@@ -20,13 +20,13 @@
 
         <!-- Artist Creation Modal -->
         <div x-show="showArtistModal" x-cloak
-            class="fixed inset-0 z-50 flex items-start justify-center overflow-x-hidden overflow-y-auto px-2 py-4 outline-none focus:outline-none sm:px-4 sm:py-6">
-            <div class="relative w-full max-w-6xl mx-auto my-2 sm:my-6">
+            class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 outline-none focus:outline-none">
+            <div class="relative w-full h-full sm:h-auto sm:max-w-4xl mx-auto flex flex-col sm:my-6">
                 <div x-show="showArtistModal" x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                     x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-95"
-                    class="relative z-50 flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none z-60">
+                    class="relative flex flex-col w-full h-full sm:h-auto max-h-screen bg-white sm:rounded-2xl shadow-2xl outline-none focus:outline-none z-60 overflow-hidden">
 
                     <!-- Modal Header -->
                     <div class="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
@@ -39,145 +39,83 @@
 
                     <!-- Modal Body -->
                     <form action="{{ route('admin.artists.store') }}" enctype="multipart/form-data" method="POST"
-                        class="relative flex-auto p-4 sm:p-6">
+                        class="relative flex-auto p-5 sm:p-8 overflow-y-auto custom-scrollbar">
                         @csrf
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <label for="photo" class="block text-sm font-medium text-gray-700">Artist Photo</label>
-                                <input type="file" name="photo" id="photo" required accept="image/*"
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @error('photo')
-                                    @foreach ($errors->get('photo') as $message)
-                                        <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                    @endforeach
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Artist Name</label>
-                                <input type="text" name="name" id="name" required
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @error('name')
-                                    @foreach ($errors->get('name') as $message)
-                                        <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                    @endforeach
-                                @enderror
-                            </div>
-                             <div>
-                                <label for="birth_date" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                                <input type="date" name="birth_date" id="birth_date"
-                                       class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       value="">
-                                    <div class="flex items-center mt-2">
-                                        <input type="hidden" name="is_release_year_only" value="0">
-                                        <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only') ? 'checked' : '' }} class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">
-                                        <label for="is_release_year_only" class="block ml-2 text-sm text-gray-900">Show Year Only</label>
-                                    </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const checkbox = document.getElementById('is_release_year_only');
-        const dateInput = document.getElementById('release_date') || document.getElementById('birth_date');
-        function toggleDateInput() {
-            if (checkbox.checked) {
-                if (dateInput.value && dateInput.value.includes('-')) {
-                    dateInput.dataset.fullDate = dateInput.value;
-                    dateInput.value = dateInput.value.split('-')[0];
-                }
-                dateInput.type = 'number';
-                dateInput.min = '1900';
-                dateInput.max = '2100';
-                dateInput.placeholder = 'YYYY';
-            } else {
-                dateInput.type = 'date';
-                dateInput.removeAttribute('min');
-                dateInput.removeAttribute('max');
-                dateInput.removeAttribute('placeholder');
-                if (dateInput.dataset.fullDate && !dateInput.value.includes('-')) {
-                    dateInput.value = dateInput.dataset.fullDate;
-                } else if (dateInput.value && !dateInput.value.includes('-') && dateInput.value.length === 4) {
-                    dateInput.value = dateInput.value + '-01-01';
-                }
-            }
-        }
-        if (checkbox && dateInput) {
-            checkbox.addEventListener('change', toggleDateInput);
-            toggleDateInput();
-            const form = dateInput.closest('form');
-            if (form) {
-                form.addEventListener('submit', function() {
-                    if (checkbox.checked && dateInput.value && !dateInput.value.includes('-')) {
-                        dateInput.type = 'text';
-                        dateInput.value = dateInput.value + '-01-01';
-                    }
-                });
-            }
-        }
-    });
-</script>
-                                @error('birth_date')
-                                @foreach ($errors->get('birth_date') as $message)
-                                    <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                @endforeach
-                                @enderror
-                            </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block mb-1.5 text-sm font-bold text-gray-700">Artist Name</label>
+                                    <input type="text" name="name" id="name" required
+                                        class="mt-1 block w-full rounded-lg {{ $errors->has('name') ? 'border-red-500' : 'border-gray-300' }} text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all">
+                                    @error('name')
+                                        <p class="mt-1 text-xs text-red-500 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
 
-                            <div x-data="{ selected: [] }" >
-                                <label class="block text-sm font-medium text-gray-700 mb-2" >Categories</label>
-                                <div class="space-y-2 bg-gray-300 p-2" style='height:200px;overflow-y: auto;'>
-                                    @foreach($category as $cat)
-                                        <label class="flex items-center space-x-2">
-                                            <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
-                                                name="category[]">
-                                            <span>{{ $cat->name }} ({{ $cat->artist_count ?? 0 }})</span>
-                                        </label>
-                                    @endforeach
+                                <div>
+                                    <label for="photo" class="block mb-1.5 text-sm font-bold text-gray-700">Artist Photo</label>
+                                    <input type="file" name="photo" id="photo" required accept="image/*"
+                                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 transition-all">
+                                </div>
+
+                                <div>
+                                    <label for="birth_date" class="block mb-1.5 text-sm font-bold text-gray-700">Date of Birth</label>
+                                    <div class="flex flex-col gap-3">
+                                        <input type="date" name="birth_date" id="birth_date"
+                                            class="w-full p-2.5 border border-gray-300 rounded-lg text-base shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all">
+                                        <div class="flex items-center gap-2">
+                                            <input type="hidden" name="is_release_year_only" value="0">
+                                            <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only') ? 'checked' : '' }} 
+                                                class="w-5 h-5 text-accent border-gray-300 rounded focus:ring-accent">
+                                            <label for="is_release_year_only" class="text-sm font-medium text-gray-600">Show Year Only</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <x-star-rating id="cgcb_rating" class="block mt-1 w-full" name="cgcb_rating" required></x-star-rating>
+                            <div class="space-y-4">
+                                <div x-data="{ selected: [] }">
+                                    <label class="block mb-1.5 text-sm font-bold text-gray-700">Categories</label>
+                                    <div class="p-4 border border-gray-100 rounded-xl bg-gray-50/50 max-h-48 overflow-y-auto custom-scrollbar space-y-2">
+                                        @foreach($category as $cat)
+                                            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer group">
+                                                <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
+                                                    name="category[]" class="w-5 h-5 text-accent border-gray-300 rounded focus:ring-accent">
+                                                <span class="text-sm font-medium text-gray-700 group-hover:text-accent transition-colors">
+                                                    {{ $cat->name }} <span class="text-xs text-gray-400 group-hover:text-accent/60">({{ $cat->artist_count ?? 0 }})</span>
+                                                </span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
 
+                                <div class="mb-4">
+                                    <label for="cgcb_rating" class="block mb-1.5 text-sm font-bold text-gray-700">CG Rating</label>
+                                    <x-star-rating id="cgcb_rating" class="block w-full" name="cgcb_rating" required></x-star-rating>
+                                </div>
 
-                            {{-- <div>
-                                <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
-                                <input type="text" name="genre" id="genre"
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @error('genre')
-                                @foreach ($errors->get('genre') as $message)
-                                <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                @endforeach
-                                @enderror
-                            </div> --}}
+                                <div>
+                                    <label for="city" class="block mb-1.5 text-sm font-bold text-gray-700">City</label>
+                                    <input type="text" name="city" id="city"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all">
+                                </div>
 
-                            <div>
-                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                <input type="text" name="city" id="city"
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @error('city')
-                                    @foreach ($errors->get('city') as $message)
-                                        <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                    @endforeach
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="bio" class="block text-sm font-medium text-gray-700">Biography</label>
-                                <textarea name="bio" id="bio" rows="3"
-                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                                @error('bio')
-                                    @foreach ($errors->get('bio') as $message)
-                                        <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
-                                    @endforeach
-                                @enderror
+                                <div>
+                                    <label for="bio" class="block mb-1.5 text-sm font-bold text-gray-700">Biography</label>
+                                    <textarea name="bio" id="bio" rows="4"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all"></textarea>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Modal Footer -->
-                        <div class="flex flex-col-reverse gap-2 p-4 border-t border-solid rounded-b border-blueGray-200 sm:flex-row sm:items-center sm:justify-end sm:p-6">
+                        <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
                             <button type="button" @click="showArtistModal = false"
-                                class="w-full px-6 py-2 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear bg-transparent rounded outline-none hover:bg-red-100 focus:outline-none sm:mr-4 sm:w-auto">
+                                class="w-full sm:w-auto px-6 py-2.5 text-sm font-bold text-gray-500 uppercase rounded-lg hover:bg-gray-100 transition-colors">
                                 Cancel
                             </button>
                             <button type="submit"
-                                class="w-full px-6 py-2 text-sm font-bold text-white uppercase rounded shadow bg-accent hover:bg-accent-dark focus:outline-none focus:ring sm:w-auto">
+                                class="w-full sm:w-auto px-10 py-2.5 text-sm font-black text-white uppercase rounded-lg shadow-xl bg-accent hover:bg-accent-dark transition-all transform active:scale-95">
                                 Save Artist
                             </button>
                         </div>

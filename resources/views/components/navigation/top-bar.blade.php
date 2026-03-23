@@ -1,32 +1,38 @@
-<div class="container flex flex-col items-center justify-between gap-4 py-4 mx-auto md:flex-row md:gap-0 md:py-5 max-w-7xl">
-    <!-- Logo + Nav Links -->
-    <div class="flex flex-col items-center justify-center w-full gap-3 md:flex-row md:justify-start md:w-auto md:gap-4">
+<div x-data="{ mobileMenuOpen: false }" class="container flex flex-col items-center justify-between gap-4 py-4 mx-auto md:flex-row md:gap-0 md:py-5 max-w-7xl">
+    <!-- Logo + Desktop Nav Links -->
+    <div class="flex items-center justify-between w-full gap-3 md:w-auto md:justify-start md:gap-4">
         <a href="{{ route('home') }}"
             class="flex items-center font-medium text-gray-100 lg:w-auto">
-            <img src="{{ asset('images/logo.png') }}" class="w-auto h-auto max-w-[150px]" alt="">
+            <img src="{{ asset('images/logo.png') }}" class="w-auto h-auto max-w-[120px] md:max-w-[150px]" alt="Logo">
         </a>
+
+        <!-- Hamburger Button -->
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-300 md:hidden focus:outline-none">
+            <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark fa-2x' : 'fa-bars fa-2x'"></i>
+        </button>
+
+        <!-- Desktop Navigation -->
         <nav
-            class="flex w-full items-center justify-start gap-6 overflow-x-auto whitespace-nowrap text-sm scrollbar-hide md:ml-8 md:w-auto md:justify-center md:gap-8 md:overflow-visible md:border-l md:border-gray-200 md:pl-8 md:text-base">
-            <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300">Home</a>
-            <a href="{{ route('movies') }}" class="font-medium text-gray-300 hover:text-yellow-300">Movies</a>
-            <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300">TV Shows</a>
-            <a href="{{ route('songs') }}" class="font-medium text-gray-300 hover:text-yellow-300">Songs</a>
-            <a href="{{ route('artists') }}" class="font-medium text-gray-300 hover:text-yellow-300">Artist</a>
+            class="hidden md:flex items-center justify-start gap-6 text-sm md:ml-8 md:gap-8 md:border-l md:border-gray-700 md:pl-8 md:text-base">
+            <a href="{{ route('home') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Home</a>
+            <a href="{{ route('movies') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Movies</a>
+            <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">TV Shows</a>
+            <a href="{{ route('songs') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Songs</a>
+            <a href="{{ route('artists') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Artist</a>
         </nav>
     </div>
 
     <!-- Search Bar + Auth Links -->
-    <div class="flex items-center justify-end w-full md:w-auto gap-3 md:gap-6">
-
-        <!-- Search Box -->
-        <div class="relative w-full max-w-sm">
+    <div class="flex items-center justify-between w-full md:w-auto gap-3 md:gap-6">
+        <!-- Search Box (Desktop and Tablet) -->
+        <div class="relative flex-1 md:flex-none md:w-[250px] lg:w-[300px]">
             <input
                 type="text"
                 id="liveSearchInput"
                 name="query"
                 placeholder="Search..."
                 autocomplete="off"
-                class="w-full px-4 py-2 pl-10 pr-4 text-sm text-white bg-gray-800 border border-gray-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                class="w-full px-4 py-2 pl-10 pr-4 text-sm text-white bg-gray-900/50 border border-gray-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
             />
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <i class="fa fa-search"></i>
@@ -34,16 +40,16 @@
 
             <!-- Floating Results -->
             <div id="liveSearchResults"
-                class="absolute z-50 w-full mt-2 bg-white rounded-md shadow-lg hidden max-h-80 overflow-auto border border-gray-200">
+                class="absolute z-[100] w-full mt-2 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl hidden max-h-[70vh] overflow-y-auto">
                 <div id="liveSearchLoading"
-                    class="flex items-center justify-center py-4 text-gray-500 hidden">
-                    <svg class="w-5 h-5 mr-2 animate-spin text-yellow-500" fill="none" viewBox="0 0 24 24">
+                    class="flex items-center justify-center py-6 text-gray-400 hidden">
+                    <svg class="w-6 h-6 mr-3 animate-spin text-yellow-500" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor"
                             d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 00-8 8z"></path>
                     </svg>
-                    Loading...
+                    <span>Searching...</span>
                 </div>
             </div>
         </div>
@@ -53,27 +59,59 @@
             @auth
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = ! open"
-                        class="flex items-center font-medium text-gray-300 hover:text-gray-100">
-                        {{ explode(' ', auth()->user()->name)[0] }}
-                        <i class="fa-solid fa-user-circle fa-2x ml-2"></i>
+                        class="flex items-center gap-2 font-medium text-gray-300 hover:text-yellow-400 transition-colors">
+                        <span class="hidden sm:inline">{{ explode(' ', auth()->user()->name)[0] }}</span>
+                        <i class="fa-solid fa-circle-user text-2xl"></i>
                     </button>
                     <div x-show="open" @click.outside="open = false"
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="transform opacity-0 scale-95"
+                        x-transition:enter-end="transform opacity-100 scale-100"
+                        class="absolute right-0 mt-3 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl py-2 z-[110]">
                         <a href="{{ route('profile.edit') }}"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                            class="block px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-yellow-400 transition-colors">Your Profile</a>
+                        <div class="h-px bg-gray-700 my-1 mx-2"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">Log out</button>
+                                class="block px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-red-400 w-full text-left transition-colors">Log out</button>
                         </form>
                     </div>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="font-medium text-gray-300 hover:text-gray-100">
-                    <i class="text-yellow-400 fa-solid fa-user-circle fa-2x"></i>
+                <a href="{{ route('login') }}" class="font-medium text-gray-300 hover:text-yellow-400 transition-colors">
+                    <i class="fa-solid fa-circle-user text-2xl"></i>
                 </a>
             @endauth
         </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-4"
+         class="md:hidden w-full bg-gray-900/95 backdrop-blur-md rounded-xl border border-gray-700 p-4 shadow-2xl mt-2" x-cloak>
+        <nav class="flex flex-col gap-4">
+            <a href="{{ route('home') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 border-b border-gray-800 flex justify-between items-center group">
+                Home <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('movies') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 border-b border-gray-800 flex justify-between items-center group">
+                Movies <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('tv-shows') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 border-b border-gray-800 flex justify-between items-center group">
+                TV Shows <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('songs') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 border-b border-gray-800 flex justify-between items-center group">
+                Songs <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('artists') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
+                Artist <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+        </nav>
     </div>
 </div>
 
