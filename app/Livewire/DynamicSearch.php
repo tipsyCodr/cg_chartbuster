@@ -21,12 +21,14 @@ class DynamicSearch extends Component
     public $model = '';
     public $modelRoute = 'App\\Models\\';
     public $columns = [];
+    public $isFrontend = false;
     protected $paginationTheme = 'tailwind';
 
-    public function mount($model, $columns = [])
+    public function mount($model, $columns = [], $isFrontend = false)
     {
         $this->model = $model;
         $this->columns = $columns;
+        $this->isFrontend = $isFrontend;
     }
 
     public function updatingQuery()
@@ -47,6 +49,10 @@ class DynamicSearch extends Component
         $modelClass = $this->modelRoute . $this->model;
 
         $selectColumns = array_merge(['id'], $this->columns);
+
+        if (!in_array('slug', $selectColumns)) {
+            $selectColumns[] = 'slug';
+        }
 
         $results = $modelClass::query()
             ->select($selectColumns)

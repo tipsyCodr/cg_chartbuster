@@ -115,13 +115,13 @@
                         if (items.length > 0) {
                             html += `<div class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-100">${title}</div>`;
                             items.forEach(item => {
-                                html += `<a href="/${route}/${item.id}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-100">${item[prop]}</a>`;
+                                html += `<a href="/${route}/${item.slug}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-100">${item[prop]}</a>`;
                             });
                         }
                     };
 
                     renderSection("Movies", data.movies, "movie");
-                    renderSection("TV Shows", data.tvshows, "tvshow");
+                    renderSection("TV Shows", data.tvshows, "tv-show");
                     renderSection("Songs", data.songs, "song");
                     renderSection("Artists", data.artists, "artist", "name");
 

@@ -58,15 +58,28 @@
                                 @endif
                             </td>
                         @endforeach
-                            <td class="px-4 py-4 text-sm bg-white border-b border-gray-200 align-top">
+                        <td class="px-4 py-4 text-sm bg-white border-b border-gray-200 align-top">
                             <div class="flex space-x-2">
-                                <a href="{{ route('admin.' . strtolower(Str::plural($model)) . '.edit', $record->id) }}" class="text-blue-600 hover:text-blue-900 whitespace-nowrap">Edit</a>
-                                <form action="{{ route('admin.' . strtolower(Str::plural($model)) . '.destroy', $record->id) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900 whitespace-nowrap">Delete</button>
-                                </form>
+                                @if ($isFrontend)
+                                    @php
+                                        $routePrefix = strtolower($model);
+                                        if ($routePrefix === 'tvshow') {
+                                            $routePrefix = 'tv-show';
+                                        }
+                                    @endphp
+                                    <a href="{{ route($routePrefix . '.show', $record->slug) }}"
+                                        class="text-blue-600 hover:text-blue-900 whitespace-nowrap">View</a>
+                                @else
+                                    <a href="{{ route('admin.' . strtolower(Str::plural($model)) . '.edit', $record->id) }}"
+                                        class="text-blue-600 hover:text-blue-900 whitespace-nowrap">Edit</a>
+                                    <form action="{{ route('admin.' . strtolower(Str::plural($model)) . '.destroy', $record->id) }}"
+                                        method="POST" onsubmit="return confirm('Are you sure?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="text-red-600 hover:text-red-900 whitespace-nowrap">Delete</button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
