@@ -26,6 +26,7 @@ class Artist extends Model
     
     protected $casts = [
         'birth_date' => 'date',
+        'category' => 'array'
     ];
 
     public function getSlugField(): string

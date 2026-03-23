@@ -229,7 +229,7 @@
 
 
 
-                            <div>
+                            {{-- <div>
                                 <label for="director" class="block my-1 text-sm font-medium text-gray-700">Director</label>
                                 <input type="text" name="director" id="director"
                                     class="w-full p-2 my-2 border border-gray-300 rounded">
@@ -238,7 +238,7 @@
                                         <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
                                     @endforeach
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             <div x-data="{ 
                                 regions: [], 
@@ -306,7 +306,7 @@
                                 <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" required></x-star-rating>
                             </div>
 
-                            <div>
+                            {{-- <div>
                                 <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
                                     <x-star-rating id="rating" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
                                 </div>
@@ -414,7 +414,7 @@
                                 <label for="others" class="block my-1 text-sm font-medium text-gray-700">Others</label>
                                 <input type="text" name="others" id="others"
                                     class="w-full p-2 my-2 border border-gray-300 rounded">
-                            </div>
+                            </div> --}}
 {{-- 
                             <div>
                                 <label for="content_description" class="block my-1 text-sm font-medium text-gray-700">Content Description</label>

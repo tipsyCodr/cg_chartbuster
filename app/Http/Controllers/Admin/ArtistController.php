@@ -11,7 +11,10 @@ class ArtistController extends Controller
 {
     public function index()
     {
-        $category = ArtistCategory::all();
+        $category = ArtistCategory::all()->map(function($cat) {
+            $cat->setAttribute('artist_count', Artist::whereJsonContains('category', (string)$cat->id)->count());
+            return $cat;
+        });
         $artists = Artist::latest()->paginate(10);
         return view('admin.artist.index', compact('artists', 'category'));
     }
@@ -41,7 +44,7 @@ class ArtistController extends Controller
             'city' => 'nullable|max:255',
             'is_release_year_only' => 'nullable|boolean',
         ]);
-        $validatedData['category'] = json_encode($validatedData['category']);
+        // $validatedData['category'] = json_encode($validatedData['category']);
         if ($request->hasFile('photo')) {
             try {
                 $path = $request->photo->store('artists', 'public');
@@ -60,7 +63,10 @@ class ArtistController extends Controller
 
     public function edit(Artist $artist)
     {
-        $category = ArtistCategory::all();
+        $category = ArtistCategory::all()->map(function($cat) {
+            $cat->setAttribute('artist_count', Artist::whereJsonContains('category', (string)$cat->id)->count());
+            return $cat;
+        });
         return view('admin.artist.edit', compact('artist', 'category'));
     }
 

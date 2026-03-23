@@ -127,7 +127,7 @@
                                         <label class="flex items-center space-x-2">
                                             <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
                                                 name="category[]">
-                                            <span>{{ $cat->name }}</span>
+                                            <span>{{ $cat->name }} ({{ $cat->artist_count ?? 0 }})</span>
                                         </label>
                                     @endforeach
                                 </div>
@@ -188,7 +188,7 @@
         </div>
 
         <div class="overflow-hidden bg-white rounded-lg shadow-md">
-            <livewire:dynamic-search model="Artist" :columns="['photo', 'name', 'birth_date', 'city']" />
+            <livewire:dynamic-search model="Artist" :columns="['photo', 'name', 'category', 'birth_date', 'city']" />
 
         </div>
     </div>

@@ -239,7 +239,7 @@
 
 
 
-                                <div>
+                                {{-- <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
                                     <input type="text" name="director" id="director"  value="{{ $songs->director }}"
@@ -250,7 +250,7 @@
                                             </div>
                                         @endforeach
                                     @enderror
-                                </div>
+                                </div> --}}
 
 
                                 <div x-data="{ 
@@ -321,10 +321,10 @@
 
                             </div>
 
-                            <div>
+                            {{-- <div>
                                 <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
                                 <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" :value="$songs->imdb_ratings ?? old('imdb_ratings')" required></x-star-rating>
-                            </div>
+                            </div> --}}
 
 {{--            
                                 <div>
@@ -348,12 +348,12 @@
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div> --}}
 
-                                <div>
+                                {{-- <div>
                                     <label for="support_artists"
                                         class="block my-1 text-sm font-medium text-gray-700">Support Artists</label>
                                     <input type="text" name="support_artists" id="support_artists" value="{{ $songs->support_artists }}"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
+                                </div> --}}
 
 
 
@@ -426,7 +426,7 @@
                                     <input type="text" name="audio_studio" id="audio_studio"  value="{{ $songs->audio_studio }}"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                 </div>
-                                <div>
+                                {{-- <div>
                                     <label for="editor"
                                         class="block my-1 text-sm font-medium text-gray-700">Editor</label>
                                     <input type="text" name="editor" id="editor" value="{{ $songs->editor }}"
@@ -460,7 +460,7 @@
                                             class="block my-1 text-sm font-medium text-gray-700">Others</label>
                                         <input type="text" name="others" id="others"  value="{{ $songs->others }}"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div>
                                         <label for="content_description"

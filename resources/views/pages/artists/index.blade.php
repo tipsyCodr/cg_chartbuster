@@ -11,8 +11,8 @@
                 class="px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white">
                 <option value="">All Categories</option>
                 @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ (isset($categoryId) && $categoryId == $cat->id) ? 'selected' : '' }}>
-                        {{ $cat->name }}
+                    <option value="{{ $cat->slug }}" {{ (isset($categoryInput) && $categoryInput == $cat->slug) ? 'selected' : '' }}>
+                        {{ $cat->name }} ({{ $cat->artist_count ?? 0 }})
                     </option>
                 @endforeach
             </select>

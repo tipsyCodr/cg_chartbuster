@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // First initialize the thumbnail slider
     const thumbnailSlider = new Swiper('.thumbnail-slider', {
         modules: [Navigation, Thumbs],
-        slidesPerView: 4, // Set a fixed number of slides
+        slidesPerView: 4,
         spaceBetween: 10,
-        centeredSlides: true,
+        centeredSlides: false,
         loop: true,
-        loopedSlides: 10, // Set to number of slides you have or more
         slideToClickedSlide: true,
         direction: 'vertical',
         watchSlidesProgress: true,
@@ -89,5 +88,44 @@ document.addEventListener('DOMContentLoaded', () => {
         mainSlider.autoplay.start();
     });
 
+    // Initialize Movie, Song, and Artist Sliders
+    const commonSliderOptions = {
+        slidesPerView: 2,
+        spaceBetween: 10,
+        breakpoints: {
+            640: { slidesPerView: 3, spaceBetween: 15 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+            1280: { slidesPerView: 6, spaceBetween: 25 },
+        },
+        observer: true,
+        observeParents: true,
+    };
 
+    new Swiper('.movie-slider', {
+        ...commonSliderOptions,
+        navigation: {
+            nextEl: '.movie-next',
+            prevEl: '.movie-prev',
+        },
+    });
+    new Swiper('.song-slider', {
+        ...commonSliderOptions,
+        navigation: {
+            nextEl: '.song-next',
+            prevEl: '.song-prev',
+        },
+    });
+    new Swiper('.artist-slider', {
+        ...commonSliderOptions,
+        slidesPerView: 2,
+        breakpoints: {
+            640: { slidesPerView: 3, spaceBetween: 15 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+            1280: { slidesPerView: 5, spaceBetween: 25 },
+        },
+        navigation: {
+            nextEl: '.artist-next',
+            prevEl: '.artist-prev',
+        },
+    });
 });

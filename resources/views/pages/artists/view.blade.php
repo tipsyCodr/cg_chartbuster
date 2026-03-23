@@ -23,24 +23,14 @@
                         </div>
                     @endif
                     @php
-                        // $categoryIds = json_decode($artists->category, true) ?? [];
-                        // $selectedCategories = \App\Models\ArtistCategory::whereIn('id', $categoryIds)->get();
-
-                        $decoded = json_decode($artists->category, true);
-
-                        // Normalize: make sure it's always an array
-                        if (is_null($decoded)) {
-                            $categoryIds = [];
-                        } elseif (is_array($decoded)) {
-                            $categoryIds = $decoded;
-                        } else {
-                            // if it's a single int/string, wrap it in array
-                            $categoryIds = [$decoded];
-                        }
-
+                        $categoryIds = $artists->category ?? [];
                         $selectedCategories = collect();
 
                         if (!empty($categoryIds)) {
+                            // Ensure $categoryIds is an array even if it was miraculously a single value
+                            if (!is_array($categoryIds)) {
+                                $categoryIds = [$categoryIds];
+                            }
                             $selectedCategories = \App\Models\ArtistCategory::whereIn('id', $categoryIds)->get();
                         }
                     @endphp

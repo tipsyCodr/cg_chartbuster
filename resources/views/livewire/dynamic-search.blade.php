@@ -32,6 +32,26 @@
                             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                 @if (Str::contains($column, ['image','photo']))
                                     <img src="{{ Storage::url($record->$column ?? '') }}" alt="" class="object-cover w-16 h-24 rounded">
+                                @elseif (in_array($column, ['category', 'category_ids', 'artist_category_ids']))
+                                    @php
+                                        $ids = is_array($record->$column) ? $record->$column : (is_string($record->$column) ? json_decode($record->$column, true) : []);
+                                        $allCats = cache()->remember('artist_categories_all', 3600, function() {
+                                            return \App\Models\ArtistCategory::pluck('name', 'id')->toArray();
+                                        });
+                                    @endphp
+                                    @if($ids)
+                                        <div class="flex flex-wrap gap-1">
+                                            @foreach($ids as $id)
+                                                @if(isset($allCats[$id]))
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
+                                                        {{ $allCats[$id] }}
+                                                    </span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span class="text-gray-400 italic">No category</span>
+                                    @endif
                                 @else
                                     {{ $record->$column ?? 'N/A' }}
                                 @endif

@@ -234,7 +234,7 @@
 
 
 
-                                <div>
+                                {{-- <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
                                     <input type="text" name="director" id="director"
@@ -245,7 +245,7 @@
                                             </div>
                                         @endforeach
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div x-data="{ 
                                     regions: [], 
@@ -315,7 +315,7 @@
     
                                 </div>
     
-                                <div>
+                                {{-- <div>
                                     <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
                                     <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" required></x-star-rating>
                                 </div>
@@ -497,7 +497,7 @@
                                             class="block my-1 text-sm font-medium text-gray-700">Others</label>
                                         <input type="text" name="others" id="others"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div>
                                         <label for="content_description"

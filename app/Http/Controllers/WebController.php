@@ -118,24 +118,28 @@ class WebController extends Controller
 
     public function artists(Request $request)
     {
-        $categoryId = $request->input('category');
-
+        $categoryInput = $request->input('category');
         $query = Artist::query();
 
-        if ($categoryId) {
-            // If using JSON category field
-            $query->whereJsonContains('category', (int) $categoryId);
+        if ($categoryInput) {
+            if (is_numeric($categoryInput)) {
+                $category = ArtistCategory::find($categoryInput);
+            } else {
+                $category = ArtistCategory::where('slug', $categoryInput)->first();
+            }
 
-            // Or if using pivot table for categories:
-            // $query->whereHas('categories', function($q) use ($categoryId) {
-            //     $q->where('artist_category_id', $categoryId);
-            // });
+            if ($category) {
+                $query->whereJsonContains('category', (string) $category->id);
+            }
         }
 
         $artists = $query->get();
-        $categories = ArtistCategory::all(); // fetch categories for filter dropdown
+        $categories = ArtistCategory::all()->map(function($cat) {
+            $cat->setAttribute('artist_count', Artist::whereJsonContains('category', (string)$cat->id)->count());
+            return $cat;
+        });
 
-        return view('pages.artists.index', compact('artists', 'categories', 'categoryId'));
+        return view('pages.artists.index', compact('artists', 'categories', 'categoryInput'));
     }
 
     public function artist($slug)

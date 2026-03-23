@@ -46,14 +46,14 @@
                             
                             
                             
-                            <div x-data="{ selected: {{ $artist->category }} }" >
+                            <div x-data="{ selected: @json($artist->category ?? []) }" >
                                 <label class="block text-sm font-medium text-gray-700 mb-2" >Categories</label>
                                 <div class="space-y-2 bg-gray-300 p-2" style='height:200px;overflow-y: auto;'>
                                     @foreach($category as $cat)
                                         <label class="flex items-center space-x-2">
                                             <input type="checkbox" value="{{ $cat->id }}" x-model="selected"
                                                 name="category[]">
-                                            <span>{{ $cat->name }}</span>
+                                            <span>{{ $cat->name }} ({{ $cat->artist_count ?? 0 }})</span>
                                         </label>
                                     @endforeach
                                 </div>

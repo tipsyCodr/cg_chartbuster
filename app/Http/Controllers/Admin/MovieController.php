@@ -130,11 +130,6 @@ class MovieController extends Controller
             }
         }
 
-        // Encode as JSON for the pivot table (if not handled by custom pivot cast in sync)
-        foreach ($artistData as &$data) {
-            $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
-        }
-        
         $movie->artists()->sync($artistData);
 
 

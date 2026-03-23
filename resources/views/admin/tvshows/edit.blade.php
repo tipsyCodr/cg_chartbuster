@@ -233,7 +233,7 @@
 
 
 
-                                <div>
+                                {{-- <div>
                                     <label for="director"
                                         class="block my-1 text-sm font-medium text-gray-700">Director</label>
                                     <input type="text" name="director" id="director"  value="{{ $tvshows->director }}"
@@ -244,7 +244,7 @@
                                             </div>
                                         @endforeach
                                     @enderror
-                                </div>
+                                </div> --}}
 
 
                                 <div x-data="{ 
@@ -313,7 +313,7 @@
                                     <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" :value="$tvshows->cg_chartbusters_ratings ?? old('cg_chartbusters_ratings')" required></x-star-rating>
                                 </div>
                                 
-                                <div>
+                                {{-- <div>
                                     <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
                                     <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" :value="$tvshows->imdb_ratings ?? old('imdb_ratings')" required></x-star-rating>
                                 </div>
@@ -496,7 +496,7 @@
                                             class="block my-1 text-sm font-medium text-gray-700">Others</label>
                                         <input type="text" name="others" id="others"  value="{{ $tvshows->others }}"
                                             class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div>
                                         <label for="content_description"
