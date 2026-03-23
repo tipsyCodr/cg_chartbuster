@@ -39,6 +39,7 @@ class ArtistController extends Controller
             'bio' => 'nullable',
             'birth_date' => 'nullable',
             'city' => 'nullable|max:255',
+            'is_release_year_only' => 'nullable|boolean',
         ]);
         $validatedData['category'] = json_encode($validatedData['category']);
         if ($request->hasFile('photo')) {
@@ -72,6 +73,7 @@ class ArtistController extends Controller
             'cgcb_rating' => 'nullable',
             'birth_date' => 'nullable',
             'city' => 'nullable|max:255',
+            'is_release_year_only' => 'nullable|boolean',
         ]);
 
         // dd($validatedData);

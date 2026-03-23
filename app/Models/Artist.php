@@ -23,6 +23,10 @@ class Artist extends Model
         'hyperlinks_links',
         'is_release_year_only'
     ];
+    
+    protected $casts = [
+        'birth_date' => 'date',
+    ];
 
     public function getSlugField(): string
     {
@@ -40,22 +44,26 @@ class Artist extends Model
     }
     public function movies()
     {
-        // return $this->belongsToMany(Movie::class)->withPivot('role');
-        return $this->belongsToMany(Movie::class, 'artist_movie')
-            ->withPivot('artist_category_id', 'role') // include extra pivot columns
-            ->withTimestamps()
-            ->with('pivotCategory'); // eager load pivot category
-
+        return $this->belongsToMany(Movie::class, 'artist_movie', 'artist_id', 'movie_id')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
+            ->withTimestamps();
     }
 
     public function songs()
     {
-        return $this->belongsToMany(Song::class)->withPivot('role');
+        return $this->belongsToMany(Song::class, 'artist_song', 'artist_id', 'song_id')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
+            ->withTimestamps();
     }
 
     public function tvshows()
     {
-        return $this->belongsToMany(TvShow::class)->withPivot('role');
+        return $this->belongsToMany(TvShow::class, 'artist_tvshow', 'artist_id', 'tvshow_id')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
+            ->withTimestamps();
     }
 
     public function albums()

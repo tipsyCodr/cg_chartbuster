@@ -81,11 +81,7 @@
                                 class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-gray-600">
                             <div>
                                 <h4 class="text-lg font-semibold text-white">{{ $artist->name }}</h4>
-                                @php
-                                    $roleId = $artist->pivot->artist_category_id;
-                                    $roleName = \App\Models\ArtistCategory::find($roleId)?->name ?? 'Unknown';
-                                @endphp
-                                <p class="text-sm text-gray-400">{{ $roleName }}</p>
+                                <p class="text-sm text-gray-400">{{ implode(', ', $artist->pivot->category_names) }}</p>
                             </div>
                         </a>
                     @endforeach

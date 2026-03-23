@@ -72,6 +72,7 @@ class MovieController extends Controller
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
+            'is_release_year_only' => 'nullable|boolean',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id'  
@@ -112,21 +113,29 @@ class MovieController extends Controller
 
         // Prepare artist data for attachment
         $artistData = [];
+        $artists = $request->input('artists', []);
         foreach ($artists as $artistEntry) {
             if (!empty($artistEntry['artist_id'])) {
-                // Create a new entry for each artist-role combination
                 $artistId = $artistEntry['artist_id'];
-                $movie->artists()->attach($artistId, [
-                    'artist_category_id' => $artistEntry['role'] ?? null,
-                    'role' => $artistEntry['role'] ?? null,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $roleId = $artistEntry['role'] ?? null;
+                
+                if ($roleId) {
+                    if (!isset($artistData[$artistId])) {
+                        $artistData[$artistId] = ['artist_category_ids' => []];
+                    }
+                    if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                        $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                    }
+                }
             }
         }
+
+        // Encode as JSON for the pivot table (if not handled by custom pivot cast in sync)
+        foreach ($artistData as &$data) {
+            $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
+        }
         
-        // Attach artists with their roles
-        $movie->artists()->attach($artistData);
+        $movie->artists()->sync($artistData);
 
 
         return redirect()->route('admin.movies.index')
@@ -195,6 +204,7 @@ class MovieController extends Controller
             'hyperlinks_links' => 'nullable|string',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
+            'is_release_year_only' => 'nullable|boolean',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id' 
@@ -220,34 +230,42 @@ class MovieController extends Controller
             }
         }
 
+        $artists = $request->input('artists', []);
         $artistData = [];
-        foreach ($validatedData['artists'] ?? [] as $artistEntry) {
+        foreach ($artists as $artistEntry) {
             if (!empty($artistEntry['artist_id'])) {
-                // Instead of using artist_id as the key, we'll add each entry as a separate array item
-                $artistData[] = [
-                    'artist_id' => $artistEntry['artist_id'],
-                    'artist_category_id' => $artistEntry['role'] ?? null,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                $artistId = $artistEntry['artist_id'];
+                $roleId = $artistEntry['role'] ?? null;
+                
+                if ($roleId) {
+                    if (!isset($artistData[$artistId])) {
+                        $artistData[$artistId] = ['artist_category_ids' => []];
+                    }
+                    if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                        $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                    }
+                }
             }
         }
 
-        // Use syncWithoutDetaching and attach methods instead of sync
-        $movie->artists()->detach();
-        foreach ($artistData as $data) {
-            $artist_id = $data['artist_id'];
-            unset($data['artist_id']); // Remove artist_id from the pivot data
-            $movie->artists()->attach($artist_id, $data);
-        }
+        // Log raw input for debugging
+        \Log::debug('Movie Artist Sync - Raw Input:', ['artists' => $request->input('artists')]);
+
+        // Grouping logic (already correct, but let's double check it in logs)
+        \Log::debug('Movie Artist Sync - Grouped Data:', ['artistData' => $artistData]);
+        
+        // Sync without manual json_encode to see if ArtistMediaPivot's $casts handles it
+        // Actually, the pivot model cast ONLY works if Laravel is aware of it during sync.
+        // It's safer to pass the array to sync() IF we trust Laravel, but let's try passing it as array first.
+        $movie->artists()->sync($artistData);
         
          // Update movie
          $genreIds = $validatedData['genre_ids'] ?? [];
          unset($validatedData['genre_ids']);
-         
-         $movie->genres()->sync($genreIds);
          unset($validatedData['artists']);
-        $movie->update($validatedData);
+         
+         $movie->update($validatedData);
+         $movie->genres()->sync($genreIds);
 
         return redirect()->route('admin.movies.index')
             ->with('success', 'Movie updated successfully');

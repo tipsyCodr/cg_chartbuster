@@ -64,6 +64,7 @@ class SongController extends Controller
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
             'show_on_banner' => 'nullable',
+            'is_release_year_only' => 'nullable|boolean',
         ]);
 
         // Step 2: Handle file uploads
@@ -96,16 +97,28 @@ class SongController extends Controller
             $song = Song::create($validatedData);
             $song->genres()->sync($genreIds);
 
+            $artistData = [];
             foreach ($artists as $artistEntry) {
                 if (!empty($artistEntry['artist_id'])) {
-                    $song->artists()->attach($artistEntry['artist_id'], [
-                        'artist_category_id' => $artistEntry['role'] ?? null,
-                        'role' => $artistEntry['role'] ?? null,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    $artistId = $artistEntry['artist_id'];
+                    $roleId = $artistEntry['role'] ?? null;
+                    
+                    if ($roleId) {
+                        if (!isset($artistData[$artistId])) {
+                            $artistData[$artistId] = ['artist_category_ids' => []];
+                        }
+                        if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                            $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                        }
+                    }
                 }
             }
+
+            foreach ($artistData as &$data) {
+                $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
+            }
+            
+            $song->artists()->sync($artistData);
 
             DB::commit();
             return redirect()->route('admin.songs.index')->with('success', 'Song created successfully.');
@@ -170,7 +183,7 @@ class SongController extends Controller
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
             'show_on_banner' => 'nullable',
-
+            'is_release_year_only' => 'nullable|boolean',
         ]);
         if ($request->hasFile('poster_image')) {
             try {
@@ -191,26 +204,29 @@ class SongController extends Controller
             }
         }
 
+        $artists = $request->input('artists', []);
         $artistData = [];
-        foreach ($validatedData['artists'] ?? [] as $artistEntry) {
+        foreach ($artists as $artistEntry) {
             if (!empty($artistEntry['artist_id'])) {
-                // Instead of using artist_id as the key, we'll add each entry as a separate array item
-                $artistData[] = [
-                    'artist_id' => $artistEntry['artist_id'],
-                    'artist_category_id' => $artistEntry['role'] ?? null,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                $artistId = $artistEntry['artist_id'];
+                $roleId = $artistEntry['role'] ?? null;
+                
+                if ($roleId) {
+                    if (!isset($artistData[$artistId])) {
+                        $artistData[$artistId] = ['artist_category_ids' => []];
+                    }
+                    if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                        $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                    }
+                }
             }
         }
 
-        // Use syncWithoutDetaching and attach methods instead of sync
-        $song->artists()->detach();
-        foreach ($artistData as $data) {
-            $artist_id = $data['artist_id'];
-            unset($data['artist_id']); // Remove artist_id from the pivot data
-            $song->artists()->attach($artist_id, $data);
+        foreach ($artistData as &$data) {
+            $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
         }
+
+        $song->artists()->sync($artistData);
 
 
         $genreIds = $validatedData['genre_ids'] ?? [];

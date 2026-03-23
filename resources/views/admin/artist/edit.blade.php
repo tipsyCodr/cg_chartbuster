@@ -63,7 +63,7 @@
                                 <label for="birth_date" class="block text-sm font-medium text-gray-700">Date of Birth</label>
                                 <input type="date" name="birth_date" id="birth_date"
                                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       value="{{ $artist->birth_date }}">
+                                       value="{{ $artist->birth_date?->format('Y-m-d') }}">
                                     <div class="flex items-center mt-2">
                                         <input type="hidden" name="is_release_year_only" value="0">
                                         <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only', $artist->is_release_year_only) ? 'checked' : '' }} class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">

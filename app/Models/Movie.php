@@ -75,7 +75,8 @@ class Movie extends Model
     public function artists()
     {
         return $this->belongsToMany(Artist::class)
-            ->withPivot('artist_category_id', 'role')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
             ->withTimestamps();
     }
     public function albums()
@@ -86,10 +87,6 @@ class Movie extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'movie_id');
-    }
-    public function pivotCategory()
-    {
-        return $this->belongsTo(ArtistCategory::class, 'artist_category_id');
     }
     public function genre()
     {

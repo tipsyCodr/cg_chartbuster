@@ -74,6 +74,7 @@ class TvShowController extends Controller
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
+            'is_release_year_only' => 'nullable|boolean',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id'
@@ -115,16 +116,25 @@ class TvShowController extends Controller
          $artistData = [];
          foreach ($artists as $artistEntry) {
              if (!empty($artistEntry['artist_id'])) {
-                 // Create a new entry for each artist-role combination
                  $artistId = $artistEntry['artist_id'];
-                 $tvShow->artists()->attach($artistId, [
-                     'artist_category_id' => $artistEntry['role'] ?? null,
-                     'role' => $artistEntry['role'] ?? null,
-                     'created_at' => now(),
-                     'updated_at' => now(),
-                 ]);
+                 $roleId = $artistEntry['role'] ?? null;
+                 
+                 if ($roleId) {
+                     if (!isset($artistData[$artistId])) {
+                         $artistData[$artistId] = ['artist_category_ids' => []];
+                     }
+                     if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                         $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                     }
+                 }
              }
          }
+
+         foreach ($artistData as &$data) {
+             $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
+         }
+         
+         $tvShow->artists()->sync($artistData);
    
 
     
@@ -198,6 +208,7 @@ class TvShowController extends Controller
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
+            'is_release_year_only' => 'nullable|boolean',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
@@ -224,26 +235,29 @@ class TvShowController extends Controller
             }
         }
 
+            $artists = $request->input('artists', []);
             $artistData = [];
-            foreach ($validatedData['artists'] ?? [] as $artistEntry) {
+            foreach ($artists as $artistEntry) {
                 if (!empty($artistEntry['artist_id'])) {
-                    // Instead of using artist_id as the key, we'll add each entry as a separate array item
-                    $artistData[] = [
-                        'artist_id' => $artistEntry['artist_id'],
-                        'artist_category_id' => $artistEntry['role'] ?? null,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
+                    $artistId = $artistEntry['artist_id'];
+                    $roleId = $artistEntry['role'] ?? null;
+                    
+                    if ($roleId) {
+                        if (!isset($artistData[$artistId])) {
+                            $artistData[$artistId] = ['artist_category_ids' => []];
+                        }
+                        if (!in_array($roleId, $artistData[$artistId]['artist_category_ids'])) {
+                            $artistData[$artistId]['artist_category_ids'][] = (int)$roleId;
+                        }
+                    }
                 }
             }
 
-            // Use syncWithoutDetaching and attach methods instead of sync
-            $tvShow->artists()->detach();
-            foreach ($artistData as $data) {
-                $artist_id = $data['artist_id'];
-                unset($data['artist_id']); // Remove artist_id from the pivot data
-                $tvShow->artists()->attach($artist_id, $data);
+            foreach ($artistData as &$data) {
+                $data['artist_category_ids'] = json_encode($data['artist_category_ids']);
             }
+
+            $tvShow->artists()->sync($artistData);
 
         try {
             // Explicitly convert show_on_banner to boolean

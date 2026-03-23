@@ -142,7 +142,7 @@ class WebController extends Controller
     {
         $artists = Artist::with(['movies' => function ($query) {
             $query->orderBy('release_date', 'desc');
-        }, 'movies.pivotCategory'])->where('slug', $slug)->firstOrFail();
+        }])->where('slug', $slug)->firstOrFail();
         return view('pages.artists.view', compact('artists'));
     }
 

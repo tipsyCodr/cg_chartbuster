@@ -56,7 +56,8 @@ class Song extends Model
     public function artists()
     {
         return $this->belongsToMany(Artist::class, 'artist_song', 'song_id')
-            ->withPivot('artist_category_id', 'role')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
             ->withTimestamps();
     }
     public function reviews()

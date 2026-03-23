@@ -63,7 +63,8 @@ class TvShow extends Model
     public function artists()
     {
         return $this->belongsToMany(Artist::class, 'artist_tvshow', 'tvshow_id')
-            ->withPivot('artist_category_id', 'role')
+            ->using(ArtistMediaPivot::class)
+            ->withPivot('artist_category_ids')
             ->withTimestamps();
     }
     public function albums()

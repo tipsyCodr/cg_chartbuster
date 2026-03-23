@@ -118,14 +118,18 @@
                                     </p>
                                     {{-- Show Artist Category --}}
                                     @php
-                                        $category = \App\Models\ArtistCategory::find($movie->pivot->artist_category_id);
+                                        $categoryNames = $movie->pivot->category_names;
                                     @endphp
-                                    @if($category)
+                                    @if(!empty($categoryNames))
                                         <p class="text-indigo-400 text-xs mt-1">
                                             Role:
-                                            <span class="px-2 py-1 bg-gray-700 text-white cursor-pointer hover:bg-gray-900 rounded">
-                                                {{ $category->name }}
-                                            </span>
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                @foreach($categoryNames as $name)
+                                                    <span class="px-2 py-0.5 bg-gray-700 text-white cursor-pointer hover:bg-gray-900 rounded text-[10px]">
+                                                        {{ $name }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
                                         </p>
                                     @endif
                                 </div>

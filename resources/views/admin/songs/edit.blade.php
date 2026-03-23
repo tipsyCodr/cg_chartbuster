@@ -60,7 +60,7 @@
                                 <div>
                                     <label for="release_date" class="block my-1 text-sm font-medium text-gray-700">Release
                                         Date</label>
-                                    <input type="date" name="release_date" id="release_date" value="{{ $songs->release_date }}"
+                                    <input type="date" name="release_date" id="release_date" value="{{ $songs->release_date?->format('Y-m-d') }}"
                                         class="w-full p-2 my-2 border border-gray-300 rounded">
                                     <div class="flex items-center">
                                         <input type="hidden" name="is_release_year_only" value="0">
@@ -152,22 +152,30 @@
                                     </div>
                                 </div>
 
-                                {{ !empty($songs->artists) ? json_encode($songs->artists->map(function($artist) {
-                                    return [
-                                        'artist' => $artist->id,
-                                        'role' => $artist->pivot->artist_category_id  // Update this to use category ID
-                                    ];
-                                })) : '[]' }}
+                                 {{ !empty($songs->artists) ? json_encode($songs->artists->flatMap(function($artist) {
+                                    $roles = $artist->pivot->artist_category_ids ?? [];
+                                    if (empty($roles)) return [['artist' => $artist->id, 'role' => '']];
+                                    return collect($roles)->map(function($roleId) use ($artist) {
+                                        return [
+                                            'artist' => $artist->id,
+                                            'role' => $roleId
+                                        ];
+                                    });
+                                })->values()) : '[]' }}
 
 
                                 
                                 <div x-data="{ 
-                                     artistEntries: {{ !empty($songs->artists) ? json_encode($songs->artists->map(function($artist) {
-                                        return [
-                                            'artist' => $artist->id,
-                                            'role' => $artist->pivot->artist_category_id  // Update this to use category ID
-                                        ];
-                                    })) : '[]' }},
+                                     artistEntries: {{ !empty($songs->artists) ? json_encode($songs->artists->flatMap(function($artist) {
+                                        $roles = $artist->pivot->artist_category_ids ?? [];
+                                        if (empty($roles)) return [['artist' => $artist->id, 'role' => '']];
+                                        return collect($roles)->map(function($roleId) use ($artist) {
+                                            return [
+                                                'artist' => $artist->id,
+                                                'role' => $roleId
+                                            ];
+                                        });
+                                    })->values()) : '[]' }},
                                     artists: [],
                                     categories: [],
                                     fetchData() {
