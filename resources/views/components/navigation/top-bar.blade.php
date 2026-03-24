@@ -13,19 +13,20 @@
 
         <!-- Desktop Navigation -->
         <nav
-            class="hidden md:flex items-center justify-start gap-6 text-sm md:ml-8 md:gap-8 md:border-l md:border-gray-700 md:pl-8 md:text-base">
-            <a href="{{ route('home') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Home</a>
-            <a href="{{ route('movies') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Movies</a>
-            <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">TV Shows</a>
-            <a href="{{ route('songs') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Songs</a>
-            <a href="{{ route('artists') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Artists</a>
+            class="hidden lg:flex lg:flex-nowrap items-center justify-start gap-5 text-sm lg:ml-6 lg:border-l lg:border-gray-700 lg:pl-6 xl:gap-6">
+            <a href="{{ route('home') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Home</a>
+            <a href="{{ route('movies') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Movies</a>
+            <a href="{{ route('tv-shows') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">TV Shows</a>
+            <a href="{{ route('songs') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Songs</a>
+            <a href="{{ route('artists') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Artists</a>
+            <a href="{{ route('articles.index') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Articles</a>
         </nav>
     </div>
 
     <!-- Search Bar + Auth Links -->
-    <div class="flex items-center justify-between w-full md:w-auto gap-3 md:gap-6">
+    <div class="flex items-center justify-between w-full md:w-auto gap-3 md:gap-4">
         <!-- Search Box (Desktop and Tablet) -->
-        <div class="relative flex-1 md:flex-none md:w-[250px] lg:w-[300px]">
+        <div class="relative flex-1 md:flex-none md:w-[230px] lg:w-[240px] xl:w-[280px]">
             <input
                 type="text"
                 id="liveSearchInput"
@@ -55,9 +56,9 @@
         </div>
 
         <!-- Language & Auth -->
-        <div class="flex items-center gap-4 shrink-0">
+        <div class="flex items-center gap-3 shrink-0">
             <!-- Google Translate Widget -->
-            <div id="google_translate_element" class="hidden lg:block"></div>
+            <div id="google_translate_element" class="hidden 2xl:block"></div>
 
             <!-- Manual Toggle (EN/HI/CHH) -->
             <div class="flex items-center bg-gray-800 rounded-full p-1 border border-gray-700">
@@ -80,7 +81,7 @@
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = ! open"
                         class="flex items-center gap-2 font-medium text-gray-300 hover:text-yellow-400 transition-colors">
-                        <span class="hidden sm:inline">{{ explode(' ', auth()->user()->name)[0] }}</span>
+                        <span class="hidden xl:inline">{{ explode(' ', auth()->user()->name)[0] }}</span>
                         <i class="fa-solid fa-circle-user text-2xl"></i>
                     </button>
                     <div x-show="open" @click.outside="open = false"
@@ -130,6 +131,9 @@
             </a>
             <a href="{{ route('artists') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
                 Artists <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('articles.index') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
+                Articles <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
             </a>
         </nav>
     </div>

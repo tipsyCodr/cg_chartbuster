@@ -106,6 +106,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.articles.index') }}"
+                            class="block py-2 px-4 hover:bg-gray-100
+                           {{ request()->routeIs('admin.articles.*') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
+                            Articles
+                        </a>
+                    </li>
+                    <li>
                         <div x-data="{ open: {{ (request()->routeIs('admin.regions.*') || request()->routeIs('admin.genres.*')) ? 'true' : 'false' }} }">
                             <button @click="open = !open" 
                                 class="flex items-center justify-between w-full py-2 px-4 hover:bg-gray-100 hover:text-black text-gray-700 transition-colors">
@@ -209,6 +216,13 @@
                             class="block py-2 px-4 hover:bg-gray-100 hover:text-black
                            {{ request()->routeIs('admin.hero-banners.index') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
                             Hero Banners
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.articles.index') }}" 
+                            class="block py-2 px-4 hover:bg-gray-100 hover:text-black
+                           {{ request()->routeIs('admin.articles.*') ? 'bg-accent-light text-accent' : 'text-gray-700' }}">
+                            Articles
                         </a>
                     </li>
                     <li>

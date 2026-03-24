@@ -1,6 +1,6 @@
-@props(['url', 'title', 'image' => null])
+@props(['url', 'title', 'image' => null, 'showInstagram' => true])
 
-<div class="flex flex-col gap-3 mt-8 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
+<div class="w-full basis-full flex flex-col gap-3 mt-8 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
     <div class="flex items-center justify-between">
         <span class="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Share this page</span>
         <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent ml-4"></div>
@@ -34,13 +34,15 @@
             <span class="text-xs font-bold uppercase tracking-wider">Twitter</span>
         </a>
 
-        {{-- Instagram (Link Copy) --}}
-        <button onclick="copyToClipboard('{{ $url }}', 'Instagram link copied!')" 
-                class="group flex items-center gap-2 px-4 py-2 bg-gradient-to-tr from-[#f9ce34]/10 via-[#ee2a7b]/10 to-[#6228d7]/10 hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] text-[#ee2a7b] hover:text-white border border-[#ee2a7b]/20 rounded-xl transition-all duration-300 shadow-lg"
-                title="Copy for Instagram">
-            <i class="fab fa-instagram text-lg"></i>
-            <span class="text-xs font-bold uppercase tracking-wider">Instagram</span>
-        </button>
+        @if($showInstagram)
+            {{-- Instagram (Link Copy) --}}
+            <button onclick="copyToClipboard('{{ $url }}', 'Instagram link copied!')" 
+                    class="group flex items-center gap-2 px-4 py-2 bg-gradient-to-tr from-[#f9ce34]/10 via-[#ee2a7b]/10 to-[#6228d7]/10 hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] text-[#ee2a7b] hover:text-white border border-[#ee2a7b]/20 rounded-xl transition-all duration-300 shadow-lg"
+                    title="Copy for Instagram">
+                <i class="fab fa-instagram text-lg"></i>
+                <span class="text-xs font-bold uppercase tracking-wider">Instagram</span>
+            </button>
+        @endif
 
         {{-- Copy Link --}}
         <button onclick="copyToClipboard('{{ $url }}', 'Link copied to clipboard!')" 

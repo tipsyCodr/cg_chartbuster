@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\TvShowController;
 use App\Http\Controllers\Admin\SongController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\ReviewController;
@@ -38,6 +39,10 @@ Route::get('/tv-show/{slug}', [WebController::class, 'tvShow'])->name('tv-show.s
 Route::get('/songs', [WebController::class, 'songs'])->name('songs');
 Route::post('/songs', [WebController::class, 'songs'])->name('songs.query');
 Route::get('/song/{slug}', [WebController::class, 'song'])->name('song.show');
+
+// Articles Frontend
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
 
 // Legal Pages
 Route::get('/privacy-policy', [LegalController::class, 'privacyPolicy'])->name('privacy-policy');
@@ -136,6 +141,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
             ->except(['show']);
         Route::resource('hero-banners', App\Http\Controllers\Admin\HeroBannerController::class)
             ->names('admin.hero-banners')
+            ->except(['show']);
+        Route::resource('articles', App\Http\Controllers\Admin\ArticleController::class)
+            ->names('admin.articles')
             ->except(['show']);
     });
 });

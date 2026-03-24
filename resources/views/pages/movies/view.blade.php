@@ -59,12 +59,8 @@
     @section('og_type', 'video.movie')
 
     <div class="container mx-auto max-w-7xl px-3 py-6 sm:px-4">
-
-        <!-- Hero Section -->
-        <div class="mb-8 grid gap-4 overflow-hidden rounded-xl bg-gray-800 shadow-2xl md:gap-6 lg:grid-cols-3">
-
-            <!-- Left: Media -->
-            <div class="hero-section min-w-0 p-2 sm:p-4 lg:col-span-2">
+        <div class="grid gap-6 lg:grid-cols-12">
+            <section class="order-1 lg:order-1 lg:col-span-6">
                 <div class="hero-media w-full overflow-hidden rounded-lg bg-black">
                     @if($trailerEmbedIframeSrc)
                         <iframe src="{{ $trailerEmbedIframeSrc }}" title="{{ $movie->title }} trailer" loading="lazy"
@@ -85,98 +81,69 @@
                         <img src="{{ asset("storage/{$movie->poster_image}") }}" alt="{{ $movie->title }}"
                             class="w-full h-full object-cover rounded-lg">
                     @else
-                        <div class="flex h-full w-full items-center justify-center text-center text-sm text-gray-300">
+                        <div class="flex h-full min-h-64 w-full items-center justify-center text-center text-sm text-gray-300">
                             Trailer not available
                         </div>
                     @endif
                 </div>
-            </div>
+            </section>
 
-            <!-- Right: Movie Info -->
-            <div class="lg:col-span-1 p-4 sm:p-6 flex flex-col justify-between">
-                <div>
-                    <h1 class="mb-4 break-words text-2xl font-bold text-white md:text-3xl">{{ $movie->title }}</h1>
-                    <div class="mb-4 inline-flex items-center gap-1 rounded-full bg-gray-700/60 px-3 py-1 text-xs text-gray-200">
-                        <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
-                        <span>{{ $movie->cg_chartbusters_ratings }} / 10 Ratings</span>
-                    </div>
-                    <div class="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-                        <div class="rounded-lg bg-gray-700/40 p-2">
-                            <p class="text-[11px] uppercase tracking-wide text-gray-400">Released</p>
-                            <p class="text-gray-100">
-                                @if($movie->release_date)
-                                    {{ \Carbon\Carbon::parse($movie->release_date)->format($movie->is_release_year_only ? 'Y' : 'd M Y') }}
+            <div class="order-2 space-y-6 lg:order-2 lg:col-span-6">
+                <section class="rounded-lg bg-gray-800/60 p-4">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="h-40 w-28 shrink-0 overflow-hidden rounded-md bg-gray-700 sm:h-52 sm:w-36">
+                                @if($movie->poster_image)
+                                    <img src="{{ asset("storage/{$movie->poster_image}") }}" alt="{{ $movie->title }}" class="h-full w-full object-cover">
                                 @else
-                                    N/A
+                                    <div class="flex h-full w-full items-center justify-center text-sm text-gray-300">Poster</div>
                                 @endif
-                            </p>
-                        </div>
-                        <div class="rounded-lg bg-gray-700/40 p-2 sm:col-span-2">
-                            <p class="text-[11px] uppercase tracking-wide text-gray-400">Genre</p>
-                            <div x-data="{ expanded: false }" class="text-gray-100">
-                                <p class="break-words">
-                                    <span x-show="!expanded">{{ \Illuminate\Support\Str::limit($movieGenresText, 70) }}</span>
-                                    <span x-show="expanded">{{ $movieGenresText }}</span>
-                                </p>
-                                @if(\Illuminate\Support\Str::length($movieGenresText) > 70)
-                                    <button type="button" @click="expanded = !expanded"
-                                        class="mt-1 text-xs font-semibold text-yellow-300 hover:text-yellow-200">
-                                        <span x-show="!expanded">Show more</span>
-                                        <span x-show="expanded">Show less</span>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h1 class="break-words text-2xl font-bold text-white md:text-3xl">{{ $movie->title }}</h1>
+                                <div class="mt-2 inline-flex items-center gap-1 text-gray-200">
+                                    <i class="fa-solid fa-star text-yellow-400"></i>
+                                    <span class="font-semibold">{{ $movie->cg_chartbusters_ratings ?? 0 }}/10</span>
+                                    <span>({{ $reviews->total() }} Votes)</span>
+                                </div>
+                                <div class="mt-3 space-y-1 text-sm text-gray-300">
+                                    <p>Released: {{ $movie->release_date ? \Carbon\Carbon::parse($movie->release_date)->format($movie->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}</p>
+                                    <p>Genres: {{ $movieGenresText }}</p>
+                                    <p>Language: {{ $movie->region?->name ?? 'N/A' }}</p>
+                                    <p>CBFC: {{ $movie->cbfc ?: 'NA' }}</p>
+                                </div>
+                                <div class="mt-4">
+                                    <button onclick="document.getElementById('review-section').scrollIntoView({behavior:'smooth'})"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-yellow-500 px-5 py-2 font-black text-black transition-all hover:bg-yellow-600">
+                                        <i class="fa-solid fa-star"></i>
+                                        Rate This Movie
                                     </button>
-                                @endif
+                                </div>
                             </div>
                         </div>
-                        @if(!empty($movie->duration) && !in_array($movie->duration, ['00:00', '00:00:00', '05:00', '00:05:00']))
-                            <div class="rounded-lg bg-gray-700/40 p-2">
-                                <p class="text-[11px] uppercase tracking-wide text-gray-400">Duration</p>
-                                <p class="text-gray-100">{{ substr($movie->duration, 0, 5) }} Hrs</p>
-                            </div>
+                        <x-social-share :url="url()->current()" :title="$movie->title" />
+                    </div>
+                </section>
+
+                <section class="rounded-lg border border-gray-700 bg-gray-800/30 p-4 sm:p-5">
+                    <h3 class="mb-3 text-xl font-semibold text-white">{{ $movie->title }} Plot:</h3>
+                    <div class="max-h-[32rem] overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-gray-200">
+                        @if(app()->getLocale() == 'chh' && !empty($movie->content_description_chh))
+                            {{ $movie->content_description_chh }}
+                        @elseif(app()->getLocale() == 'hi' && !empty($movie->content_description))
+                            {{ $movie->content_description }}
+                        @else
+                            {{ $movie->description }}
                         @endif
-                        <div class="rounded-lg bg-gray-700/40 p-2">
-                            <p class="text-[11px] uppercase tracking-wide text-gray-400">Language</p>
-                            <p class="text-gray-100">{{ $movie->region?->name ?? 'N/A' }}</p>
-                        </div>
-                        <div class="rounded-lg bg-gray-700/40 p-2">
-                            <p class="text-[11px] uppercase tracking-wide text-gray-400">CBFC</p>
-                            <p class="text-gray-100">{{ $movie->cbfc }}</p>
-                        </div>
                     </div>
-
-                    <div class="mt-4 rounded-lg bg-gray-700/30 p-3">
-                        <h3 class="mb-2 text-base font-semibold text-white sm:text-lg">Plot</h3>
-                        <div class="text-sm leading-relaxed text-gray-200 lg:max-h-44 lg:overflow-y-auto whitespace-pre-line">
-                            @if(app()->getLocale() == 'chh' && !empty($movie->content_description_chh))
-                                {{ $movie->content_description_chh }}
-                            @elseif(app()->getLocale() == 'hi' && !empty($movie->content_description))
-                                {{ $movie->content_description }}
-                            @else
-                                {{ $movie->description }}
-                            @endif
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-700/40">
-                            <button onclick="document.getElementById('review-section').scrollIntoView({behavior:'smooth'})" 
-                                    class="w-full inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-yellow-500 text-black font-black rounded-lg hover:bg-yellow-600 transition-all shadow-xl active:scale-95 group">
-                                <i class="fa-solid fa-star transition-transform group-hover:rotate-12"></i>
-                                Rate This Movie
-                            </button>
-                            <x-social-share :url="url()->current()" :title="$movie->title" />
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
-        </div>
 
-        <!-- Bottom Section: Cast & Reviews -->
-        <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-
-            <!-- Cast -->
-            <div class="lg:col-span-2 py-5">
-                <h2 class="mb-6 flex items-center text-lg font-semibold text-white sm:text-xl md:text-2xl">
-                    <span class="w-1 h-6 bg-yellow-500 mr-3"></span>Cast & Roles
+            <section class="order-3 lg:order-3 lg:col-span-6">
+                <h2 class="mb-4 flex items-center text-lg font-semibold text-white sm:text-xl md:text-2xl">
+                    <span class="mr-3 h-6 w-1 bg-yellow-500"></span>Cast
                 </h2>
-
-                <div class="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     @foreach ($movie->artists as $artist)
                         @php
                             $rolesText = implode(', ', $artist->pivot->category_names);
@@ -184,38 +151,23 @@
                         <div class="cast-member rounded-lg bg-gray-800 p-3 hover:bg-gray-700 sm:p-4">
                             <a href="{{ route('artist.show', $artist->slug) }}" class="flex min-w-0 items-start gap-3">
                                 <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
-                                    class="w-14 h-14 rounded-full object-cover border-2 border-gray-600 sm:h-16 sm:w-16">
+                                    class="h-14 w-14 rounded-full border-2 border-gray-600 object-cover sm:h-16 sm:w-16">
                                 <div class="min-w-0">
                                     <h4 class="text-base font-semibold text-white break-words">{{ $artist->name }}</h4>
+                                    <p class="mt-1 text-xs text-gray-300 break-words">{{ $rolesText }}</p>
                                 </div>
                             </a>
-                            <div x-data="{ expanded: false }" class="mt-2">
-                                <p class="text-xs text-gray-400 sm:text-sm break-words">
-                                    <span class="font-semibold text-gray-300">Roles: </span>
-                                    <span x-show="!expanded">{{ \Illuminate\Support\Str::limit($rolesText, 56) }}</span>
-                                    <span x-show="expanded">{{ $rolesText }}</span>
-                                </p>
-                                @if(\Illuminate\Support\Str::length($rolesText) > 56)
-                                    <button type="button" @click="expanded = !expanded"
-                                        class="mt-1 text-xs font-semibold text-yellow-300 hover:text-yellow-200">
-                                        <span x-show="!expanded">Show more</span>
-                                        <span x-show="expanded">Show less</span>
-                                    </button>
-                                @endif
-                            </div>
                         </div>
                     @endforeach
                 </div>
-            </div>
+            </section>
 
-            <!-- Reviews -->
-            <div class="py-5 lg:sticky lg:top-6 lg:self-start">
-                <h2 class="mb-6 flex items-center text-lg font-semibold text-white sm:text-xl md:text-2xl">
-                    <span class="w-1 h-6 bg-yellow-500 mr-3"></span>Reviews
+            <section id="review-section" class="order-4 lg:order-4 lg:col-span-6">
+                <h2 class="mb-4 flex items-center text-lg font-semibold text-white sm:text-xl md:text-2xl">
+                    <span class="mr-3 h-6 w-1 bg-yellow-500"></span>Reviews
                 </h2>
 
-                <!-- Review Form -->
-                <div id="review-section" class="bg-gray-800 rounded-lg p-4 mb-6 sm:p-6">
+                <div class="mb-6 rounded-lg bg-gray-800 p-4 sm:p-6">
                     <h3 class="mb-4 text-lg font-bold text-white sm:text-xl">Post a Review</h3>
                     <form action="{{ route('movies.reviews.store', $movie) }}" method="POST">
                         @csrf
@@ -224,7 +176,7 @@
                         <div class="mb-4">
                             <x-input-label for="review_text" :value="__('Review')" class="text-gray-300" />
                             <x-textarea id="review_text"
-                                class="block mt-2 w-full bg-gray-700 border-gray-600 text-white rounded-md"
+                                class="mt-2 block w-full rounded-md border-gray-600 bg-gray-700 text-white"
                                 name="review_text" rows="4" placeholder="Write your review..."
                                 required>{{ old('review_text') }}</x-textarea>
                             <x-input-error :messages="$errors->get('review_text')" class="mt-2" />
@@ -232,7 +184,7 @@
 
                         <div class="mb-4">
                             <x-input-label for="rating" :value="__('Rating')" class="text-gray-300" />
-                            <x-star-rating id="rating" class="block mt-2 w-full" name="rating" required></x-star-rating>
+                            <x-star-rating id="rating" class="mt-2 block w-full" name="rating" required></x-star-rating>
                             <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                         </div>
 
@@ -243,21 +195,19 @@
                     </form>
                 </div>
 
-                <!-- Reviews List -->
                 <div class="space-y-3 text-gray-200 sm:space-y-4">
                     @foreach($reviews as $review)
                         <div class="review-item rounded-lg border border-gray-700 bg-gray-800 p-3 sm:p-4">
-                            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-                                <div class="flex items-center min-w-0">
-                                    <i class="fa-solid fa-user-circle text-yellow-400 text-2xl mr-3 shrink-0"></i>
+                            <div class="mb-3 flex flex-wrap items-start justify-between gap-2">
+                                <div class="flex min-w-0 items-center">
+                                    <i class="fa-solid fa-user-circle mr-3 shrink-0 text-2xl text-yellow-400"></i>
                                     <div class="min-w-0">
                                         <strong class="break-words text-yellow-300">
                                             {!! $review->user ? $review->user->name : '<span class="text-gray-500">[deleted account]</span>' !!}
                                         </strong>
                                         <div class="mt-1 flex flex-wrap items-center gap-x-1 gap-y-1">
                                             @for($i = 1; $i <= 10; $i++)
-                                                <i
-                                                    class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-xs"></i>
+                                                <i class="fa fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-600' }} text-xs"></i>
                                             @endfor
                                             <span class="ml-1 text-xs text-gray-400 sm:text-sm">{{ $review->rating }}/10</span>
                                         </div>
@@ -265,7 +215,7 @@
                                 </div>
                                 <span class="text-xs text-gray-500 sm:ml-auto">{{ $review->created_at->format('M d, Y') }}</span>
                             </div>
-                            <p class="leading-relaxed text-gray-300 break-words">{{ $review->review_text }}</p>
+                            <p class="break-words text-gray-300">{{ $review->review_text }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -273,7 +223,7 @@
                 <div class="paginate mt-6 overflow-x-auto">
                     {{ $reviews->links() }}
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 </x-app-layout>

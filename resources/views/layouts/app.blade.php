@@ -121,6 +121,8 @@
                         <a href="{{ route('songs') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Songs</a>
                         <a href="{{ route('artists') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Artist</a>
+                        <a href="{{ route('articles.index') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Articles</a>
                     </div>
 
                     <!-- Legal Links -->
