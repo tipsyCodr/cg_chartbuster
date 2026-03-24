@@ -14,38 +14,42 @@
                 </select>
             </form>
         </div>
-        <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:gap-6">
+        <div class="mt-8 space-y-4">
             @foreach ($tvshows as $tvshow)
-                <div class="group relative flex flex-col overflow-hidden rounded-xl bg-gray-800 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl">
-                    <a href="{{ route('tv-show.show', $tvshow->slug) }}" class="relative aspect-[2/3] overflow-hidden">
-                        <img src="{{ asset('storage/' . $tvshow->poster_image) }}" 
-                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                             alt="{{ $tvshow->title }}">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100">
-                            <div class="absolute bottom-2 left-2 right-2">
-                                <button class="w-full rounded-md bg-yellow-500 py-2 text-xs font-bold text-black shadow-lg">
-                                    View Details
-                                </button>
-                            </div>
+                @php
+                    $year = $tvshow->release_date ? \Carbon\Carbon::parse($tvshow->release_date)->format('Y') : 'N/A';
+                    $cbfc = $tvshow->cbfc ?: 'NA';
+                    $genresText = $tvshow->genres->pluck('name')->implode(', ') ?: 'Genres';
+                    $votes = $tvshow->reviews_count ?? 0;
+                @endphp
+                <a href="{{ route('tv-show.show', $tvshow->slug) }}"
+                    class="group block overflow-hidden rounded-xl border border-gray-600/70 bg-black transition-colors hover:border-yellow-400/70">
+                    <div class="flex min-h-40">
+                        <div class="w-28 shrink-0 sm:w-36 md:w-44">
+                            @if(!empty($tvshow->poster_image))
+                                <img src="{{ asset('storage/' . $tvshow->poster_image) }}" alt="{{ $tvshow->title }}"
+                                    class="h-full w-full object-cover">
+                            @else
+                                <div class="flex h-full w-full items-center justify-center bg-gray-700 text-sm text-gray-300">
+                                    Poster
+                                </div>
+                            @endif
                         </div>
-                    </a>
-                    <div class="flex flex-1 flex-col p-3">
-                        <h3 class="line-clamp-1 text-sm font-bold text-white sm:text-base">
-                            <a href="{{ route('tv-show.show', $tvshow->slug) }}" class="hover:text-yellow-400">
+                        <div class="flex flex-1 flex-col justify-center gap-3 px-4 py-4 sm:px-5">
+                            <h3 class="line-clamp-1 text-xl font-bold uppercase tracking-wide text-gray-100 sm:text-3xl">
                                 {{ $tvshow->title }}
-                            </a>
-                        </h3>
-                        <div class="mt-1 flex items-center justify-between">
-                            <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
-                                {{ $tvshow->release_date ? \Carbon\Carbon::parse($tvshow->release_date)->format('Y') : 'N/A' }}
-                            </span>
-                            <div class="flex items-center gap-1">
-                                <i class="fa-solid fa-star text-[10px] text-yellow-400"></i>
-                                <span class="text-[10px] font-bold text-gray-200">{{ $tvshow->cg_chartbusters_ratings }}</span>
+                            </h3>
+                            <p class="line-clamp-1 text-sm text-gray-300 sm:text-2xl/none sm:tracking-wide">
+                                {{ $year }} <span class="px-2">•</span> {{ $cbfc }} <span class="px-2">•</span> {{ $genresText }}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm sm:text-2xl/none">
+                                <i class="fa-solid fa-star text-yellow-400"></i>
+                                <span class="font-bold text-white">{{ $tvshow->cg_chartbusters_ratings ?? 0 }}/10</span>
+                                <span class="ml-4 text-gray-300">({{ $votes }} Votes)</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </section>

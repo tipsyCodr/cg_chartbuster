@@ -67,7 +67,11 @@ class WebController extends Controller
             });
         }
 
-        $movies = $query->orderBy('release_date', 'desc')->get();
+        $movies = $query
+            ->with('genres')
+            ->withCount('reviews')
+            ->orderBy('release_date', 'desc')
+            ->get();
         $genres = Genre::all()->where('for', 'Movies');
 
         return view('pages.movies.index', compact('movies', 'genres'));
@@ -92,7 +96,11 @@ class WebController extends Controller
             });
         }
 
-        $tvshows = $tvshows->orderBy('release_date', 'desc')->get();
+        $tvshows = $tvshows
+            ->with('genres')
+            ->withCount('reviews')
+            ->orderBy('release_date', 'desc')
+            ->get();
         $genres = Genre::all()->where('for', 'Tv Shows');
         return view('pages.tvshows.index', compact('tvshows', 'genres'));
     }
@@ -116,7 +124,11 @@ class WebController extends Controller
             });
         }
 
-        $songs = $query->orderBy('release_date', 'desc')->get();  // Use the query builder result instead of Song::all()
+        $songs = $query
+            ->with('genres')
+            ->withCount('reviews')
+            ->orderBy('release_date', 'desc')
+            ->get();
         $genres = Genre::all()->where('for', 'Songs');
         return view('pages.songs.index', compact('songs', 'genres'));
     }
