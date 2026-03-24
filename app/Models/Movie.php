@@ -55,8 +55,9 @@ class Movie extends Model
         'is_release_year_only',
         'poster_image_portrait',
         'poster_image_landscape',
-        'show_on_banner'
-
+        'show_on_banner',
+        'banner_label',
+        'banner_link',
     ];
 
     protected $casts = [

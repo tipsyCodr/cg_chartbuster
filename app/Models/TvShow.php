@@ -54,6 +54,8 @@ class TvShow extends Model
         'poster_image_portrait',
         'poster_image_landscape',
         'show_on_banner',
+        'banner_label',
+        'banner_link',
         'is_release_year_only'
     ];
 

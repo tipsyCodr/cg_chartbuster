@@ -12,7 +12,23 @@ import 'swiper/css/pagination';
 Swiper.use([Navigation, Pagination, Thumbs, Autoplay]);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // First initialize the thumbnail slider
+    // Initialize Hero Slider if it exists
+    const heroSlider = new Swiper('.hero-slider', {
+        modules: [Pagination, Autoplay],
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
+        slidesPerView: 1,
+        spaceBetween: 0,
+        observer: true,
+        observeParents: true,
+    });
     const thumbnailSlider = new Swiper('.thumbnail-slider', {
         modules: [Navigation, Thumbs],
         slidesPerView: 4,
@@ -113,6 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
         navigation: {
             nextEl: '.song-next',
             prevEl: '.song-prev',
+        },
+    });
+    new Swiper('.tvshow-slider', {
+        ...commonSliderOptions,
+        navigation: {
+            nextEl: '.tvshow-next',
+            prevEl: '.tvshow-prev',
         },
     });
     new Swiper('.artist-slider', {

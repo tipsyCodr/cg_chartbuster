@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\LegalController;
 use Illuminate\Support\Facades\Route;
 
 //Frontend Routes
@@ -38,12 +39,22 @@ Route::get('/songs', [WebController::class, 'songs'])->name('songs');
 Route::post('/songs', [WebController::class, 'songs'])->name('songs.query');
 Route::get('/song/{slug}', [WebController::class, 'song'])->name('song.show');
 
+// Legal Pages
+Route::get('/privacy-policy', [LegalController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/terms-and-conditions', [LegalController::class, 'termsAndConditions'])->name('terms-and-conditions');
+Route::get('/cookie-policy', [LegalController::class, 'cookiePolicy'])->name('cookie-policy');
+Route::get('/copyright-policy', [LegalController::class, 'copyrightPolicy'])->name('copyright-policy');
+Route::get('/community-guidelines', [LegalController::class, 'communityGuidelines'])->name('community-guidelines');
+Route::get('/content-moderation-policy', [LegalController::class, 'contentModeration'])->name('content-moderation-policy');
+Route::get('/disclaimer', [LegalController::class, 'disclaimer'])->name('disclaimer');
+
 
 //reviews Frontend
 Route::post('/movie/review/store', [ReviewController::class, 'storeMovieReview'])->name('movies.reviews.store');
 Route::post('/tv-show/review', [ReviewController::class, 'storeTvShowReview'])->name('tv-shows.reviews.store');
 Route::post('/album/review', [ReviewController::class, 'storeAlbumReview'])->name('albums.reviews.store');
 Route::post('/song/review', [ReviewController::class, 'storeSongReview'])->name('songs.reviews.store');
+Route::post('/artist/review', [ReviewController::class, 'storeArtistReview'])->name('artists.reviews.store');
 
 
 //Unauthenticated Users Activity 
@@ -67,6 +78,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin');
         Route::get('/user-management', [AdminController::class, 'userManagement'])->name('admin.user-management');
+        Route::post('/user-management/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
+        Route::get('/user-management/export', [AdminController::class, 'exportUsers'])->name('admin.users.export');
         Route::post('/toggle-user/{userId}', [AdminController::class, 'toggleUserStatus'])->name('admin.toggle-user');
 
         // Resources Movies, Tv Shows, Songs, Albums, Artists, Genres, Regions
@@ -120,6 +133,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
             ->except(['show']);
         Route::resource('artists', ArtistController::class)
             ->names('admin.artists')
+            ->except(['show']);
+        Route::resource('hero-banners', App\Http\Controllers\Admin\HeroBannerController::class)
+            ->names('admin.hero-banners')
             ->except(['show']);
     });
 });

@@ -18,7 +18,7 @@
             <a href="{{ route('movies') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Movies</a>
             <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">TV Shows</a>
             <a href="{{ route('songs') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Songs</a>
-            <a href="{{ route('artists') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Artist</a>
+            <a href="{{ route('artists') }}" class="font-medium text-gray-300 transition-colors hover:text-yellow-400">Artists</a>
         </nav>
     </div>
 
@@ -42,7 +42,7 @@
             <div id="liveSearchResults"
                 class="absolute z-[100] w-full mt-2 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl hidden max-h-[70vh] overflow-y-auto">
                 <div id="liveSearchLoading"
-                    class="flex items-center justify-center py-6 text-gray-400 hidden">
+                    class="items-center justify-center py-6 text-gray-400 hidden">
                     <svg class="w-6 h-6 mr-3 animate-spin text-yellow-500" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>
@@ -109,7 +109,7 @@
                 Songs <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
             </a>
             <a href="{{ route('artists') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
-                Artist <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+                Artists <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
             </a>
         </nav>
     </div>

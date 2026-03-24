@@ -63,6 +63,23 @@
                                         <option value="0">No</option>
                                     </select>
                                 </div>
+
+                                <div>
+                                    <label for="banner_label" class="block mb-1.5 text-sm font-bold text-gray-700">Banner Label</label>
+                                    <select name="banner_label" id="banner_label" class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all">
+                                        <option value="">None</option>
+                                        <option value="🎬 Watch on Official YouTube Channel">🎬 Watch on Official YouTube Channel</option>
+                                        <option value="🎥 Watch in Theaters">🎥 Watch in Theaters</option>
+                                        <option value="🔜 Upcoming Release">🔜 Upcoming Release</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="banner_link" class="block mb-1.5 text-sm font-bold text-gray-700">Banner Link (URL)</label>
+                                    <input type="url" name="banner_link" id="banner_link"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all"
+                                        placeholder="https://...">
+                                </div>
                                 <div>
                                     <label for="title" class="block mb-1.5 text-sm font-bold text-gray-700">Song Title</label>
                                     <input type="text" name="title" id="title" required

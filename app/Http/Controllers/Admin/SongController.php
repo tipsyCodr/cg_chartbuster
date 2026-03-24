@@ -64,6 +64,8 @@ class SongController extends Controller
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
             'show_on_banner' => 'nullable',
+            'banner_label' => 'nullable|string|max:255',
+            'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
         ]);
 
@@ -179,6 +181,8 @@ class SongController extends Controller
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',
             'show_on_banner' => 'nullable',
+            'banner_label' => 'nullable|string|max:255',
+            'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
         ]);
         if ($request->hasFile('poster_image')) {

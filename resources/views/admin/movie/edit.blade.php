@@ -28,6 +28,23 @@
                                     <option value="0" {{ !$movie->show_on_banner ? 'selected' : '' }}>No</option>
                                 </select>
                             </div>
+
+                            <div class="mb-4">
+                                <label for="banner_label" class="block my-1 text-sm font-medium text-gray-700">Banner Label</label>
+                                <select name="banner_label" id="banner_label" class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="" {{ empty($movie->banner_label) ? 'selected' : '' }}>None</option>
+                                    <option value="🎬 Watch on Official YouTube Channel" {{ $movie->banner_label == '🎬 Watch on Official YouTube Channel' ? 'selected' : '' }}>🎬 Watch on Official YouTube Channel</option>
+                                    <option value="🎥 Watch in Theaters" {{ $movie->banner_label == '🎥 Watch in Theaters' ? 'selected' : '' }}>🎥 Watch in Theaters</option>
+                                    <option value="🔜 Upcoming Release" {{ $movie->banner_label == '🔜 Upcoming Release' ? 'selected' : '' }}>🔜 Upcoming Release</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="banner_link" class="block my-1 text-sm font-medium text-gray-700">Banner Link (Url)</label>
+                                <input type="url" name="banner_link" id="banner_link" value="{{ $movie->banner_link }}"
+                                    class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    placeholder="https://...">
+                            </div>
                             
                                 <div>
                                     <label for="title" class="block my-1 text-sm font-medium text-gray-700">Movie

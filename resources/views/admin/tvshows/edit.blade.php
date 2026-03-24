@@ -23,12 +23,29 @@
                         <div class="">
                             <div class="mb-4 ">
 
-                                <div class="mb- 4">
+                                <div class="mb-4">
                                     <label for="show_on_banner" class="block my-1 text-sm font-medium text-gray-700">Show on banner</label>
                                     <select name="show_on_banner" id="show_on_banner" class="mt-1 block w-full rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         <option value="1" {{ $tvshows->show_on_banner ? 'selected' : '' }}>Yes</option>
                                         <option value="0" {{ !$tvshows->show_on_banner ? 'selected' : '' }}>No</option>
                                     </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="banner_label" class="block my-1 text-sm font-medium text-gray-700">Banner Label</label>
+                                    <select name="banner_label" id="banner_label" class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option value="" {{ empty($tvshows->banner_label) ? 'selected' : '' }}>None</option>
+                                        <option value="🎬 Watch on Official YouTube Channel" {{ $tvshows->banner_label == '🎬 Watch on Official YouTube Channel' ? 'selected' : '' }}>🎬 Watch on Official YouTube Channel</option>
+                                        <option value="🎥 Watch in Theaters" {{ $tvshows->banner_label == '🎥 Watch in Theaters' ? 'selected' : '' }}>🎥 Watch in Theaters</option>
+                                        <option value="🔜 Upcoming Release" {{ $tvshows->banner_label == '🔜 Upcoming Release' ? 'selected' : '' }}>🔜 Upcoming Release</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="banner_link" class="block my-1 text-sm font-medium text-gray-700">Banner Link (Url)</label>
+                                    <input type="url" name="banner_link" id="banner_link" value="{{ $tvshows->banner_link }}"
+                                        class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        placeholder="https://...">
                                 </div>
 
                                 <div>

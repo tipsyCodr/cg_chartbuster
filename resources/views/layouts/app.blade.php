@@ -6,7 +6,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
-    <title>{{ config('app.name') }}</title>
+    <title>@yield('meta_title', config('app.name'))</title>
+    <meta name="title" content="@yield('meta_title', config('app.name'))">
+    <meta name="description" content="@yield('meta_description', 'CG Chartbusters is your gateway to the vibrant world of Chollywood.')">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('meta_title', config('app.name'))">
+    <meta property="og:description" content="@yield('meta_description', 'CG Chartbusters is your gateway to the vibrant world of Chollywood.')">
+    <meta property="og:image" content="@yield('meta_image', asset('images/logo.png'))">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('meta_title', config('app.name'))">
+    <meta property="twitter:description" content="@yield('meta_description', 'CG Chartbusters is your gateway to the vibrant world of Chollywood.')">
+    <meta property="twitter:image" content="@yield('meta_image', asset('images/logo.png'))">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -19,7 +35,7 @@
 
 </head>
 
-<body class="overflow-x-hidden text-sm text-white font-montserrat">
+<body class="overflow-x-hidden text-sm text-white font-montserrat bg-black">
     <div class="px-2 lg:px-20 bg-gradient-dark">
         <x-top-bar />
         {{ $slot }}
@@ -45,14 +61,25 @@
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold">Quick Links</h2>
                         
-                        <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300">Home</a>
+                        <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Home</a>
                         <a href="{{ route('movies') }}"
-                            class="font-medium text-gray-300 hover:text-yellow-300">Movies</a>
-                        <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300">TV
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Movies</a>
+                        <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">TV
                             Shows</a>
-                        <a href="{{ route('songs') }}" class="font-medium text-gray-300 hover:text-yellow-300">Songs</a>
+                        <a href="{{ route('songs') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Songs</a>
                         <a href="{{ route('artists') }}"
-                            class="font-medium text-gray-300 hover:text-yellow-300">Artist</a>
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Artist</a>
+                    </div>
+
+                    <!-- Legal Links -->
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-lg font-semibold">Legal</h2>
+                        <a href="{{ route('terms-and-conditions') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Terms & Conditions</a>
+                        <a href="{{ route('privacy-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Privacy Policy</a>
+                        <a href="{{ route('copyright-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Copyright & Takedown Policy</a>
+                        <a href="{{ route('community-guidelines') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Community Guidelines</a>
+                        <a href="{{ route('content-moderation-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Content Moderation Policy</a>
+                        <a href="{{ route('disclaimer') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Disclaimer</a>
                     </div>
 
                     <!-- Social Media -->
@@ -60,25 +87,21 @@
                         <h2 class="text-lg font-semibold">Follow Us</h2>
                         <div class="flex space-x-4">
                             <a href="https://www.facebook.com/share/12KUPCYD8ud/" target="_blank"
-                                rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                                rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
                                 <i class="fab fa-facebook fa-xl"></i>
                             </a>
+                            <a href="https://x.com/cgchartbusters" target="_blank" rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-x-twitter fa-xl"></i>
+                            </a>
                             <a href="https://www.youtube.com/@CGchartbusters" target="_blank" rel="noopener noreferrer"
-                                class="text-gray-400 hover:text-white">
+                                class="text-gray-400 hover:text-white transition-colors">
                                 <i class="fab fa-youtube fa-xl"></i>
                             </a>
-                            {{-- <a href="https://twitter.com/cgchartbusters" target="_blank" rel="noopener noreferrer"
-                                class="text-gray-400 hover:text-white">
-                                <i class="fab fa-twitter fa-xl"></i>
-                            </a> --}}
                             <a href="https://www.instagram.com/cgchartbusters?igsh=amF5cHJjaDdmcmJ1" target="_blank"
-                                rel="noopener noreferrer" class="text-gray-400 hover:text-white">
+                                rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
                                 <i class="fab fa-instagram fa-xl"></i>
                             </a>
-                            {{-- <a href="https://www.linkedin.com/company/cgchartbusters/" target="_blank"
-                                rel="noopener noreferrer" class="text-gray-400 hover:text-white">
-                                <i class="fab fa-linkedin fa-xl"></i>
-                            </a> --}}
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,8 @@ class Song extends Model
         'make_up',
         'drone',
         'show_on_banner',
+        'banner_label',
+        'banner_link',
         'others',
         'content_description',
         'hyperlinks_links',

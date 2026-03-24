@@ -15,36 +15,40 @@
                 </select>
             </form>
         </div>
-        <ul class="mt-4">
+        <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:gap-6">
             @foreach ($songs as $song)
-                <li
-                    class="flex items-start justify-start gap-3 px-2 py-3 transition-all border-b border-gray-800 rounded hover:bg-gray-800 sm:gap-5">
-                    <img src="{{ asset('storage/' . $song->poster_image) }}" class="w-16 rounded-md sm:w-20" alt="">
-                    <div class="flex min-w-0 flex-col">
-                        <a href="{{ route('song.show', $song->slug) }}" class="font-bold text-gray-100 hover:text-gray-300">
-                            {{ $song->title }}
-                        </a>
-                        <span class="text-xs text-gray-500 sm:text-sm">
-                            Released on:
-                            @if($song->release_date)
-                                {{ \Carbon\Carbon::parse($song->release_date)->format($song->is_release_year_only ? 'Y' : 'd M Y') }}
-                            @else
-                                N/A
-                            @endif
-                            @if(!empty($song->duration) && $song->duration !== '00:00' && $song->duration !== '00:00:00')
-                                Duration:
-                                {{ str_starts_with($song->duration, '00:') ? substr($song->duration, 3) : $song->duration }}
-                                mins
-                            @endif
-                        </span>
-                        <small class="mt-1 text-xs text-gray-500">
-                            <i class="text-xs text-yellow-300 fa fa-star" aria-hidden="true"></i>
-                            4.3
-                        </small>
+                <div class="group relative flex flex-col overflow-hidden rounded-xl bg-gray-800 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl">
+                    <a href="{{ route('song.show', $song->slug) }}" class="relative aspect-[1/1] overflow-hidden">
+                        <img src="{{ asset('storage/' . $song->poster_image) }}" 
+                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                             alt="{{ $song->title }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100">
+                            <div class="absolute bottom-2 left-2 right-2">
+                                <button class="w-full rounded-md bg-yellow-500 py-2 text-xs font-bold text-black shadow-lg">
+                                    Listen Now
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="flex flex-1 flex-col p-3">
+                        <h3 class="line-clamp-1 text-sm font-bold text-white sm:text-base">
+                            <a href="{{ route('song.show', $song->slug) }}" class="hover:text-yellow-400">
+                                {{ $song->title }}
+                            </a>
+                        </h3>
+                        <div class="mt-1 flex items-center justify-between">
+                            <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
+                                {{ $song->release_date ? \Carbon\Carbon::parse($song->release_date)->format('Y') : 'N/A' }}
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-[10px] text-yellow-400"></i>
+                                <span class="text-[10px] font-bold text-gray-200">{{ $song->cg_chartbusters_ratings }}</span>
+                            </div>
+                        </div>
                     </div>
-                </li>
+                </div>
             @endforeach
-        </ul>
+        </div>
     </section>
 
 </x-app-layout>

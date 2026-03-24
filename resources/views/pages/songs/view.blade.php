@@ -49,7 +49,14 @@
         }
 
         $songGenresText = $song->genres->pluck('name')->implode(', ') ?: 'N/A';
+        $metaDescription = \Illuminate\Support\Str::limit(strip_tags($song->description), 160);
+        $metaImage = $song->poster_image ? asset("storage/{$song->poster_image}") : asset('images/logo.png');
     @endphp
+
+    @section('meta_title', $song->title . ' - CG Chartbusters')
+    @section('meta_description', $metaDescription)
+    @section('meta_image', $metaImage)
+    @section('og_type', 'music.song')
 
     <div class="container mx-auto max-w-7xl px-3 py-6 sm:px-4">
 
@@ -135,9 +142,17 @@
                     </div>
 
                     <div class="mt-4 rounded-lg bg-gray-700/30 p-3">
-                        <h3 class="mb-2 text-base font-semibold text-white sm:text-lg">Plot</h3>
-                        <div class="text-sm leading-relaxed text-gray-200 lg:max-h-44 lg:overflow-y-auto">
+                        <h3 class="mb-2 text-base font-semibold text-white sm:text-lg">{{ $song->title }} (Lyrics)</h3>
+                        <div class="text-sm leading-relaxed text-gray-200 lg:max-h-44 lg:overflow-y-auto whitespace-pre-line">
                             {{ $song->description }}
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-700/40">
+                            <button onclick="document.getElementById('review-section').scrollIntoView({behavior:'smooth'})" 
+                                    class="w-full inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-yellow-500 text-black font-black rounded-lg hover:bg-yellow-600 transition-all shadow-xl active:scale-95 group">
+                                <i class="fa-solid fa-star transition-transform group-hover:rotate-12"></i>
+                                Rate This Song
+                            </button>
+                            <x-social-share :url="url()->current()" :title="$song->title" />
                         </div>
                     </div>
                 </div>
@@ -192,7 +207,7 @@
                 </h2>
 
                 <!-- Review Form -->
-                <div class="bg-gray-800 rounded-lg p-4 mb-6 sm:p-6">
+                <div id="review-section" class="bg-gray-800 rounded-lg p-4 mb-6 sm:p-6">
                     <h3 class="mb-4 text-lg font-bold text-white sm:text-xl">Post a Review</h3>
                     <form action="{{ route('songs.reviews.store', $song) }}" method="POST">
                         @csrf

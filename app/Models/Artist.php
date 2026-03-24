@@ -75,5 +75,9 @@ class Artist extends Model
     {
         return $this->hasMany(ArtistCategory::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
 }

@@ -14,6 +14,7 @@ class Review extends Model
         'tvshow_id',
         'album_id',
         'song_id',
+        'artist_id',
         'review_text',
         'rating',
 
@@ -33,5 +34,8 @@ class Review extends Model
     }
     public function song(){
         return $this->belongsTo(Song::class);
+    }
+    public function artist(){
+        return $this->belongsTo(Artist::class);
     }
 }

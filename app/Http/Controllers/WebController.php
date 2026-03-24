@@ -8,6 +8,7 @@ use App\Models\Movie;
 use App\Models\Genre;
 use App\Models\Song;
 use App\Models\TvShow;
+use App\Models\HeroBanner;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
@@ -15,17 +16,18 @@ class WebController extends Controller
     //
     public function index()
     {
+        $hero_banners = HeroBanner::where('is_active', true)->orderBy('sort_order')->get();
         $banner_images = array_merge(
             Movie::where('show_on_banner', true)
-                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape', 'banner_label', 'banner_link'])
                 ->map(fn($item) => array_merge($item->toArray(), ['type' => 'movie']))
                 ->toArray(),
             Song::where('show_on_banner', true)
-                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape', 'banner_label', 'banner_link'])
                 ->map(fn($item) => array_merge($item->toArray(), ['type' => 'song']))
                 ->toArray(),
             TvShow::where('show_on_banner', true)
-                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape'])
+                ->get(['id', 'slug', 'title', 'description', 'imdb_ratings', 'cg_chartbusters_ratings', 'release_date', 'poster_image', 'poster_image_landscape', 'banner_label', 'banner_link'])
                 ->map(fn($item) => array_merge($item->toArray(), ['type' => 'tv_show']))
                 ->toArray()
         );
@@ -39,10 +41,11 @@ class WebController extends Controller
         $tvshows = TvShow::orderByDesc('cg_chartbusters_ratings') // highest rating first
             ->take(10)                  // limit 10
             ->get();
-        $artists = Artist::orderByDesc('cgcb_rating') // highest rating first
-            ->take(10)                  // limit 10
-            ->get();                    // fetch results
-        return view('home', compact('movies', 'songs', 'tvshows', 'artists', 'banner_images'));
+        $artists = Artist::withCount('reviews')
+            ->orderByDesc('cgcb_rating')
+            ->take(10)
+            ->get();
+        return view('home', compact('movies', 'songs', 'tvshows', 'artists', 'banner_images', 'hero_banners'));
     }
 
     public function dashboard()
@@ -156,7 +159,8 @@ class WebController extends Controller
         $artists = Artist::with(['movies' => function ($query) {
             $query->orderBy('release_date', 'desc');
         }])->where('slug', $slug)->firstOrFail();
-        return view('pages.artists.view', compact('artists'));
+        $reviews = $artists->reviews()->orderBy('created_at', 'asc')->paginate(15);
+        return view('pages.artists.view', compact(['artists', 'reviews']));
     }
 
 

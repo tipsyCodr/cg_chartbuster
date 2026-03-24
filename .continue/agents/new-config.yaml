@@ -1,0 +1,12 @@
+name: Kobold Connect
+version: 1.0.0
+schema: v1
+
+models:
+  - name: "Kobold Local"
+    provider: openai
+    model: "gpt-3.5-turbo"   # <-- important fix
+    apiBase: "http://localhost:5001/v1"
+    apiKey: "none"           # <-- must be string
+
+  - uses: ollama/qwen2.5-coder-7b

@@ -7,6 +7,7 @@ use App\Models\Movie;
 use App\Models\Album;
 use App\Models\Song;
 use App\Models\TvShow;
+use App\Models\Artist;
 
 class ReviewController extends Controller
 {
@@ -105,4 +106,31 @@ class ReviewController extends Controller
         return redirect()->back()->with('success','Your Review added successfully');
     }
 
+    //Storing Artist Review
+    public function storeArtistReview(Request $request){
+        $request->validate([
+            'review_text' => 'required|string',
+            'rating' => 'required|integer|min:1|max:10',
+        ]);
+
+        $artist = Artist::findOrFail($request->artist_id);
+        if(!auth()->check()){
+            return redirect()->back()->with('error','You must be logged in to review an Artist');
+        }
+
+        if($artist->reviews()->where('user_id', auth()->id())->exists()){
+            return redirect()->back()->with('error','You have already reviewed this Artist');
+        }
+        $artist->reviews()->create([
+            'user_id' => auth()->id(),
+            'review_text' => $request->review_text,
+            'rating' => $request->rating,
+        ]);
+
+        // Calculate and cache average rating
+        $averageRating = $artist->reviews()->avg('rating');
+        $artist->update(['cgcb_rating' => round($averageRating, 1)]);
+
+        return redirect()->back()->with('success','Your Review added successfully');
+    }
 }
