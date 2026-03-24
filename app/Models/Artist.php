@@ -21,6 +21,7 @@ class Artist extends Model
         'photo',
         'city',
         'bio_hi',
+        'bio_chh',
         'hyperlinks_links',
         'is_release_year_only'
     ];

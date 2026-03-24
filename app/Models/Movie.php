@@ -51,6 +51,7 @@ class Movie extends Model
         'drone',
         'others',
         'content_description',
+        'content_description_chh',
         'hyperlinks_links',
         'is_release_year_only',
         'poster_image_portrait',

@@ -59,7 +59,7 @@
             <!-- Google Translate Widget -->
             <div id="google_translate_element" class="hidden lg:block"></div>
 
-            <!-- Manual Toggle (EN/HI) -->
+            <!-- Manual Toggle (EN/HI/CHH) -->
             <div class="flex items-center bg-gray-800 rounded-full p-1 border border-gray-700">
                 <a href="{{ route('set-locale', 'en') }}" 
                    class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'en' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
@@ -68,6 +68,10 @@
                 <a href="{{ route('set-locale', 'hi') }}" 
                    class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'hi' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
                     हि
+                </a>
+                <a href="{{ route('set-locale', 'chh') }}" 
+                   class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'chh' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
+                    छग
                 </a>
             </div>
 

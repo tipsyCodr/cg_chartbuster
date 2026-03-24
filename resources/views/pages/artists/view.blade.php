@@ -59,7 +59,9 @@
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold text-gray-100 mb-2">Biography</h3>
                         <div class="text-gray-300 leading-relaxed text-sm sm:text-base">
-                            @if(app()->getLocale() == 'hi' && !empty($artists->bio_hi))
+                            @if(app()->getLocale() == 'chh' && !empty($artists->bio_chh))
+                                {!! nl2br(e($artists->bio_chh)) !!}
+                            @elseif(app()->getLocale() == 'hi' && !empty($artists->bio_hi))
                                 {!! nl2br(e($artists->bio_hi)) !!}
                             @else
                                 {!! nl2br(e($artists->bio)) !!}

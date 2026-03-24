@@ -50,6 +50,7 @@ class TvShow extends Model
         'drone',
         'others',
         'content_description',
+        'content_description_chh',
         'hyperlinks_links',
         'poster_image_portrait',
         'poster_image_landscape',

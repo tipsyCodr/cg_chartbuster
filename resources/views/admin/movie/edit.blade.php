@@ -85,6 +85,18 @@
                                     @enderror
                                 </div>
                                 <div>
+                                    <label for="content_description_chh"
+                                        class="block my-1 text-sm font-medium text-gray-700">Plot (Chhattisgarhi)</label>
+                                    <textarea name="content_description_chh" id="content_description_chh" rows="3"
+                                        class="mt-1 block w-full @error('content_description_chh') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $movie->content_description_chh }}</textarea>
+                                    @error('content_description_chh')
+                                        @foreach ($errors->get('content_description_chh') as $message)
+                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
+                                            </div>
+                                        @endforeach
+                                    @enderror
+                                </div>
+                                <div>
                                     <label for="release_date" class="block my-1 text-sm font-medium text-gray-700">Release
                                         Date</label>
                                     <input type="date" name="release_date" id="release_date" value="{{ $movie->release_date?->format('Y-m-d') }}"

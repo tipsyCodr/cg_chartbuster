@@ -150,6 +150,17 @@
                                 @endforeach
                                 @enderror
                             </div>
+
+                            <div>
+                                <label for="bio_chh" class="block text-sm font-medium text-gray-700">Biography (Chhattisgarhi)</label>
+                                <textarea name="bio_chh" id="bio_chh" rows="3"
+                                          class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $artist->bio_chh }}</textarea>
+                                @error('bio_chh')
+                                @foreach ($errors->get('bio_chh') as $message)
+                                    <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}</div>
+                                @endforeach
+                                @enderror
+                            </div>
                         </div>
        
                         <!-- Modal Footer -->

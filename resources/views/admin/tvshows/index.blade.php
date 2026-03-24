@@ -102,6 +102,12 @@
                                 </div>
 
                                 <div>
+                                    <label for="content_description_chh" class="block mb-1.5 text-sm font-bold text-gray-700">Plot (Chhattisgarhi)</label>
+                                    <textarea name="content_description_chh" id="content_description_chh" rows="4"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all"></textarea>
+                                </div>
+
+                                <div>
                                     <label for="release_date" class="block mb-1.5 text-sm font-bold text-gray-700">Release Date</label>
                                     <div class="flex flex-col gap-3">
                                         <input type="date" name="release_date" id="release_date"

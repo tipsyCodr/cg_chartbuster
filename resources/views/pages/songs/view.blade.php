@@ -144,7 +144,9 @@
                     <div class="mt-4 rounded-lg bg-gray-700/30 p-3">
                         <h3 class="mb-2 text-base font-semibold text-white sm:text-lg">{{ $song->title }} (Lyrics)</h3>
                         <div class="text-sm leading-relaxed text-gray-200 lg:max-h-44 lg:overflow-y-auto whitespace-pre-line">
-                            @if(app()->getLocale() == 'hi' && !empty($song->content_description))
+                            @if(app()->getLocale() == 'chh' && !empty($song->content_description_chh))
+                                {{ $song->content_description_chh }}
+                            @elseif(app()->getLocale() == 'hi' && !empty($song->content_description))
                                 {{ $song->content_description }}
                             @else
                                 {{ $song->description }}
