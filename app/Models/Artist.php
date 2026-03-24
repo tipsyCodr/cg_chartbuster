@@ -20,6 +20,7 @@ class Artist extends Model
         'birth_date',
         'photo',
         'city',
+        'bio_hi',
         'hyperlinks_links',
         'is_release_year_only'
     ];

@@ -62,13 +62,23 @@
 
                                 <div>
                                     <label for="description"
-                                        class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
+                                        class="block my-1 text-sm font-medium text-gray-700">Lyrics (English)</label>
                                     <textarea name="description" id="description" rows="3" placeholder="Enter full song lyrics here…"
-                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                      {{ $songs->description }}
-                                    </textarea>
+                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $songs->description }}</textarea>
                                     @error('description')
                                         @foreach ($errors->get('description') as $message)
+                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
+                                            </div>
+                                        @endforeach
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label for="content_description"
+                                        class="block my-1 text-sm font-medium text-gray-700">Lyrics (Hindi)</label>
+                                    <textarea name="content_description" id="content_description" rows="3" placeholder="हिंदी में बोल यहाँ दर्ज करें…"
+                                        class="mt-1 block w-full @error('content_description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $songs->content_description }}</textarea>
+                                    @error('content_description')
+                                        @foreach ($errors->get('content_description') as $message)
                                             <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
                                             </div>
                                         @endforeach

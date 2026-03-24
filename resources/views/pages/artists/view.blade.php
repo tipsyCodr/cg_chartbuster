@@ -54,7 +54,20 @@
                             {{ $artists->birth_date ? \Carbon\Carbon::parse($artists->birth_date)->format($artists->is_release_year_only ? 'Y' : 'F j, Y') : 'N/A' }}
                         </p>
                     </div>
+
+                    <!-- Biography -->
                     <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-100 mb-2">Biography</h3>
+                        <div class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                            @if(app()->getLocale() == 'hi' && !empty($artists->bio_hi))
+                                {!! nl2br(e($artists->bio_hi)) !!}
+                            @else
+                                {!! nl2br(e($artists->bio)) !!}
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
                         <button onclick="document.getElementById('review-section').scrollIntoView({behavior:'smooth'})" 
                                 class="inline-flex items-center gap-2 px-6 py-2.5 bg-yellow-500 text-black font-black rounded-lg hover:bg-yellow-600 transition-all shadow-xl active:scale-95 group">
                             <i class="fa-solid fa-star transition-transform group-hover:rotate-12"></i>

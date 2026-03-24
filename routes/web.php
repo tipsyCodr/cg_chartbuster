@@ -149,4 +149,7 @@ Route::get('/regions', [RegionController::class, 'index'])->name('regions');
 Route::get('/region/add/{name}', [RegionController::class, 'add'])->name('region.add');
 
 
+// Locale Switcher
+Route::get('set-locale/{lang}', [App\Http\Controllers\LanguageController::class, 'setLocale'])->name('set-locale');
+
 require __DIR__ . '/auth.php';

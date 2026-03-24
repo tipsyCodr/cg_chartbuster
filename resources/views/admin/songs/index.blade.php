@@ -90,8 +90,14 @@
                                 </div>
 
                                 <div>
-                                    <label for="description" class="block mb-1.5 text-sm font-bold text-gray-700">Description</label>
+                                    <label for="description" class="block mb-1.5 text-sm font-bold text-gray-700">Lyrics (English)</label>
                                     <textarea name="description" id="description" rows="4"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all"></textarea>
+                                </div>
+
+                                <div>
+                                    <label for="content_description" class="block mb-1.5 text-sm font-bold text-gray-700">Lyrics (Hindi)</label>
+                                    <textarea name="content_description" id="content_description" rows="4" placeholder="हिंदी में बोल यहाँ दर्ज करें…"
                                         class="mt-1 block w-full rounded-lg border-gray-300 text-base p-2.5 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition-all"></textarea>
                                 </div>
 

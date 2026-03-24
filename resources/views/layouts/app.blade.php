@@ -32,6 +32,58 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <style>
+        /* Google Translate Toolbar Fixing */
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+
+        /* Customize Gadget (Simple Layout) */
+        #google_translate_element .goog-te-gadget-simple {
+            background-color: #111827 !important; /* gray-900 */
+            border: 1px solid #374151 !important; /* gray-700 */
+            padding: 4px 10px !important;
+            border-radius: 9999px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            height: 38px !important;
+            gap: 4px !important;
+            color: #D1D5DB !important; /* gray-300 */
+            font-size: 13px !important;
+        }
+
+        /* Hide Google Logo & Text */
+        #google_translate_element .goog-te-gadget-simple img,
+        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span[style*="color: rgb(118, 118, 118)"],
+        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span[style*="color: rgb(128, 128, 128)"] {
+            display: none !important;
+        }
+
+        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value {
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            color: #D1D5DB !important;
+        }
+
+        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
+            border: none !important;
+            color: #D1D5DB !important;
+            font-weight: 600 !important;
+        }
+        
+        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value:after {
+            content: "\f0d7"; /* chevron down */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-left: 6px;
+            color: #fbbf24; /* yellow-400 */
+        }
+    </style>
 
 </head>
 
@@ -119,6 +171,17 @@
 
 
     @livewireScripts
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>
