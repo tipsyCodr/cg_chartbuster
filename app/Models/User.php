@@ -20,8 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
         'is_admin',
         'is_active',
+        'last_login',
     ];
 
     /**
@@ -44,10 +46,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login' => 'datetime',
+            'is_active' => 'boolean',
+            'is_admin' => 'boolean',
         ];
     }
     public function reviews(){
         return $this->hasMany(Review::class);
+    }
+
+    public function ratings(){
+        return $this->hasMany(Rating::class);
     }
 
     public function articles()

@@ -28,5 +28,15 @@
 - [x] Added detailed content performance modules.
 - [x] Implemented a moderation queue overview and recently added content table.
 
+### Phase 5: User Management System Enhancements (Completed 2026-04-02)
+- [x] Add `last_login` and indices to `users` table.
+- [x] Implement search and combined filters (Role, Status) for users.
+- [x] Implement backend for Bulk Actions (Delete, Activate, Deactivate).
+- [x] Update "Add User" feature with status support and validation.
+- [x] Enhance "Export Users" with more columns and filtered results.
+- [x] Implement server-side pagination for user listing.
+- [x] Add User Insights (Ratings & Reviews count) to dashboard.
+- [x] Connect and fix all frontend buttons in User Management.
+
 ---
 **Status: ALL PRD TASKS IMPLEMENTED**

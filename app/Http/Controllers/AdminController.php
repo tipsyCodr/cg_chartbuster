@@ -35,9 +35,32 @@ class AdminController extends Controller
         return response()->json($stats);
     }
 
-    public function userManagement()
+    public function userManagement(Request $request)
     {
-        $users = User::all();
+        $query = User::withCount(['reviews', 'ratings']);
+
+        // Search
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            });
+        }
+
+        // Filter by Role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Filter by Status
+        if ($request->filled('status')) {
+            $is_active = $request->status === 'Active';
+            $query->where('is_active', $is_active);
+        }
+
+        $users = $query->latest()->paginate($request->get('per_page', 10))->withQueryString();
+
         return view('admin.user-management', compact('users'));
     }
 
@@ -56,6 +79,7 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'role' => 'required|string',
+            'status' => 'required|string|in:Active,Inactive',
         ]);
 
         User::create([
@@ -63,15 +87,35 @@ class AdminController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => $request->role,
+            'is_active' => $request->status === 'Active',
         ]);
 
         return redirect()->back()->with('success', 'User created successfully');
     }
 
-    public function exportUsers()
+    public function exportUsers(Request $request)
     {
-        $users = User::all();
-        $csvFileName = 'users_export_' . date('Y-m-d_H-i-s') . '.csv';
+        $query = User::query();
+
+        // Apply same filters as userManagement for export
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            });
+        }
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+        if ($request->filled('status')) {
+            $is_active = $request->status === 'Active';
+            $query->where('is_active', $is_active);
+        }
+
+        $users = $query->latest()->get();
+        
+        $csvFileName = 'cgchartbusters_users_export_' . date('Y-m-d_H-i-s') . '.csv';
         $headers = [
             "Content-type"        => "text/csv",
             "Content-Disposition" => "attachment; filename=$csvFileName",
@@ -80,7 +124,7 @@ class AdminController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['ID', 'Name', 'Email', 'Role', 'Status', 'Created At'];
+        $columns = ['ID', 'Name', 'Email', 'Role', 'Status', 'Created At', 'Last Login'];
 
         $callback = function() use($users, $columns) {
             $file = fopen('php://output', 'w');
@@ -93,7 +137,8 @@ class AdminController extends Controller
                     $user->email,
                     $user->role ?? 'User',
                     $user->is_active ? 'Active' : 'Inactive',
-                    $user->created_at
+                    $user->created_at,
+                    $user->last_login,
                 ]);
             }
 
@@ -101,5 +146,34 @@ class AdminController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function bulkAction(Request $request)
+    {
+        $request->validate([
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+            'action' => 'required|string|in:delete,activate,deactivate',
+        ]);
+
+        $ids = $request->user_ids;
+        $action = $request->action;
+
+        switch ($action) {
+            case 'delete':
+                User::whereIn('id', $ids)->delete();
+                $message = 'Selected users deleted successfully.';
+                break;
+            case 'activate':
+                User::whereIn('id', $ids)->update(['is_active' => true]);
+                $message = 'Selected users activated successfully.';
+                break;
+            case 'deactivate':
+                User::whereIn('id', $ids)->update(['is_active' => false]);
+                $message = 'Selected users deactivated successfully.';
+                break;
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 }
