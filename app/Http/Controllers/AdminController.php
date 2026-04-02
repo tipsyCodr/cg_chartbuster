@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\AnalyticsService;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function __construct()
+    protected $analytics;
+
+    public function __construct(AnalyticsService $analytics)
     {
-        // 
+        $this->analytics = $analytics;
     }
 
     public function dashboard()
@@ -28,29 +31,8 @@ class AdminController extends Controller
 
     public function stats()
     {
-        $dailyRatings = \App\Models\Review::selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->whereNotNull('rating')
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->take(7)
-            ->get();
-
-        return response()->json([
-            'total_users' => \App\Models\User::count(),
-            'total_ratings' => \App\Models\Review::whereNotNull('rating')->count(),
-            'total_reviews' => \App\Models\Review::whereNotNull('review_text')->count(),
-            'pending_reviews' => \App\Models\Review::where('flagged', '>', 0)->count(),
-            'total_content' => \App\Models\Movie::count() + \App\Models\Song::count() + \App\Models\Artist::count() + \App\Models\TvShow::count(),
-
-            'top_movies' => \App\Models\Movie::orderByDesc('views')->take(5)->get(['id', 'title', 'views', 'cg_chartbusters_ratings as average_rating']),
-            'top_songs' => \App\Models\Song::orderByDesc('views')->take(5)->get(['id', 'title', 'views', 'cg_chartbusters_ratings as average_rating']),
-            'top_artists' => \App\Models\Artist::orderByDesc('views')->take(5)->get(['id', 'name as title', 'views', 'cgcb_rating as average_rating']),
-
-            'pending_reports' => \App\Models\Report::where('status', 'pending')->count(),
-            'recent_added' => \App\Models\Movie::latest('created_at')->take(5)->get(['id', 'title', 'created_at']),
-            
-            'daily_ratings' => $dailyRatings,
-        ]);
+        $stats = $this->analytics->getStats();
+        return response()->json($stats);
     }
 
     public function userManagement()
