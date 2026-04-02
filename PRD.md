@@ -1,198 +1,187 @@
-# PRD: User Management System Enhancements (CG Chartbusters)
+# PRD: Admin Panel UI Revamp (CG Chartbusters)
 
 ## Overview
 
-Fix and fully implement the User Management section in the Admin Panel. Enable admins to create users, export user data, perform advanced search, and execute bulk actions with proper backend APIs and responsive UI.
+Redesign and modernize the Admin Panel UI for CG Chartbusters to improve usability, visual appeal, and mobile responsiveness. The goal is to create a clean, fast, and intuitive interface that works seamlessly across desktop, tablet, and mobile devices.
 
 ---
 
-## Task 1: Add User Feature
+## Task 1: Mobile-Friendly Design
 
-Enable admins to manually create new users.
+Ensure the entire admin panel is fully responsive.
 
-* UI:
+* Implement responsive layouts for:
 
-  * "Add User" button opens modal form
-  * Form fields:
-
-    * Name
-    * Email
-    * Password
-    * Role (Admin / User)
-    * Status (Active / Inactive)
-
-* Validation:
-
-  * Email must be unique
-  * Password minimum length (>= 6 or 8 as per policy)
-  * Required fields must not be empty
-
-* Backend:
-
-  * Endpoint: `POST /admin/users/create`
-  * Insert into `users` table:
-
-    * id
-    * name
-    * email
-    * password (bcrypt hashed)
-    * role
-    * status
-    * created_at
-
----
-
-## Task 2: Export Users Feature
-
-Allow admins to download user data.
-
-* UI:
-
-  * "Export Users" button triggers file download
-
-* Backend:
-
-  * Endpoint: `GET /admin/users/export`
-  * Query:
-
-    * SELECT name, email, role, status, created_at, last_login FROM users
-
-* Export formats:
-
-  * CSV (recommended)
-  * Excel (.xlsx)
-
-* File naming:
-
-  * `cgchartbusters_users_export_YYYY.csv`
-
-* Suggested libraries:
-
-  * PHP: PhpSpreadsheet
-  * Node: json2csv
-  * Python: pandas
-
----
-
-## Task 3: User Search Improvement
-
-Enhance search and filtering capabilities.
-
-* Search fields:
-
-  * Name
-  * Email
-  * Role
-  * Status
+  * Dashboard
+  * User Management
+  * Content Management
+  * Settings pages
 
 * Features:
 
-  * Real-time filtering (AJAX / debounce input)
-  * Combined filters (e.g., role + status)
+  * Mobile-first design approach
+  * Collapsible sidebar for small screens
+  * Touch-friendly buttons and spacing
+  * Optimized font sizes and spacing
+
+* Breakpoints:
+
+  * Mobile (<768px)
+  * Tablet (768px–1024px)
+  * Desktop (>1024px)
 
 ---
 
-## Task 4: Bulk Actions
+## Task 2: Navigation Redesign
 
-Enable actions on multiple selected users.
+Modernize navigation for better usability.
 
-* UI:
+* Sidebar improvements:
 
-  * Checkbox selection for users
+  * Clean layout with icons + labels
+  * Active state highlighting
+  * Group related items (Users, Content, Analytics, Settings)
+  * Collapsible sections
 
-* Actions:
+* Top navigation bar:
 
-  * Bulk Delete
-  * Bulk Activate
-  * Bulk Deactivate
+  * Search bar
+  * Notifications icon
+  * User profile dropdown
 
-* Backend:
+* UX improvements:
 
-  * Endpoint: `POST /admin/users/bulk-action`
-  * Payload:
-
-    * user_ids[]
-    * action (delete / activate / deactivate)
-
----
-
-## Task 5: Frontend Button Fix
-
-Fix non-functional buttons and connect them to backend APIs.
-
-* Add User button:
-
-  * Opens modal form
-  * Submits form via API
-
-* Export Users button:
-
-  * Calls export API
-  * Initiates file download
+  * Sticky navigation
+  * Smooth transitions and hover effects
 
 ---
 
-## Task 6: Pagination
+## Task 3: Branding (CG Chartbusters Identity)
 
-Improve user listing performance.
+Apply consistent branding across the admin panel.
 
-* Conditions:
+* Add official CG Chartbusters logo:
 
-  * If users > 50
+  * Sidebar (collapsed + expanded)
+  * Login screen
+  * Header area
+
+* Maintain brand consistency:
+
+  * Colors (primary, secondary, accent)
+  * Typography
+  * Button styles
+
+---
+
+## Task 4: Page UI Revamp
+
+Redesign all major pages for clarity and usability.
+
+* Dashboard:
+
+  * Card-based layout
+  * Clean spacing and alignment
+  * Highlight key metrics
+
+* Tables (Users, Content):
+
+  * Modern table design
+  * Zebra rows / hover effects
+  * Sticky headers
+  * Responsive table (scroll or stacked on mobile)
+
+* Forms:
+
+  * Clean input fields
+  * Inline validation messages
+  * Proper spacing and grouping
+
+* Buttons:
+
+  * Consistent styles (primary, secondary, danger)
+  * Proper size and spacing
+
+---
+
+## Task 5: Sidebar Revamp
+
+Rebuild sidebar for better usability and aesthetics.
 
 * Features:
 
-  * Pagination options: 10 / 25 / 50 per page
-  * Server-side pagination
+  * Expand/collapse functionality
+  * Icons for each menu item
+  * Section grouping
+  * Smooth animation transitions
+
+* Mobile behavior:
+
+  * Hidden by default
+  * Slide-in drawer menu
 
 ---
 
-## Task 7: Performance & Security
+## Task 6: UI Components Standardization
 
-Ensure system reliability and data protection.
+Create reusable UI components.
 
-* Use indexing on:
+* Components:
 
-  * email
-  * created_at
+  * Cards
+  * Tables
+  * Buttons
+  * Modals
+  * Alerts / Notifications
 
-* Security:
+* Benefits:
 
-  * Hash passwords using bcrypt
-  * Validate all inputs server-side
-  * Protect endpoints with admin authentication middleware
+  * Consistency across pages
+  * Faster development
+  * Easier maintenance
 
 ---
 
-## Task 8: Optional Advanced Upgrade (User Insights)
+## Task 7: Performance & UX Enhancements
 
-Provide deeper insights into user activity.
+Improve overall user experience.
 
-* Add columns in user list:
+* Add loading states (spinners/skeletons)
+* Use smooth transitions and animations
+* Optimize CSS and assets
+* Avoid layout shifts
 
-  * Ratings Given (count)
-  * Reviews Written (count)
-  * Join Date
-  * Last Activity
+---
 
-* Example display:
+## Task 8: Accessibility
 
-  * User Name
-  * Ratings: X
-  * Reviews: Y
-  * Joined: Date
+Ensure the UI is accessible to all users.
 
-* Purpose:
+* Proper contrast ratios
+* Keyboard navigation support
+* ARIA labels where needed
 
-  * Track engagement
-  * Identify active users
-  * Support analytics and moderation
+---
+
+## Task 9: Tech Stack Suggestions
+
+Use modern UI tools for implementation.
+
+* Frontend:
+
+  * Tailwind CSS (recommended)
+  * Alpine.js / Livewire (for interactivity)
+
+* Optional:
+
+  * Component libraries (ShadCN, Flowbite)
 
 ---
 
 ## Purpose
 
-* Enable full admin control over users
-* Allow easy data export for backup and analysis
-* Improve user moderation workflow
-* Support marketing and analytics use cases
+* Improve admin usability and efficiency
+* Provide a modern and professional interface
+* Ensure mobile accessibility for on-the-go management
+* Strengthen CG Chartbusters brand identity
+* Reduce user friction and improve workflow speed
