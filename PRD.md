@@ -1,187 +1,176 @@
-# PRD: Admin Panel UI Revamp (CG Chartbusters)
+# PRD: Content Management UI Revamp (Movies, Songs, TV Shows, Artists)
 
 ## Overview
 
-Redesign and modernize the Admin Panel UI for CG Chartbusters to improve usability, visual appeal, and mobile responsiveness. The goal is to create a clean, fast, and intuitive interface that works seamlessly across desktop, tablet, and mobile devices.
+Revamp the Content Management section of the Admin Panel for CG Chartbusters. Improve the UI and UX of Index, Add, and Edit pages for Movies, Songs, TV Shows, and Artists. Focus on mobile-friendly forms, faster data entry, and a clean, modern interface.
 
 ---
 
-## Task 1: Mobile-Friendly Design
+## Task 1: Index Pages Revamp
 
-Ensure the entire admin panel is fully responsive.
+Redesign listing pages for all content types.
 
-* Implement responsive layouts for:
+* Pages covered:
 
-  * Dashboard
-  * User Management
-  * Content Management
-  * Settings pages
+  * Movies
+  * Songs
+  * TV Shows
+  * Artists
+
+* Improvements:
+
+  * Modern table design with better spacing
+  * Search and filter (title, category, status)
+  * Sort options (latest, most viewed, rating)
+  * Quick action buttons:
+
+    * Edit
+    * Delete
+    * View
+
+* Mobile optimization:
+
+  * Convert table to card layout on small screens
+  * Sticky action buttons
+
+---
+
+## Task 2: Add Page UX Improvement
+
+Improve content creation forms for faster input.
+
+* Form design:
+
+  * Section-based layout (Basic Info, Media, Metadata, SEO)
+  * Clear labels and placeholders
+  * Required field indicators
+
+* Fields (example for Movies):
+
+  * Title
+  * Description
+  * Release Date
+  * Genre
+  * Poster Image
+  * Trailer URL
+  * Cast
+
+* Mobile optimization:
+
+  * Single-column layout
+  * Large touch-friendly inputs
+  * Auto-scroll to next field
+  * Sticky submit button
+
+---
+
+## Task 3: Edit Page Enhancement
+
+Improve editing experience for existing content.
 
 * Features:
 
-  * Mobile-first design approach
-  * Collapsible sidebar for small screens
-  * Touch-friendly buttons and spacing
-  * Optimized font sizes and spacing
-
-* Breakpoints:
-
-  * Mobile (<768px)
-  * Tablet (768px–1024px)
-  * Desktop (>1024px)
-
----
-
-## Task 2: Navigation Redesign
-
-Modernize navigation for better usability.
-
-* Sidebar improvements:
-
-  * Clean layout with icons + labels
-  * Active state highlighting
-  * Group related items (Users, Content, Analytics, Settings)
-  * Collapsible sections
-
-* Top navigation bar:
-
-  * Search bar
-  * Notifications icon
-  * User profile dropdown
+  * Pre-filled form data
+  * Change highlights (edited fields)
+  * Save and continue editing option
 
 * UX improvements:
 
-  * Sticky navigation
-  * Smooth transitions and hover effects
+  * Tabs or collapsible sections
+  * Quick preview option
 
 ---
 
-## Task 3: Branding (CG Chartbusters Identity)
+## Task 4: Media Upload Improvements
 
-Apply consistent branding across the admin panel.
-
-* Add official CG Chartbusters logo:
-
-  * Sidebar (collapsed + expanded)
-  * Login screen
-  * Header area
-
-* Maintain brand consistency:
-
-  * Colors (primary, secondary, accent)
-  * Typography
-  * Button styles
-
----
-
-## Task 4: Page UI Revamp
-
-Redesign all major pages for clarity and usability.
-
-* Dashboard:
-
-  * Card-based layout
-  * Clean spacing and alignment
-  * Highlight key metrics
-
-* Tables (Users, Content):
-
-  * Modern table design
-  * Zebra rows / hover effects
-  * Sticky headers
-  * Responsive table (scroll or stacked on mobile)
-
-* Forms:
-
-  * Clean input fields
-  * Inline validation messages
-  * Proper spacing and grouping
-
-* Buttons:
-
-  * Consistent styles (primary, secondary, danger)
-  * Proper size and spacing
-
----
-
-## Task 5: Sidebar Revamp
-
-Rebuild sidebar for better usability and aesthetics.
+Simplify image and media handling.
 
 * Features:
 
-  * Expand/collapse functionality
-  * Icons for each menu item
-  * Section grouping
-  * Smooth animation transitions
+  * Drag & drop upload
+  * Image preview before upload
+  * Replace/remove image option
 
-* Mobile behavior:
+* Mobile:
 
-  * Hidden by default
-  * Slide-in drawer menu
+  * Camera upload support
+  * Gallery picker optimization
 
 ---
 
-## Task 6: UI Components Standardization
+## Task 5: Form Validation & Feedback
 
-Create reusable UI components.
+Make forms reliable and user-friendly.
+
+* Validation:
+
+  * Required fields
+  * Correct formats (URL, date)
+
+* Feedback:
+
+  * Inline error messages
+  * Success alerts after save
+
+---
+
+## Task 6: Reusable Form Components
+
+Standardize form components across all content types.
 
 * Components:
 
-  * Cards
-  * Tables
-  * Buttons
-  * Modals
-  * Alerts / Notifications
+  * Input fields
+  * Dropdowns
+  * Date pickers
+  * File uploaders
+  * Tags input (for cast, genres)
 
 * Benefits:
 
-  * Consistency across pages
+  * Consistency
   * Faster development
   * Easier maintenance
 
 ---
 
-## Task 7: Performance & UX Enhancements
+## Task 7: Performance Optimization
 
-Improve overall user experience.
+Ensure fast and smooth experience.
 
-* Add loading states (spinners/skeletons)
-* Use smooth transitions and animations
-* Optimize CSS and assets
-* Avoid layout shifts
-
----
-
-## Task 8: Accessibility
-
-Ensure the UI is accessible to all users.
-
-* Proper contrast ratios
-* Keyboard navigation support
-* ARIA labels where needed
+* Lazy load heavy components (images, selects)
+* Optimize form submission (AJAX)
+* Avoid full page reloads
 
 ---
 
-## Task 9: Tech Stack Suggestions
+## Task 8: Mobile-First Enhancements
 
-Use modern UI tools for implementation.
+Make forms easy to use on mobile devices.
 
-* Frontend:
+* Features:
 
-  * Tailwind CSS (recommended)
-  * Alpine.js / Livewire (for interactivity)
+  * Sticky submit/save button
+  * Auto-focus next input
+  * Reduced typing using dropdowns/autocomplete
+  * Minimal scrolling
 
-* Optional:
+---
 
-  * Component libraries (ShadCN, Flowbite)
+## Task 9: Optional Enhancements
+
+Improve productivity further.
+
+* Duplicate content option (copy movie/song)
+* Auto-save draft feature
+* Bulk upload (CSV for content)
 
 ---
 
 ## Purpose
 
-* Improve admin usability and efficiency
-* Provide a modern and professional interface
-* Ensure mobile accessibility for on-the-go management
-* Strengthen CG Chartbusters brand identity
-* Reduce user friction and improve workflow speed
+* Simplify content creation and editing
+* Improve admin efficiency on mobile devices
+* Reduce errors during data entry
+* Maintain consistency across Movies, Songs, TV Shows, and Artists
+* Provide a modern and intuitive admin experience

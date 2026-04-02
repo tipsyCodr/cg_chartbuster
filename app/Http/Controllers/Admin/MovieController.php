@@ -11,6 +11,30 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+    private function normalizeReleaseDate(?string $value, bool $yearOnly): ?string
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        if ($yearOnly && preg_match('/^\d{4}$/', $value)) {
+            return $value . '-01-01';
+        }
+
+        return $value;
+    }
+
+    private function normalizeDuration(?string $value): string
+    {
+        if (blank($value)) {
+            return '00:00:00';
+        }
+
+        return strlen($value) === 5 ? $value . ':00' : $value;
+    }
+
     public function index()
     {
         $genres = Genre::where('for','Movies')->get();
@@ -24,18 +48,29 @@ class MovieController extends Controller
 
     public function create()
     {
-        return view('admin.movie.create');
+        $genres = Genre::where('for', 'Movies')->get();
+        $regions = Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
+        
+        return view('admin.movie.create', compact('genres', 'regions', 'artists', 'categories'));
     }
 
     public function store(Request $request)
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+            'duration' => $this->normalizeDuration($request->input('duration')),
+        ]);
+
         $validatedData = $request->validate(rules: [
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
+            'duration' => 'nullable|date_format:H:i:s',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string',
+
             'director' => 'nullable|string',
             'trailer_url' => 'nullable|string',
             'region_id' => 'nullable|exists:regions,id',
@@ -148,24 +183,30 @@ class MovieController extends Controller
 
     public function edit(Movie $movie)
     {
-        return view('admin.movie.edit', [
-            'movie' => $movie,
-            'genres' => Genre::where('for', 'Movies')->get(),
-            'singer_male' => Artist::singerMale()->get(),
-            'singer_female' => Artist::singerFemale()->get()
-        ]);
+        $genres = Genre::where('for', 'Movies')->get();
+        $regions = Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
+        
+        return view('admin.movie.edit', compact('movie', 'genres', 'regions', 'artists', 'categories'));
     }
 
 
     public function update(Request $request, Movie $movie)
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+            'duration' => $this->normalizeDuration($request->input('duration')),
+        ]);
+
         $validatedData = $request->validate(rules: [
             'title' => 'required|max:255',
             'description' => 'nullable',
             'release_date' => 'nullable|date',
+            'duration' => 'nullable|date_format:H:i:s',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string',
+
             // 'director' => 'nullable|string',
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'trailer_url' => 'nullable|string',

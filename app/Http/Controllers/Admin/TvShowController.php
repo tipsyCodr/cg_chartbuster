@@ -11,7 +11,21 @@ use Illuminate\Http\Request;
 
 class TvShowController extends Controller
 {
-    //
+    private function normalizeReleaseDate(?string $value, bool $yearOnly): ?string
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        if ($yearOnly && preg_match('/^\d{4}$/', $value)) {
+            return $value . '-01-01';
+        }
+
+        return $value;
+    }
+
     public function index()
     {
         // Code to list all TV shows
@@ -25,11 +39,20 @@ class TvShowController extends Controller
 
     public function create()
     {
-        // Code to show form to create a new TV show
+        $genres = Genre::where('for', 'Tv Shows')->get();
+        $regions = \App\Models\Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
+        
+        return view('admin.tvshows.create', compact('genres', 'regions', 'artists', 'categories'));
     }
 
     public function store(Request $request, TvShow $tvShow )
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+        ]);
+
         // Code to save a new TV show
         $validatedData = $request->validate(rules: [
             'title' => 'required|max:255',
@@ -37,7 +60,7 @@ class TvShowController extends Controller
             'release_date' => 'nullable|date',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string',
+
 //            'director' => 'nullable|string',
 //            'cinematographer' => 'nullable|string',
 //            'dop' => 'nullable|string',
@@ -143,17 +166,21 @@ class TvShowController extends Controller
 
     public function edit($id)
     {
-        // Code to show form to edit a TV show
-        $tvshows = TvShow::findOrFail($id);
-        $genres = Genre::where('for','Tv Shows')->get();
-        $singer_male = Artist::singerMale()->get();
-        $singer_female = Artist::singerFemale()->get();
+        $tvshow = TvShow::findOrFail($id);
+        $genres = Genre::where('for', 'Tv Shows')->get();
+        $regions = \App\Models\Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
 
-        return view('admin.tvshows.edit', compact('tvshows', 'genres', 'singer_male', 'singer_female'));
+        return view('admin.tvshows.edit', compact('tvshow', 'genres', 'regions', 'artists', 'categories'));
     }
 
     public function update(Request $request, TvShow $tvShow)
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+        ]);
+
      
         // Explicitly fetch the model to ensure it's fully loaded and avoid potential route model binding issues
         $tvShow = TvShow::findOrFail($request->route('tvshow'));
@@ -165,7 +192,7 @@ class TvShowController extends Controller
             'release_date' => 'nullable|date',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string',
+
 //            'director' => 'nullable|string',
 //            'imdb_ratings' => 'nullable|integer',
 //            'cinematographer' => 'nullable|string',

@@ -9,6 +9,21 @@ use Illuminate\Http\Request;
 
 class ArtistController extends Controller
 {
+    private function normalizeReleaseDate(?string $value, bool $yearOnly): ?string
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        if ($yearOnly && preg_match('/^\d{4}$/', $value)) {
+            return $value . '-01-01';
+        }
+
+        return $value;
+    }
+
     public function index()
     {
         $category = ArtistCategory::all()->map(function($cat) {
@@ -29,20 +44,25 @@ class ArtistController extends Controller
     }
     public function create()
     {
-        return view('admin.artist.create');
+        $categories = ArtistCategory::all();
+        return view('admin.artist.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        $request->merge([
+            'birth_date' => $this->normalizeReleaseDate($request->input('birth_date'), $request->boolean('is_release_year_only')),
+        ]);
+
         $validatedData = $request->validate([
-            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
+            'photo' => 'required|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'name' => 'required|max:255',
             'category' => 'nullable',
             'cgcb_rating' => 'nullable',
             'bio' => 'nullable',
             'bio_hi' => 'nullable',
             'bio_chh' => 'nullable',
-            'birth_date' => 'nullable',
+            'birth_date' => 'nullable|date',
             'city' => 'nullable|max:255',
             'is_release_year_only' => 'nullable|boolean',
         ]);
@@ -74,6 +94,10 @@ class ArtistController extends Controller
 
     public function update(Request $request, Artist $artist)
     {
+        $request->merge([
+            'birth_date' => $this->normalizeReleaseDate($request->input('birth_date'), $request->boolean('is_release_year_only')),
+        ]);
+
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'category' => 'nullable',
@@ -81,7 +105,7 @@ class ArtistController extends Controller
             'bio_hi' => 'nullable',
             'bio_chh' => 'nullable',
             'cgcb_rating' => 'nullable',
-            'birth_date' => 'nullable',
+            'birth_date' => 'nullable|date',
             'city' => 'nullable|max:255',
             'is_release_year_only' => 'nullable|boolean',
         ]);

@@ -2,15 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Movie;
-use App\Models\Song;
 use Livewire\Component;
 use Livewire\WithPagination;
-namespace App\Livewire;
-
-use Livewire\Component;
-use Livewire\WithPagination;
-
 
 class DynamicSearch extends Component
 {
@@ -22,18 +15,33 @@ class DynamicSearch extends Component
     public $modelRoute = 'App\\Models\\';
     public $columns = [];
     public $isFrontend = false;
+    public $viewType = 'table'; // 'table' or 'grid'
+    public $sortField = 'created_at';
+    public $sortDirection = 'desc';
     protected $paginationTheme = 'tailwind';
 
-    public function mount($model, $columns = [], $isFrontend = false)
+    public function mount($model, $columns = [], $isFrontend = false, $viewType = 'table')
     {
         $this->model = $model;
         $this->columns = $columns;
         $this->isFrontend = $isFrontend;
+        $this->viewType = session()->get('admin_view_type_' . $model, $viewType);
     }
 
-    public function updatingQuery()
+    public function setViewType($type)
     {
-        $this->resetPage();
+        $this->viewType = $type;
+        session()->put('admin_view_type_' . $this->model, $type);
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
     }
 
     public function clearSearch()
@@ -48,11 +56,7 @@ class DynamicSearch extends Component
 
         $modelClass = $this->modelRoute . $this->model;
 
-        $selectColumns = array_merge(['id'], $this->columns);
-
-        if (!in_array('slug', $selectColumns)) {
-            $selectColumns[] = 'slug';
-        }
+        $selectColumns = array_unique(array_merge(['id', 'slug', 'created_at'], $this->columns));
 
         $results = $modelClass::query()
             ->select($selectColumns)
@@ -65,8 +69,8 @@ class DynamicSearch extends Component
                     }
                 });
             })
-            ->orderByDesc('created_at')
-            ->paginate(10);
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->viewType === 'grid' ? 12 : 10);
 
 
         return view('livewire.dynamic-search', [

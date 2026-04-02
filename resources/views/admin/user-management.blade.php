@@ -1,264 +1,297 @@
 @extends('layouts.admin')
 
-@section('page-title', 'User Management')
+@section('page-title', 'User Registry')
 
 @section('content')
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <div class="p-4 bg-gray-50 border-b border-gray-200 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-        <h2 class="text-xl font-semibold text-gray-800">User Management</h2>
-        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:space-x-3 sm:gap-0">
-            <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" 
-                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors flex items-center justify-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Add User
-            </button>
-            <a href="{{ route('admin.users.export', request()->all()) }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors flex items-center justify-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                </svg>
-                Export Users
-            </a>
+<div x-data="userManagement()" class="space-y-8 pb-20">
+
+    <!-- Header Actions -->
+    <x-admin.card>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <h2 class="text-xl font-black text-gray-800 tracking-tight">Active User Directory</h2>
+                <p class="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">Manage platform access and permissions</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <x-admin.button variant="secondary" icon="fas fa-file-export" href="{{ route('admin.users.export', request()->all()) }}" as="a">
+                    Export Data
+                </x-admin.button>
+                <x-admin.button variant="primary" icon="fas fa-user-plus" @click="isAddModalOpen = true">
+                    Provision User
+                </x-admin.button>
+            </div>
+        </div>
+    </x-admin.card>
+
+    <!-- Filters & Bulk Actions -->
+    <x-admin.card>
+        <div class="space-y-6">
+            <!-- Filter Bar -->
+            <form action="{{ route('admin.user-management') }}" method="GET" class="flex flex-col lg:flex-row lg:items-center gap-4">
+                <div class="relative flex-1">
+                    <span class="absolute left-4 top-3 text-gray-400">
+                        <i class="fas fa-search text-sm"></i>
+                    </span>
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                           placeholder="Search by identity or communication channel..." 
+                           class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-3">
+                    <select name="role" onchange="this.form.submit()" 
+                            class="px-4 py-2.5 bg-gray-50 border-none rounded-xl text-xs font-black uppercase tracking-widest text-gray-500 focus:ring-2 focus:ring-blue-500/20">
+                        <option value="">All Designations</option>
+                        <option value="Admin" {{ request('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="User" {{ request('role') == 'User' ? 'selected' : '' }}>Standard User</option>
+                        <option value="Moderator" {{ request('role') == 'Moderator' ? 'selected' : '' }}>Moderator</option>
+                    </select>
+
+                    <select name="status" onchange="this.form.submit()" 
+                            class="px-4 py-2.5 bg-gray-50 border-none rounded-xl text-xs font-black uppercase tracking-widest text-gray-500 focus:ring-2 focus:ring-blue-500/20">
+                        <option value="">All Status States</option>
+                        <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Authorized</option>
+                        <option value="Inactive" {{ request('status') == 'Inactive' ? 'selected' : '' }}>Restricted</option>
+                    </select>
+
+                    @if(request()->anyFilled(['search', 'role', 'status']))
+                        <x-admin.button variant="ghost" size="xs" href="{{ route('admin.user-management') }}" as="a">
+                            Reset Intelligence
+                        </x-admin.button>
+                    @endif
+                </div>
+            </form>
+
+            <!-- Bulk Hub -->
+            <div x-show="selectedIds.length > 0" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="p-4 bg-blue-600 rounded-2xl flex items-center justify-between shadow-lg shadow-blue-200">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-white mr-3">
+                        <span class="text-sm font-black" x-text="selectedIds.length"></span>
+                    </div>
+                    <span class="text-sm font-black text-white tracking-tight">Active entities selected for batch command</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button @click="submitBulkAction('activate')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Enable</button>
+                    <button @click="submitBulkAction('deactivate')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Disable</button>
+                    <button @click="submitBulkAction('delete')" class="px-3 py-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm">Purge</button>
+                </div>
+            </div>
+        </div>
+    </x-admin.card>
+
+    <!-- User Data Table -->
+    <x-admin.card>
+        <div class="-mx-6 -my-6">
+            <x-admin.table :headers="[
+                ['label' => '', 'align' => 'center'],
+                'Entity Identity',
+                'Communication Hub',
+                ['label' => 'Engagement', 'align' => 'center'],
+                ['label' => 'Designation', 'align' => 'center'],
+                ['label' => 'Access State', 'align' => 'center'],
+                ['label' => 'Control', 'align' => 'right']
+            ]" :hasBorder="false">
+                @foreach($users as $user)
+                <tr class="group hover:bg-gray-50/50 transition border-b border-gray-50 last:border-0">
+                    <td class="px-6 py-5 text-center">
+                        <input type="checkbox" value="{{ $user->id }}" x-model="selectedIds" 
+                               class="rounded border-gray-300 text-blue-600 focus:ring-blue-500/20 w-4 h-4 cursor-pointer">
+                    </td>
+                    <td class="px-6 py-5">
+                        <div class="flex items-center">
+                            <div class="mr-3 shrink-0">
+                                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-black shadow-lg shadow-blue-100 group-hover:scale-110 transition-transform">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-black text-gray-800 leading-tight">{{ $user->name }}</div>
+                                <div class="text-[10px] font-bold text-gray-400 mt-0.5">Registry Dt: {{ $user->created_at->format('M d, Y') }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-5">
+                        <span class="text-xs font-bold text-gray-500">{{ $user->email }}</span>
+                    </td>
+                    <td class="px-6 py-5 text-center">
+                        <div class="inline-flex items-center space-x-3 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
+                            <div class="text-center group-hover:scale-110 transition-transform">
+                                <p class="text-[9px] font-black text-gray-400 uppercase tracking-tighter">Reviews</p>
+                                <p class="text-xs font-black text-blue-600">{{ $user->reviews_count }}</p>
+                            </div>
+                            <div class="w-px h-6 bg-gray-200"></div>
+                            <div class="text-center group-hover:scale-110 transition-transform">
+                                <p class="text-[9px] font-black text-gray-400 uppercase tracking-tighter">Ratings</p>
+                                <p class="text-xs font-black text-indigo-600">{{ $user->ratings_count }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-5 text-center">
+                        @php
+                            $roleColor = match(strtolower($user->role ?? 'user')) {
+                                'admin' => 'purple',
+                                'moderator' => 'blue',
+                                default => 'emerald',
+                            };
+                        @endphp
+                        <span class="bg-{{ $roleColor }}-50 text-{{ $roleColor }}-600 border border-{{ $roleColor }}-100 py-1 px-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
+                            {{ ucfirst($user->role ?? 'User') }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-5 text-center">
+                        <span @class([
+                            'w-2 h-2 rounded-full inline-block mr-1.5',
+                            'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' => $user->is_active,
+                            'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' => !$user->is_active,
+                        ])></span>
+                        <span @class([
+                            'text-[10px] font-black uppercase tracking-widest',
+                            'text-emerald-600' => $user->is_active,
+                            'text-rose-600' => !$user->is_active,
+                        ])>
+                            {{ $user->is_active ? 'Authorized' : 'Restricted' }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-5 text-right">
+                        <div class="flex items-center justify-end space-x-1">
+                            <form action="{{ route('admin.toggle-user', $user->id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all" title="Shift Access State">
+                                    <i class="fas fa-sync-alt text-xs"></i>
+                                </button>
+                            </form>
+                            <button class="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-xl transition-all" title="Modify Entity Data">
+                                <i class="fas fa-edit text-xs"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                
+                @if($users->isEmpty())
+                <tr>
+                    <td colspan="7" class="py-20 text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-gray-200 mb-4">
+                                <i class="fas fa-search text-2xl"></i>
+                            </div>
+                            <p class="text-sm font-black text-gray-400 uppercase tracking-widest">No matching entities located.</p>
+                        </div>
+                    </td>
+                </tr>
+                @endif
+            </x-admin.table>
+        </div>
+        
+        @if($users->hasPages())
+        <div class="mt-8">
+            {{ $users->links() }}
+        </div>
+        @endif
+    </x-admin.card>
+
+    <!-- Provisioning Modal (Add User) -->
+    <div x-show="isAddModalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm" 
+         x-cloak>
+        
+        <div @click.away="isAddModalOpen = false" 
+             class="bg-white w-full max-w-lg rounded-[32px] overflow-hidden shadow-2xl border border-gray-100 transform transition-all">
+            
+            <div class="p-8 pb-4 flex items-center justify-between">
+                <h3 class="text-2xl font-black text-gray-800 tracking-tight">Provision New Entity</h3>
+                <button @click="isAddModalOpen = false" class="p-2 hover:bg-gray-100 rounded-2xl text-gray-400 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form action="{{ route('admin.users.store') }}" method="POST" class="p-8 pt-0 space-y-6">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Identity Name</label>
+                        <input type="text" name="name" required placeholder="Full Legal Name"
+                               class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Communication Channel (Email)</label>
+                    <input type="email" name="email" required placeholder="entity@cgchartbusters.com"
+                           class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Access Credentials (Password)</label>
+                    <input type="password" name="password" required placeholder="Minimum 8 complex characters"
+                           class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Functional Designation</label>
+                        <select name="role" class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 appearance-none">
+                            <option value="User">Standard User</option>
+                            <option value="Admin">Super Admin</option>
+                            <option value="Moderator">System Moderator</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Initial Status</label>
+                        <select name="status" class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 appearance-none">
+                            <option value="Active">Authorized</option>
+                            <option value="Inactive">Restricted</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <x-admin.button type="button" variant="secondary" class="flex-1" @click="isAddModalOpen = false">
+                        Abort
+                    </x-admin.button>
+                    <x-admin.button type="submit" variant="primary" class="flex-1">
+                        Commit Provisioning
+                    </x-admin.button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Bulk Action Form -->
+    <!-- Bulk Action Form (Hidden) -->
     <form id="bulk-action-form" action="{{ route('admin.users.bulk-action') }}" method="POST" class="hidden">
         @csrf
         <input type="hidden" name="action" id="bulk-action-input">
-        <div id="bulk-ids-container"></div>
+        <template x-for="id in selectedIds" :key="id">
+            <input type="hidden" name="user_ids[]" :value="id">
+        </template>
     </form>
 
-    <!-- Add User Modal -->
-    <div id="add-user-modal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-gray-900 bg-opacity-50">
-        <div class="flex min-h-screen items-center justify-center p-4">
-            <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <div class="mb-4 flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-gray-900">Add New User</h3>
-                    <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form action="{{ route('admin.users.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" name="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Role</label>
-                        <select name="role" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="User">User</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Moderator">Moderator</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancel</button>
-                        <button type="submit" class="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600">Save User</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="p-4 sm:p-6">
-        <form action="{{ route('admin.user-management') }}" method="GET" class="mb-4 flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
-            <div class="relative flex-grow lg:mr-4">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users by name or email..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <div class="flex flex-col gap-2 sm:flex-row sm:space-x-2 sm:gap-0">
-                <select name="role" onchange="this.form.submit()" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                    <option value="">All Roles</option>
-                    <option value="Admin" {{ request('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="User" {{ request('role') == 'User' ? 'selected' : '' }}>User</option>
-                    <option value="Moderator" {{ request('role') == 'Moderator' ? 'selected' : '' }}>Moderator</option>
-                </select>
-                <select name="status" onchange="this.form.submit()" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                    <option value="">All Status</option>
-                    <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                    <option value="Inactive" {{ request('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
-                </select>
-                @if(request()->anyFilled(['search', 'role', 'status']))
-                    <a href="{{ route('admin.user-management') }}" class="text-sm text-blue-500 hover:text-blue-700 flex items-center px-2">Clear</a>
-                @endif
-            </div>
-        </form>
-
-        <div class="mb-4 items-center space-x-2 hidden" id="bulk-actions-container">
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium text-gray-700"><span id="selected-count">0</span> selected:</span>
-                <button onclick="submitBulkAction('activate')" class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200">Activate</button>
-                <button onclick="submitBulkAction('deactivate')" class="text-sm bg-yellow-100 text-yellow-700 px-3 py-1 rounded hover:bg-yellow-200">Deactivate</button>
-                <button onclick="submitBulkAction('delete')" class="text-sm bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200">Delete</button>
-            </div>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="min-w-[760px] w-full bg-white">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left w-10">
-                            <input type="checkbox" id="select-all" class="form-checkbox h-5 w-5 text-blue-600">
-                        </th>
-                        <th class="py-3 px-6 text-left">User</th>
-                        <th class="py-3 px-6 text-left">Email</th>
-                        <th class="py-3 px-6 text-center">Insights</th>
-                        <th class="py-3 px-6 text-center">Role</th>
-                        <th class="py-3 px-6 text-center">Status</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-600 text-sm font-light">
-                    @foreach($users as $user)
-                    <tr class="border-b border-gray-200 hover:bg-gray-100 transition-colors">
-                        <td class="py-3 px-6 text-left">
-                            <input type="checkbox" name="user_ids[]" value="{{ $user->id }}" class="user-checkbox form-checkbox h-5 w-5 text-blue-600">
-                        </td>
-                        <td class="py-3 px-6 text-left">
-                            <div class="flex items-center">
-                                <div class="mr-3">
-                                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-gray-900">{{ $user->name }}</div>
-                                    <div class="text-xs text-gray-500">Joined: {{ $user->created_at->format('M d, Y') }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-3 px-6 text-left">{{ $user->email }}</td>
-                        <td class="py-3 px-6 text-center">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs font-semibold text-gray-600">Reviews: {{ $user->reviews_count }}</span>
-                                <span class="text-xs font-semibold text-gray-600">Ratings: {{ $user->ratings_count }}</span>
-                            </div>
-                        </td>
-                        <td class="py-3 px-6 text-center">
-                            @php
-                                $roleColor = match(strtolower($user->role ?? 'user')) {
-                                    'admin' => 'purple',
-                                    'moderator' => 'blue',
-                                    default => 'gray',
-                                };
-                            @endphp
-                            <span class="bg-{{ $roleColor }}-100 text-{{ $roleColor }}-800 py-1 px-3 rounded-full text-xs font-medium">
-                                {{ ucfirst($user->role ?? 'User') }}
-                            </span>
-                        </td>
-                        <td class="py-3 px-6 text-center">
-                            <span class="{{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} py-1 px-3 rounded-full text-xs font-medium">
-                                {{ $user->is_active ? 'Active' : 'Inactive' }}
-                            </span>
-                        </td>
-                        <td class="py-3 px-6 text-center">
-                            <div class="flex item-center justify-center space-x-2">
-                                <form action="{{ route('admin.toggle-user', $user->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button title="Toggle Status" class="text-{{ $user->is_active ? 'yellow' : 'green' }}-500 hover:text-{{ $user->is_active ? 'yellow' : 'green' }}-700 transition-colors">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-                                        </svg>
-                                    </button>
-                                </form>
-                                <button class="text-blue-500 hover:text-blue-700 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @if($users->isEmpty())
-                    <tr>
-                        <td colspan="7" class="py-10 text-center text-gray-500">No users found matching your criteria.</td>
-                    </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-6">
-            {{ $users->links() }}
-        </div>
-    </div>
 </div>
 
 <script>
-    const selectAll = document.getElementById('select-all');
-    const userCheckboxes = document.querySelectorAll('.user-checkbox');
-    const bulkActionsContainer = document.getElementById('bulk-actions-container');
-    const selectedCountSpan = document.getElementById('selected-count');
-    const bulkActionForm = document.getElementById('bulk-action-form');
-    const bulkActionInput = document.getElementById('bulk-action-input');
-    const bulkIdsContainer = document.getElementById('bulk-ids-container');
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('userManagement', () => ({
+            isAddModalOpen: false,
+            selectedIds: [],
+            
+            submitBulkAction(action) {
+                if (action === 'delete' && !confirm('IRREVERSIBLE COMMAND: Are you certain you wish to purge the selected entities from the collective database?')) {
+                    return;
+                }
 
-    function updateBulkActionsUI() {
-        const selectedIds = Array.from(userCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-        
-        const count = selectedIds.length;
-        selectedCountSpan.textContent = count;
-        
-        if (count > 0) {
-            bulkActionsContainer.classList.remove('hidden');
-        } else {
-            bulkActionsContainer.classList.add('hidden');
-        }
-    }
-
-    selectAll.addEventListener('change', function() {
-        userCheckboxes.forEach(cb => cb.checked = selectAll.checked);
-        updateBulkActionsUI();
+                document.getElementById('bulk-action-input').value = action;
+                document.getElementById('bulk-action-form').submit();
+            }
+        }));
     });
-
-    userCheckboxes.forEach(cb => {
-        cb.addEventListener('change', updateBulkActionsUI);
-    });
-
-    function submitBulkAction(action) {
-        if (action === 'delete' && !confirm('Are you sure you want to delete selected users? This action cannot be undone.')) {
-            return;
-        }
-
-        const selectedIds = Array.from(userCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-
-        bulkActionInput.value = action;
-        bulkIdsContainer.innerHTML = '';
-        
-        selectedIds.forEach(id => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'user_ids[]';
-            input.value = id;
-            bulkIdsContainer.appendChild(input);
-        });
-
-        bulkActionForm.submit();
-    }
 </script>
 @endsection

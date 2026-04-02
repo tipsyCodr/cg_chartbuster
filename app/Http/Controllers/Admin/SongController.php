@@ -11,6 +11,30 @@ use Illuminate\Support\Facades\DB;
 
 class SongController extends Controller
 {
+    private function normalizeReleaseDate(?string $value, bool $yearOnly): ?string
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        if ($yearOnly && preg_match('/^\d{4}$/', $value)) {
+            return $value . '-01-01';
+        }
+
+        return $value;
+    }
+
+    private function normalizeDuration(?string $value): string
+    {
+        if (blank($value)) {
+            return '00:00:00';
+        }
+
+        return strlen($value) === 5 ? $value . ':00' : $value;
+    }
+
     public function index()
     {
         $genres = Genre::where('for', 'Songs')->get();
@@ -24,14 +48,20 @@ class SongController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+            'duration' => $this->normalizeDuration($request->input('duration')),
+        ]);
+
         // Step 1: Validate input
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'release_date' => 'nullable|date',
+            'duration' => 'nullable|date_format:H:i:s',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string|max:255',
+
             // 'director' => 'nullable|string|max:255',
             'album' => 'nullable|string|max:255',
             // 'poster_logo' => 'nullable|string',
@@ -131,24 +161,42 @@ class SongController extends Controller
 
 
 
+    public function create()
+    {
+        $genres = Genre::where('for', 'Songs')->get();
+        $regions = \App\Models\Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
+        
+        return view('admin.songs.create', compact('genres', 'regions', 'artists', 'categories'));
+    }
+
     public function edit($id)
     {
-        $songs = Song::findOrFail($id);
+        $song = Song::findOrFail($id);
         $genres = Genre::where('for', 'Songs')->get();
-        $singer_male = Artist::singerMale()->get();
-        $singer_female = Artist::singerFemale()->get();
-        return view('admin.songs.edit', compact('songs', 'genres', 'singer_male', 'singer_female'));
+        $regions = \App\Models\Region::all();
+        $artists = Artist::orderBy('name')->get();
+        $categories = \App\Models\ArtistCategory::all();
+        
+        return view('admin.songs.edit', compact('song', 'genres', 'regions', 'artists', 'categories'));
     }
 
     public function update(Request $request, Song $song)
     {
+        $request->merge([
+            'release_date' => $this->normalizeReleaseDate($request->input('release_date'), $request->boolean('is_release_year_only')),
+            'duration' => $this->normalizeDuration($request->input('duration')),
+        ]);
+
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'release_date' => 'nullable|date',
+            'duration' => 'nullable|date_format:H:i:s',
             'genre_ids' => 'nullable|array',
             'genre_ids.*' => 'exists:genres,id',
-            'duration' => 'nullable|string|max:255',
+
             // 'director' => 'nullable|string|max:255',
             'album' => 'nullable|string|max:255',
             'poster_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',

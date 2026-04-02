@@ -1,592 +1,202 @@
 @extends('layouts.admin')
+
+@section('page-title', 'Edit Movie: ' . $movie->title)
+
 @section('content')
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Edit Movie') }}
-        </h2>
-    </x-slot>
+<div class="max-w-5xl mx-auto space-y-8">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-2xl font-black text-gray-800 tracking-tight uppercase">EDIT: {{ $movie->title }}</h2>
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Update movie details and media</p>
+        </div>
+        <a href="{{ route('admin.movies.index') }}" class="px-4 py-2 bg-white border border-gray-100 rounded-xl text-[10px] font-black text-gray-400 uppercase tracking-widest hover:bg-gray-50 transition-all">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Listing
+        </a>
+    </div>
 
-    <div class="py-6 sm:py-12">
-        <div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="px-4 py-5 bg-white sm:p-6">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">
-                        Edit Movie
-                    </h3>
+    <form action="{{ route('admin.movies.update', $movie) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        @csrf
+        @method('PUT')
+
+        <!-- Basic Information -->
+        <x-admin.form-section title="Basic Information" description="Standard movie details and plot information">
+            <x-admin.form-group label="Movie Title" for="title" required :error="$errors->first('title')">
+                <x-admin.input type="text" name="title" id="title" required value="{{ old('title', $movie->title) }}" placeholder="Enter movie title" :error="$errors->has('title')" />
+            </x-admin.form-group>
+
+            <x-admin.form-group label="Release Date" for="release_date" :error="$errors->first('release_date')">
+                <x-admin.release-date
+                    :value="old('release_date', $movie->release_date?->format('Y-m-d'))"
+                    :year-only-value="old('is_release_year_only', $movie->is_release_year_only)"
+                    :error="$errors->first('release_date')"
+                />
+            </x-admin.form-group>
+
+            <x-admin.form-group label="Duration" for="duration" :error="$errors->first('duration')">
+                <x-admin.input type="time" name="duration" id="duration" value="{{ old('duration', $movie->duration ? substr((string) $movie->duration, 0, 5) : '') }}" :error="$errors->has('duration')" />
+            </x-admin.form-group>
+
+            <div class="md:col-span-2">
+                <x-admin.form-group label="Short Description (English)" for="description" :error="$errors->first('description')">
+                    <x-admin.textarea name="description" id="description" rows="3" placeholder="Enter short movie description...">{{ old('description', $movie->description) }}</x-admin.textarea>
+                </x-admin.form-group>
+            </div>
+
+            <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <x-admin.form-group label="Plot (Hindi)" for="content_description">
+                    <x-admin.textarea name="content_description" id="content_description" rows="3">{{ old('content_description', $movie->content_description) }}</x-admin.textarea>
+                </x-admin.form-group>
+                <x-admin.form-group label="Plot (Chhattisgarhi)" for="content_description_chh">
+                    <x-admin.textarea name="content_description_chh" id="content_description_chh" rows="3">{{ old('content_description_chh', $movie->content_description_chh) }}</x-admin.textarea>
+                </x-admin.form-group>
+            </div>
+        </x-admin.form-section>
+
+        <!-- Media Assets -->
+        <x-admin.form-section title="Media Assets" description="Posters, banners, and trailer URLs">
+            <x-admin.form-group label="Poster (Portrait)" help="Best for thumbnail and mobile views">
+                <x-admin.file-upload name="poster_image" label="Portrait Poster" :current="$movie->poster_image" />
+            </x-admin.form-group>
+
+            <x-admin.form-group label="Poster (Landscape)" help="Best for hero and desktop banners">
+                <x-admin.file-upload name="poster_image_landscape" label="Landscape Poster" :current="$movie->poster_image_landscape" />
+            </x-admin.form-group>
+
+            <div class="md:col-span-2">
+                <x-admin.form-group label="Trailer URL" for="trailer_url" :error="$errors->first('trailer_url')" help="Direct link to YouTube or Vimeo trailer">
+                    <x-admin.input type="url" name="trailer_url" id="trailer_url" value="{{ old('trailer_url', $movie->trailer_url) }}" placeholder="https://youtube.com/watch?v=..." />
+                </x-admin.form-group>
+            </div>
+        </x-admin.form-section>
+
+        <!-- Metadata & Classification -->
+        <x-admin.form-section title="Metadata" description="Cast, genres, and ratings for better discovery">
+            <x-admin.form-group label="Genres" required>
+                <div class="mt-1">
+                    <x-searchable-multiselect 
+                        :options="$genres" 
+                        :selected="old('genre_ids', $movie->genres->pluck('id')->toArray())" 
+                        name="genre_ids" 
+                        placeholder="Select Genres" 
+                    />
                 </div>
-                <div class="px-4 py-5 overflow-hidden bg-white shadow sm:rounded-md mt-50 sm:p-6">
-                    <form method="POST" action="{{ route('admin.movies.update', $movie) }}" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+            </x-admin.form-group>
 
-                        <div class="">
-                        
-                            <div class="mb-4">
-                                <label for="show_on_banner" class="block my-1 text-sm font-medium text-gray-700">Show on banner</label>
-                                <select name="show_on_banner" id="show_on_banner" class="mt-1 block w-full rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="1" {{ $movie->show_on_banner ? 'selected' : '' }}>Yes</option>
-                                    <option value="0" {{ !$movie->show_on_banner ? 'selected' : '' }}>No</option>
-                                </select>
-                            </div>
+            <x-admin.form-group label="Language / Region" for="region_id" :error="$errors->first('region_id')">
+                <x-admin.select name="region_id" id="region_id" :error="$errors->has('region_id')">
+                    <option value="">Select Language</option>
+                    @foreach($regions as $region)
+                        <option value="{{ $region->id }}" {{ old('region_id', $movie->region_id) == $region->id ? 'selected' : '' }}>{{ $region->name }}</option>
+                    @endforeach
+                </x-admin.select>
+            </x-admin.form-group>
 
-                            <div class="mb-4">
-                                <label for="banner_label" class="block my-1 text-sm font-medium text-gray-700">Banner Label</label>
-                                <select name="banner_label" id="banner_label" class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="" {{ empty($movie->banner_label) ? 'selected' : '' }}>None</option>
-                                    <option value="🎬 Watch on Official YouTube Channel" {{ $movie->banner_label == '🎬 Watch on Official YouTube Channel' ? 'selected' : '' }}>🎬 Watch on Official YouTube Channel</option>
-                                    <option value="🎥 Watch in Theaters" {{ $movie->banner_label == '🎥 Watch in Theaters' ? 'selected' : '' }}>🎥 Watch in Theaters</option>
-                                    <option value="🔜 Upcoming Release" {{ $movie->banner_label == '🔜 Upcoming Release' ? 'selected' : '' }}>🔜 Upcoming Release</option>
-                                </select>
-                            </div>
+            <x-admin.form-group label="CBFC Rating" for="cbfc">
+                <x-admin.select name="cbfc" id="cbfc">
+                    @foreach(['U', 'UA 7+', 'UA 13+', 'UA 16+', 'A', 'S', 'NA'] as $rating)
+                        <option value="{{ $rating }}" {{ old('cbfc', $movie->cbfc) == $rating ? 'selected' : '' }}>{{ $rating }}</option>
+                    @endforeach
+                </x-admin.select>
+            </x-admin.form-group>
 
-                            <div class="mb-4">
-                                <label for="banner_link" class="block my-1 text-sm font-medium text-gray-700">Banner Link (Url)</label>
-                                <input type="url" name="banner_link" id="banner_link" value="{{ $movie->banner_link }}"
-                                    class="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    placeholder="https://...">
-                            </div>
-                            
-                                <div>
-                                    <label for="title" class="block my-1 text-sm font-medium text-gray-700">Movie
-                                        Title</label>
-                                    <input type="text" name="title" id="title" required value="{{ $movie->title }}"
-                                        class="mt-1 block w-full rounded-md @error('title') is-invalid @enderror border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    @error('title')
-                                        @foreach ($errors->get('title') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label for="description"
-                                        class="block my-1 text-sm font-medium text-gray-700">Content Description (English)</label>
-                                    <textarea name="description" id="description" rows="3"
-                                        class="mt-1 block w-full @error('description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $movie->description }}</textarea>
-                                    @error('description')
-                                        @foreach ($errors->get('description') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label for="content_description"
-                                        class="block my-1 text-sm font-medium text-gray-700">Plot (Hindi)</label>
-                                    <textarea name="content_description" id="content_description" rows="3"
-                                        class="mt-1 block w-full @error('content_description') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $movie->content_description }}</textarea>
-                                    @error('content_description')
-                                        @foreach ($errors->get('content_description') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                                <div>
-                                    <label for="content_description_chh"
-                                        class="block my-1 text-sm font-medium text-gray-700">Plot (Chhattisgarhi)</label>
-                                    <textarea name="content_description_chh" id="content_description_chh" rows="3"
-                                        class="mt-1 block w-full @error('content_description_chh') is-invalid @enderror rounded-md  border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $movie->content_description_chh }}</textarea>
-                                    @error('content_description_chh')
-                                        @foreach ($errors->get('content_description_chh') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                                <div>
-                                    <label for="release_date" class="block my-1 text-sm font-medium text-gray-700">Release
-                                        Date</label>
-                                    <input type="date" name="release_date" id="release_date" value="{{ $movie->release_date?->format('Y-m-d') }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    <div class="flex items-center">
-                                        <input type="hidden" name="is_release_year_only" value="0">
-                                        <input type="checkbox" name="is_release_year_only" id="is_release_year_only" value="1" {{ old('is_release_year_only', $movie->is_release_year_only) ? 'checked' : '' }} class="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500">
-                                        <label for="is_release_year_only" class="block ml-2 text-sm text-gray-900">Show Year Only</label>
-                                    </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const checkbox = document.getElementById('is_release_year_only');
-        const dateInput = document.getElementById('release_date') || document.getElementById('birth_date');
-        function toggleDateInput() {
-            if (checkbox.checked) {
-                if (dateInput.value && dateInput.value.includes('-')) {
-                    dateInput.dataset.fullDate = dateInput.value;
-                    dateInput.value = dateInput.value.split('-')[0];
-                }
-                dateInput.type = 'number';
-                dateInput.min = '1900';
-                dateInput.max = '2100';
-                dateInput.placeholder = 'YYYY';
-            } else {
-                dateInput.type = 'date';
-                dateInput.removeAttribute('min');
-                dateInput.removeAttribute('max');
-                dateInput.removeAttribute('placeholder');
-                if (dateInput.dataset.fullDate && !dateInput.value.includes('-')) {
-                    dateInput.value = dateInput.dataset.fullDate;
-                } else if (dateInput.value && !dateInput.value.includes('-') && dateInput.value.length === 4) {
-                    dateInput.value = dateInput.value + '-01-01';
-                }
-            }
-        }
-        if (checkbox && dateInput) {
-            checkbox.addEventListener('change', toggleDateInput);
-            toggleDateInput();
-            const form = dateInput.closest('form');
-            if (form) {
-                form.addEventListener('submit', function() {
-                    if (checkbox.checked && dateInput.value && !dateInput.value.includes('-')) {
-                        dateInput.type = 'text';
-                        dateInput.value = dateInput.value + '-01-01';
-                    }
-                });
-            }
-        }
-    });
-</script>
-                                    @error('release_date')
-                                        @foreach ($errors->get('release_date') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label class="block my-1 text-sm font-medium text-gray-700">Genres</label>
-                                    <x-searchable-multiselect 
-                                        :options="$genres" 
-                                        :selected="old('genre_ids', $movie->genres->pluck('id')->toArray())" 
-                                        name="genre_ids" 
-                                        placeholder="Search & Select Genres" 
-                                    />
-                                    @error('genre_ids')
-                                        @foreach ($errors->get('genre_ids') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                                <div x-data="{ hours: 0, minutes: 0 }">
-                                    <input type="hidden" name="duration" id="duration"  value="{{ $movie->duration }}"
-                                        :value="`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`" 
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    
-                                    <label class="block my-1 text-sm font-medium text-gray-700">Duration</label>
-                                    <div class="flex items-center space-x-2">
-                                        <div>
-                                            <label for="movie-duration-hour" class="block my-1 text-sm font-medium text-gray-700">Hour</label>
-                                            <input type="number" placeholder="HH" id="movie-duration-hour" name="movie_duration_hour" 
-                                                x-model.number="hours" min="0" step="1" class="w-20 p-2 my-2 border border-gray-300 rounded">
-                                        </div>
-                                        <span class="pt-5 mx-2">:</span>
-                                        <div>
-                                            <label for="movie-duration-minute" class="block my-1 text-sm font-medium text-gray-700">Minute</label>
-                                            <input type="number" placeholder="MM" id="movie-duration-minute" name="movie_duration_minute" 
-                                                x-model.number="minutes" min="0" max="59" step="1" class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div x-data="{ 
-                                     artistEntries: {{ json_encode($movie->artists->flatMap(function($artist) {
-                                        $roles = $artist->pivot->artist_category_ids ?? [];
-                                        if (empty($roles)) return [['artist' => $artist->id, 'role' => '']];
-                                        return collect($roles)->map(function($roleId) use ($artist) {
-                                            return [
-                                                'artist' => $artist->id,
-                                                'role' => $roleId
-                                            ];
-                                        });
-                                    })->values()) }},
-                                    artists: [],
-                                    categories: [],
-                                    fetchData() {
-                                        fetch('{{ route('admin.artists.list') }}')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                this.artists = data.artists;
-                                                this.categories = data.categories;
-                                            })
-                                    },
-                                    addArtistEntry() {
-                                        this.artistEntries.push({ artist: '', role: '' });
-                                    },
-                                    removeArtistEntry(index) {
-                                        this.artistEntries.splice(index, 1);
-                                    }
-                                }" 
-                                x-init="fetchData()">
-                                    <label class="block my-1 text-sm font-medium text-gray-700">Artists</label>
-                                    
-                                    <template x-for="(entry, index) in artistEntries" :key="index">
-                                        <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-12">
-                                            <select x-model="entry.artist" 
-                                                    :name="'artists[' + index + '][artist_id]'" 
-                                                    class="w-full p-2 border border-gray-300 rounded sm:col-span-5">
-                                                <option value="">Select Artist</option>
-                                                <template x-for="artist in artists" :key="artist.id">
-                                                    <option :value="artist.id" x-text="artist.name"  :selected="entry.artist == artist.id"  ></option>
-                                                </template>
-                                            </select>
-                                            
-                                            <select x-model="entry.role" 
-                                                    :name="'artists[' + index + '][role]'" 
-                                                    class="w-full p-2 border border-gray-300 rounded sm:col-span-4">
-                                                <option value="">Select Role</option>
-                                                <template x-for="category in categories" :key="category.id">
-                                                    <option :value="category.id" x-text="category.name"   :selected="entry.role == category.id"  ></option>
-                                                </template>
-                                            </select>
-                                            
-                                            <button type="button" 
-                                                    @click="removeArtistEntry(index)"
-                                                    class="w-full px-2 py-2 text-white bg-red-500 rounded hover:bg-red-600 sm:col-span-3 sm:w-auto">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </template>
-                                
-                                    <button type="button" 
-                                            @click="addArtistEntry()"
-                                            class="w-full px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600 sm:w-auto">
-                                        Add Another Artist
-                                    </button>
-                                </div>
-
-{{-- 
-                                <div>
-                                    <label for="director"
-                                        class="block my-1 text-sm font-medium text-gray-700">Director</label>
-                                    <input type="text" name="director" id="director"  value="{{ $movie->director }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    @error('director')
-                                        @foreach ($errors->get('director') as $message)
-                                            <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">{{ $message }}
-                                            </div>
-                                        @endforeach
-                                    @enderror
-                                </div> --}}
-
-                                <div x-data="{ 
-                                    regions: [], 
-                                    selectedRegion: '{{ old('region_id', $movie->region_id) }}', 
-                                    fetchRegions() {
-                                        fetch('{{ route('regions') }}')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                this.regions = data; // Update the Alpine.js reactive variable
-                                            })
-                                            .catch(error => console.error('Error fetching regions:', error));
-                                    }, 
-                                    addRegion() {
-                                        const newRegion = document.getElementById('region_other').value;
-                                        if (newRegion.trim() === '') return;
-                            
-                                        fetch(`/region/add/${newRegion}`)
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                console.log('Region added:', data);
-                                                this.fetchRegions(); // Refresh the regions after adding a new region
-                                                this.selectedRegion = data.region.id;
-                                            })
-                                            .catch(error => console.error('Error adding language:', error));
-                            
-                                        document.getElementById('region_other').value = ''; // Clear the input field
-                                        $refs.regionInput.classList.add('hidden'); // Hide the input field
-                                    } 
-                                }" 
-                                x-init="fetchRegions()"
-                            >
-                                <label for="region" class="block my-1 text-sm font-medium text-gray-700">Language</label>
-                                <select name="region_id" id="region" 
-                                    x-model="selectedRegion" 
-                                    class="w-full p-2 my-2 border border-gray-300 rounded"
-                                    @change="selectedRegion == 'other' ? $refs.regionInput.classList.remove('hidden') : $refs.regionInput.classList.add('hidden')">
-                                    <option value="">Select</option>    
-                                    <template x-for="region in regions" :key="region.id">
-                                        <option :value="region.id"  style='text-transform: capitalize;' x-text="region.name" :selected="region.id == selectedRegion"></option>
-                                    </template>
-                                    <option value="other" :selected="selectedRegion === 'other'">Other</option>    
-                                </select>
-                                <div class="hidden" id="regionInput" x-ref="regionInput">
-                                    <input type="text" id="region_other" name="region_other" placeholder="Enter Region" class="w-full p-2 my-2 border border-gray-300 rounded" value="{{ old('region_other', $movie->region_other) }}">
-                                    <button type="button" @click="addRegion" class="w-full px-4 py-2 my-2 bg-blue-500 text-white rounded sm:w-auto">Add</button>
-                                </div>
-                            </div>
-                            
-
-                                <div>
-                                    <label for="cbfc"
-                                        class="block my-1 text-sm font-medium text-gray-700">CBFC</label>
-                                    <select name="cbfc" id="cbfc"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        <option value="U" {{ $movie->cbfc == 'U' ? 'selected' : '' }}>U</option>
-                                        <option value="UA 7+" {{ $movie->cbfc == 'UA 7+' ? 'selected' : '' }}>UA 7+</option>
-                                        <option value="UA 13+" {{ $movie->cbfc == 'UA 13+' ? 'selected' : '' }}>UA 13+</option>
-                                        <option value="UA 16+" {{ $movie->cbfc == 'UA 16+' ? 'selected' : '' }}>UA 16+</option>
-                                        <option value="A" {{ $movie->cbfc == 'A' ? 'selected' : '' }}>A (18+)</option>
-                                        <option value="S" {{ $movie->cbfc == 'S' ? 'selected' : '' }}>S</option>
-                                        <option value="NA" {{ $movie->cbfc == 'NA' ? 'selected' : '' }}>NA</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="cg_chartbusters_ratings" class="block my-1 text-sm font-medium text-gray-700">CG Chartbusters Ratings</label>
-                                    <x-star-rating id="rating" class="block mt-1 w-full" name="cg_chartbusters_ratings" :value="$movie->cg_chartbusters_ratings ?? old('cg_chartbusters_ratings')" required></x-star-rating>
-    
-                                </div>
-{{--     
-                                <div>
-                                    <label for="imdb_ratings" class="block my-1 text-sm font-medium text-gray-700">IMDB Ratings</label>
-                                    <x-star-rating id="imdb_ratings" class="block mt-1 w-full" name="imdb_ratings" :value="$movie->imdb_ratings ?? old('imdb_ratings')" required></x-star-rating>
-                                </div> --}}
-
-                                {{-- <div>
-                                    <label for="cinematographer"
-                                        class="block my-1 text-sm font-medium text-gray-700">Cinematographer</label>
-                                    <input type="text" name="cinematographer" id="cinematographer"  value="{{ $movie->cinematographer }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="dop" class="block my-1 text-sm font-medium text-gray-700">DOP</label>
-                                    <input type="text" name="dop" id="dop"  value="{{ $movie->dop }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="screen_play" class="block my-1 text-sm font-medium text-gray-700">Screen
-                                        Play</label>
-                                    <input type="text" name="screen_play" id="screen_play" value="{{ $movie->screen_play }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="writer_story_concept"
-                                        class="block my-1 text-sm font-medium text-gray-700">Writer Story Concept</label>
-                                    <textarea name="writer_story_concept" id="writer_story_concept" rows="3"  value=""
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->writer_story_concept }}</textarea>
-                                </div>
-
-                                <div>
-                                    <label for="male_lead" class="block my-1 text-sm font-medium text-gray-700">Male
-                                        Lead</label>
-                                    <input type="text" name="male_lead" id="male_lead" value="{{ $movie->male_lead }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="female_lead" class="block my-1 text-sm font-medium text-gray-700">Female
-                                        Lead</label>
-                                    <input type="text" name="female_lead" id="female_lead" value="{{ $movie->female_lead }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div> --}}
-{{-- 
-                                <div>
-                                    <label for="support_artists"
-                                        class="block my-1 text-sm font-medium text-gray-700">Support Artists</label>
-                                    <input type="text" name="support_artists" id="support_artists" value="{{ $movie->support_artists }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-
-
-                                <div>
-                                    <label for="producer"
-                                        class="block my-1 text-sm font-medium text-gray-700">Producer</label>
-                                    <input type="text" name="producer" id="producer" value="{{ $movie->producer }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="songs"
-                                        class="block my-1 text-sm font-medium text-gray-700">Songs</label>
-                                    <input type="text" name="songs" id="songs" value="{{ $movie->songs }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="singer_male" class="block my-1 text-sm font-medium text-gray-700">Singer
-                                        Male</label>
-                                    <select name="singer_male" id="singer_male"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        <option value="">Select Singer Male</option>
-                                        @foreach ($singer_male as $singer)
-                                            <option value="{{ $singer->id }}" {{ $movie->singer_male == $singer->id ? 'selected' : '' }}>{{ $singer->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="singer_female" class="block my-1 text-sm font-medium text-gray-700">Singer
-                                        Female</label>
-                                    <select name="singer_female" id="singer_female"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        <option value="">Select Singer Female</option>
-                                        @foreach ($singer_female as $singer)
-                                            <option value="{{ $singer->id }}" {{ $movie->singer_female == $singer->id ? 'selected' : '' }}>{{ $singer->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="lyrics"
-                                        class="block my-1 text-sm font-medium text-gray-700">Lyrics</label>
-                                   <textarea name="lyrics" id="lyrics" rows="3"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->lyrics }}</textarea>
-                                </div>
-
-                                <div>
-                                    <label for="composition"
-                                        class="block my-1 text-sm font-medium text-gray-700">Composition</label>
-                                    <input type="text" name="composition" id="composition" value="{{ $movie->composition }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="mix_master" class="block my-1 text-sm font-medium text-gray-700">Mix
-                                        Master</label>
-                                    <input type="text" name="mix_master" id="mix_master"  value="{{ $movie->mix_master }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="music"
-                                        class="block my-1 text-sm font-medium text-gray-700">Music</label>
-                                    <input type="text" name="music" id="music" value="{{ $movie->music }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="recordists"
-                                        class="block my-1 text-sm font-medium text-gray-700">Recordists</label>
-                                    <input type="text" name="recordists" id="recordists" value="{{ $movie->recordists }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="audio_studio" class="block my-1 text-sm font-medium text-gray-700">Audio
-                                        Studio</label>
-                                    <input type="text" name="audio_studio" id="audio_studio"  value="{{ $movie->audio_studio }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                </div>
-
-                                <div>
-                                    <label for="editor"
-                                        class="block my-1 text-sm font-medium text-gray-700">Editor</label>
-                                    <input type="text" name="editor" id="editor" value="{{ $movie->editor }}"
-                                        class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    <div>
-                                        <label for="video_studio"
-                                            class="block my-1 text-sm font-medium text-gray-700">Video Studio</label>
-                                        <input type="text" name="video_studio" id="video_studio" value="{{ $movie->video_studio }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-
-                                    <div>
-                                        <label for="vfx"
-                                            class="block my-1 text-sm font-medium text-gray-700">VFX</label>
-                                        <input type="text" name="vfx" id="vfx"  value="{{ $movie->vfx }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-
-                                    <div>
-                                        <label for="make_up" class="block my-1 text-sm font-medium text-gray-700">Make
-                                            Up</label>
-                                        <input type="text" name="make_up" id="make_up" value="{{ $movie->make_up }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-                                    <div>
-                                        <label for="poster_logo"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Logo</label>
-                                        <input type="text" name="poster_logo" id="poster_logo"  value="{{ $movie->poster_logo }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
-                                    {{-- <div>
-                                        <label for="production_banner"
-                                            class="block my-1 text-sm font-medium text-gray-700">Production Banner</label>
-                                        <input type="text" name="production_banner" id="production_banner" value="{{ $movie->production_banner }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-                                    <div>
-                                        <label for="drone"
-                                            class="block my-1 text-sm font-medium text-gray-700">Drone</label>
-                                        <input type="text" name="drone" id="drone" value="{{ $movie->drone }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
-
-                                    {{-- <div>
-                                        <label for="others"
-                                            class="block my-1 text-sm font-medium text-gray-700">Others</label>
-                                        <input type="text" name="others" id="others"  value="{{ $movie->others }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
-
-                                    {{-- <div>
-                                        <label for="content_description"
-                                            class="block my-1 text-sm font-medium text-gray-700">Content
-                                            Description</label>
-                                        <textarea name="content_description" id="content_description"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->content_description }}</textarea>
-                                    </div> --}}
-                                    <div>
-                                        <label for="trailer_url"
-                                            class="block my-1 text-sm font-medium text-gray-700">Trailer URL</label>
-                                        <textarea name="trailer_url" id="trailer_url" rows="3" class="w-full p-2 my-2 border border-gray-300 rounded">{{ $movie->trailer_url }}</textarea>
-                                        @error('trailer_url')
-                                            @foreach ($errors->get('trailer_url') as $message)
-                                                <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
-                                                    {{ $message }}</div>
-                                            @endforeach
-                                        @enderror
-                                    </div>
-                                    {{-- <div>
-                                        <label for="hyperlinks_links"
-                                            class="block my-1 text-sm font-medium text-gray-700">Hyperlinks Links</label>
-                                        <input type="text" name="hyperlinks_links" id="hyperlinks_links"  value="{{ $movie->hyperlinks_links }}"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div> --}}
-                                   
-                                    <div>
-                                        <label for="poster_image"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Image</label>
-                                        <input type="file" name="poster_image" id="poster_image" accept="image/*"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                        @error('poster_image')
-                                            @foreach ($errors->get('poster_image') as $message)
-                                                <div class="p-2 text-red-500 bg-red-100 border-red-500 rounded">
-                                                    {{ $message }}</div>
-                                            @endforeach
-                                        @enderror
-                                    </div>
-
-                                   
-                                    <div>
-                                        <label for="poster_image_landscape"
-                                            class="block my-1 text-sm font-medium text-gray-700">Poster Image
-                                            Landscape</label>
-                                        <input type="file" name="poster_image_landscape" id="poster_image_landscape"
-                                            class="w-full p-2 my-2 border border-gray-300 rounded">
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end px-4 py-3 bg-gray-50 sm:px-6">
-                            <button type="submit"
-                                class="inline-flex w-full justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto">
-                                Save
-                            </button>
-                        </div>
-                    </form>
+            <x-admin.form-group label="CG Chartbusters Rating">
+                <div class="mt-1 bg-gray-50/50 p-3 rounded-xl border border-gray-100 shadow-inner">
+                    <x-star-rating id="rating" name="cg_chartbusters_ratings" :value="old('cg_chartbusters_ratings', $movie->cg_chartbusters_ratings ?? 0)"></x-star-rating>
                 </div>
+            </x-admin.form-group>
+
+
+            <div class="md:col-span-2">
+                <x-admin.form-group label="Artists & Roles" help="Assign artists and their specific roles in this movie">
+                    @php
+                        $currentArtists = $movie->artists->flatMap(function($artist) {
+                            $roles = $artist->pivot->artist_category_ids ?? [];
+                            if (empty($roles)) return [['artist' => (string)$artist->id, 'role' => '']];
+                            return collect($roles)->map(function($roleId) use ($artist) {
+                                return ['artist' => (string)$artist->id, 'role' => (string)$roleId];
+                            });
+                        })->values();
+                    @endphp
+                    <div x-data="{ 
+                        artistEntries: {{ $currentArtists->count() > 0 ? $currentArtists->toJson() : '[{ artist: \'\', role: \'\' }]' }},
+                        artists: {{ $artists->toJson() }},
+                        categories: {{ $categories->toJson() }},
+                        addArtistEntry() { this.artistEntries.push({ artist: '', role: '' }); },
+                        removeArtistEntry(index) { this.artistEntries.splice(index, 1); }
+                    }" class="space-y-4">
+                        <template x-for="(entry, index) in artistEntries" :key="index">
+                            <div class="p-4 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col md:flex-row gap-4 items-end animate-in fade-in slide-in-from-top-2 duration-300">
+                                <div class="flex-1 w-full">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1.5 block">Select Artist</label>
+                                    <x-admin.select x-model="entry.artist" x-bind:name="'artists[' + index + '][artist_id]'">
+                                        <option value="">Choose Artist</option>
+                                        <template x-for="artist in artists" :key="artist.id">
+                                            <option :value="artist.id" x-text="artist.name" :selected="entry.artist == artist.id"></option>
+                                        </template>
+                                    </x-admin.select>
+                                </div>
+                                <div class="flex-1 w-full">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1.5 block">Select Role</label>
+                                    <x-admin.select x-model="entry.role" x-bind:name="'artists[' + index + '][role]'">
+                                        <option value="">Choose Role</option>
+                                        <template x-for="category in categories" :key="category.id">
+                                            <option :value="category.id" x-text="category.name" :selected="entry.role == category.id"></option>
+                                        </template>
+                                    </x-admin.select>
+                                </div>
+                                <button type="button" @click="removeArtistEntry(index)" class="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm shrink-0 mb-0.5">
+                                    <i class="fas fa-trash-alt text-xs"></i>
+                                </button>
+                            </div>
+                        </template>
+                        <button type="button" @click="addArtistEntry()" class="w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl text-[10px] font-black text-gray-400 uppercase tracking-widest hover:border-blue-500/30 hover:text-blue-500 transition-all flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i> Add Another Artist Entry
+                        </button>
+                    </div>
+                </x-admin.form-group>
+            </div>
+        </x-admin.form-section>
+
+        <!-- Banner Promotions -->
+        <x-admin.form-section title="Promotions" description="Banner display and calls to action">
+            <x-admin.form-group label="Show on Banner">
+                <x-admin.select name="show_on_banner">
+                    <option value="0" {{ old('show_on_banner', $movie->show_on_banner) == 0 ? 'selected' : '' }}>No</option>
+                    <option value="1" {{ old('show_on_banner', $movie->show_on_banner) == 1 ? 'selected' : '' }}>Yes</option>
+                </x-admin.select>
+            </x-admin.form-group>
+
+            <x-admin.form-group label="Banner Label">
+                <x-admin.select name="banner_label">
+                    <option value="" {{ empty($movie->banner_label) ? 'selected' : '' }}>None</option>
+                    <option value="🎬 Watch on Official YouTube Channel" {{ $movie->banner_label == '🎬 Watch on Official YouTube Channel' ? 'selected' : '' }}>🎬 Watch on Official YouTube Channel</option>
+                    <option value="🎥 Watch in Theaters" {{ $movie->banner_label == '🎥 Watch in Theaters' ? 'selected' : '' }}>🎥 Watch in Theaters</option>
+                    <option value="🔜 Upcoming Release" {{ $movie->banner_label == '🔜 Upcoming Release' ? 'selected' : '' }}>🔜 Upcoming Release</option>
+                </x-admin.select>
+            </x-admin.form-group>
+
+            <div class="md:col-span-2">
+                <x-admin.form-group label="Banner Link (Action URL)">
+                    <x-admin.input type="url" name="banner_link" value="{{ old('banner_link', $movie->banner_link) }}" placeholder="https://..." />
+                </x-admin.form-group>
+            </div>
+        </x-admin.form-section>
+
+        <!-- Submit Bar -->
+        <div class="sticky bottom-8 z-30 p-4 bg-white/80 backdrop-blur-md rounded-2xl border border-gray-100 shadow-2xl flex items-center justify-between">
+            <div class="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                Last updated {{ $movie->updated_at->diffForHumans() }}
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" @click="window.history.back()" class="px-6 py-2.5 text-xs font-black text-gray-400 uppercase tracking-widest hover:text-gray-600 transition-colors">
+                    Cancel
+                </button>
+                <button type="submit" class="px-10 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all transform active:scale-95">
+                    Save Changes
+                </button>
             </div>
         </div>
-    </div>
-    @endsection
-
+    </form>
+</div>
+@endsection
