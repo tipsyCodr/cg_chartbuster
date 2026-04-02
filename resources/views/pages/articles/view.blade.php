@@ -37,11 +37,11 @@
                 <span>By {{ $article->author?->name ?? 'CG Chartbusters' }}</span>
                 <span>•</span>
                 <span>{{ optional($article->published_at ?? $article->created_at)->format('d M Y') }}</span>
-                @if(!empty($article->category))
+                @if($article->category)
                     <span>•</span>
-                    <a href="{{ route('articles.index', ['lang' => $lang, 'category' => $article->category]) }}"
+                    <a href="{{ route('articles.index', ['lang' => $lang, 'category' => $article->category->slug]) }}"
                         class="rounded-full border border-gray-700 px-2 py-0.5 text-xs hover:border-yellow-400 hover:text-yellow-300">
-                        {{ $article->category }}
+                        {{ $article->category->name }}
                     </a>
                 @endif
             </div>

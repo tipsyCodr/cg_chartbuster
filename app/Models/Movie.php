@@ -12,6 +12,7 @@ class Movie extends Model
 
     use HasFactory, HasSlug;
     protected $fillable = [
+        'views',
         'slug',
         'title',
         'description',

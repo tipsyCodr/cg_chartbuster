@@ -22,7 +22,7 @@ class Article extends Model
         'content_hi',
         'content_en',
         'content_chh',
-        'category',
+        'category_id',
         'tags',
         'featured_image',
         'meta_title',
@@ -39,6 +39,11 @@ class Article extends Model
     public function getSlugField(): string
     {
         return 'title_hi';
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ArticleCategory::class, 'category_id');
     }
 
     public function author()

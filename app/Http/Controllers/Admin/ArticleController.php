@@ -18,7 +18,8 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('admin.articles.create');
+        $categories = \App\Models\ArticleCategory::orderBy('name')->get();
+        return view('admin.articles.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -45,8 +46,9 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        $tagsInput = implode(', ', Arr::wrap($article->tags));
-        return view('admin.articles.edit', compact('article', 'tagsInput'));
+        $categories = \App\Models\ArticleCategory::orderBy('name')->get();
+        $tagsInput = implode(', ', \Illuminate\Support\Arr::wrap($article->tags));
+        return view('admin.articles.edit', compact('article', 'tagsInput', 'categories'));
     }
 
     public function update(Request $request, Article $article)
@@ -94,7 +96,7 @@ class ArticleController extends Controller
             'content_hi' => 'required|string',
             'content_en' => 'nullable|string',
             'content_chh' => 'nullable|string',
-            'category' => 'nullable|string|max:120',
+            'category_id' => 'nullable|exists:article_categories,id',
             'tags_input' => 'nullable|string',
             'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'meta_title' => 'nullable|string|max:255',

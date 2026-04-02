@@ -80,6 +80,7 @@ class WebController extends Controller
     public function movie($slug)
     {
         $movie = Movie::with(['artists', 'region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $movie->increment('views');
         $reviews = $movie->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
@@ -108,6 +109,7 @@ class WebController extends Controller
     public function tvShow($slug)
     {
         $tvshow = TvShow::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $tvshow->increment('views');
         $reviews = $tvshow->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
@@ -136,6 +138,7 @@ class WebController extends Controller
     public function song($slug)
     {
         $song = Song::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $song->increment('views');
         $reviews = $song->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
@@ -171,6 +174,7 @@ class WebController extends Controller
         $artists = Artist::with(['movies' => function ($query) {
             $query->orderBy('release_date', 'desc');
         }])->where('slug', $slug)->firstOrFail();
+        $artists->increment('views');
         $reviews = $artists->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.artists.view', compact(['artists', 'reviews']));
     }

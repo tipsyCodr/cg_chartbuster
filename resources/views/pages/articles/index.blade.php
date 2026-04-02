@@ -23,7 +23,7 @@
                     <select id="category" name="category" class="mt-2 h-12 w-full rounded-lg border-gray-700 bg-gray-900 px-3 text-gray-100">
                         <option value="">All Categories</option>
                         @foreach($availableCategories as $category)
-                            <option value="{{ $category }}" {{ $selectedCategory === $category ? 'selected' : '' }}>{{ $category }}</option>
+                            <option value="{{ $category->slug }}" {{ $selectedCategory === $category->slug ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -69,10 +69,10 @@
                         </h2>
                         <p class="line-clamp-3 text-sm text-gray-300">{{ $excerpt }}</p>
                         <div class="flex flex-wrap items-center gap-2 text-xs">
-                            @if(!empty($article->category))
-                                <a href="{{ route('articles.index', ['lang' => $lang, 'category' => $article->category]) }}"
+                            @if($article->category)
+                                <a href="{{ route('articles.index', ['lang' => $lang, 'category' => $article->category->slug]) }}"
                                     class="rounded-full border border-gray-600 px-2 py-1 text-gray-300 hover:border-yellow-400 hover:text-yellow-300">
-                                    {{ $article->category }}
+                                    {{ $article->category->name }}
                                 </a>
                             @endif
                             @foreach($articleTags as $tag)

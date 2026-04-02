@@ -11,6 +11,7 @@ class TvShow extends Model
     use HasFactory, HasSlug;
     protected $table = 'tvshows';
     protected $fillable = [
+        'views',
         'slug',
         'title',
         'description',

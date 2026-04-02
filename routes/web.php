@@ -78,6 +78,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/api/admin/stats', [AdminController::class, 'stats'])->name('admin.stats');
     Route::prefix('admin')->group(function () {
         // Admin Dashboard  
         Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -145,6 +146,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('articles', App\Http\Controllers\Admin\ArticleController::class)
             ->names('admin.articles')
             ->except(['show']);
+        Route::post('article-categories', [\App\Http\Controllers\Admin\ArticleCategoryController::class, 'store'])->name('admin.article-categories.store');
     });
 });
 

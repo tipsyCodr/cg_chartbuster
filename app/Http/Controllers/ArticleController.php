@@ -14,11 +14,13 @@ class ArticleController extends Controller
         $selectedCategory = trim((string) $request->query('category', ''));
         $selectedTag = trim((string) $request->query('tag', ''));
 
-        $query = Article::with('author')
+        $query = Article::with(['author', 'category'])
             ->published();
 
         if ($selectedCategory !== '') {
-            $query->where('category', $selectedCategory);
+            $query->whereHas('category', function ($q) use ($selectedCategory) {
+                $q->where('slug', $selectedCategory);
+            });
         }
 
         if ($selectedTag !== '') {
@@ -31,12 +33,9 @@ class ArticleController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        $availableCategories = Article::published()
-            ->whereNotNull('category')
-            ->where('category', '!=', '')
-            ->distinct()
-            ->orderBy('category')
-            ->pluck('category');
+        $availableCategories = \App\Models\ArticleCategory::has('articles', '>', 0)
+            ->orderBy('name')
+            ->get();
 
         $availableTags = Article::published()
             ->whereNotNull('tags')

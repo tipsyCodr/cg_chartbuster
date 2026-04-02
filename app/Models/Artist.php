@@ -12,6 +12,7 @@ class Artist extends Model
 {
     use HasFactory, HasSlug;
     protected $fillable = [
+        'views',
         'slug',
         'name',
         'bio',

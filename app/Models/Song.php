@@ -10,6 +10,7 @@ class Song extends Model
 {
     use HasFactory, HasSlug;
     protected $fillable = [
+        'views',
         'slug',
         'title',
         'description',
