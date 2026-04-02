@@ -1,205 +1,198 @@
-# PRD: Admin Dashboard Analytics System (CG Chartbusters)
+# PRD: User Management System Enhancements (CG Chartbusters)
 
 ## Overview
 
-Enhance the Admin Dashboard of CG Chartbusters into a structured, data-driven analytics system. The dashboard should provide insights into platform growth, content performance, user engagement, and moderation, with real-time updates and visual charts.
+Fix and fully implement the User Management section in the Admin Panel. Enable admins to create users, export user data, perform advanced search, and execute bulk actions with proper backend APIs and responsive UI.
 
 ---
 
-## Task 1: Platform Analytics
+## Task 1: Add User Feature
 
-Track overall website traffic and growth metrics.
+Enable admins to manually create new users.
 
-* Display key metrics:
+* UI:
 
-  * Total Visitors (Today / Week / Month)
-  * Unique Visitors
-  * Page Views
-  * Average Session Duration
-  * Bounce Rate
+  * "Add User" button opens modal form
+  * Form fields:
 
-* Create summary cards:
+    * Name
+    * Email
+    * Password
+    * Role (Admin / User)
+    * Status (Active / Inactive)
 
-  * Total Visitors Today
-  * Total Visitors This Month
-  * New Users This Month
+* Validation:
 
-* Implement graph:
+  * Email must be unique
+  * Password minimum length (>= 6 or 8 as per policy)
+  * Required fields must not be empty
 
-  * Traffic Trend Graph (Last 30 Days)
+* Backend:
 
-* Data sources:
+  * Endpoint: `POST /admin/users/create`
+  * Insert into `users` table:
 
-  * Option 1: Integrate Google Analytics (sessions, users, traffic sources)
-  * Option 2: Internal tracking using `page_views` table
-
----
-
-## Task 2: Content Performance
-
-Analyze and display top-performing content across the platform.
-
-* Show:
-
-  * Most Viewed Movies
-  * Most Viewed Songs
-  * Most Viewed Artist Profiles
-  * Most Rated Movies
-  * Most Rated Artists
-
-* Build table:
-
-  * Columns: Title | Views | Ratings Count | Average Rating
-
-* Data logic:
-
-  * Views from `movies.views`, `songs.views`, `artists.views`
-  * Ratings using COUNT() and AVG() from ratings tables
+    * id
+    * name
+    * email
+    * password (bcrypt hashed)
+    * role
+    * status
+    * created_at
 
 ---
 
-## Task 3: User Engagement
+## Task 2: Export Users Feature
 
-Measure user interaction and engagement on the platform.
+Allow admins to download user data.
 
-* Display metrics:
+* UI:
 
-  * Total Ratings Submitted
-  * Total Reviews Submitted
-  * Total Watchlist Adds
-  * Most Active Users
+  * "Export Users" button triggers file download
 
-* Implement graph:
+* Backend:
 
-  * Daily Ratings Activity Chart
+  * Endpoint: `GET /admin/users/export`
+  * Query:
 
-* Data sources:
+    * SELECT name, email, role, status, created_at, last_login FROM users
 
-  * Ratings table
-  * Reviews table
-  * Watchlist table
+* Export formats:
 
----
+  * CSV (recommended)
+  * Excel (.xlsx)
 
-## Task 4: Moderation Panel
+* File naming:
 
-Provide tools for managing and moderating content.
-
-* Display:
-
-  * Pending Reviews
-  * Reported Content
-  * Recently Added Content
-  * Recently Edited Content
-
-* Add actions:
-
-  * Approve
-  * Reject
-  * Edit
-
-* Ensure quick moderation workflow with minimal clicks
-
----
-
-## Task 5: Tracking System
-
-Implement internal tracking for analytics.
-
-### Page Views Table
-
-Create table:
-
-* id
-* user_id (nullable)
-* page_type (movie / song / artist)
-* content_id
-* ip_address
-* created_at
-
-### View Counter
-
-On each page load:
-
-* Increment:
-
-  * movies.views
-  * songs.views
-  * artists.views
-
----
-
-## Task 6: Ratings Analytics
-
-Use existing rating data to generate insights.
-
-* Calculate:
-
-  * Total Ratings → COUNT(ratings)
-  * Average Rating → AVG(ratings)
-
-* Use for:
-
-  * Most Rated Content
-  * Highest Rated Content
-
----
-
-## Task 7: Dashboard Graphs
-
-Add visual analytics using charts.
-
-* Traffic Trend Chart
-
-* Rating Activity Chart
-
-* Content Views Chart
+  * `cgchartbusters_users_export_YYYY.csv`
 
 * Suggested libraries:
 
-  * Chart.js
-  * ApexCharts
+  * PHP: PhpSpreadsheet
+  * Node: json2csv
+  * Python: pandas
 
 ---
 
-## Task 8: Real-time Stats API
+## Task 3: User Search Improvement
 
-Create API for dynamic dashboard updates.
+Enhance search and filtering capabilities.
 
-### Endpoint
+* Search fields:
 
-* GET /api/admin/stats
+  * Name
+  * Email
+  * Role
+  * Status
 
-### Response
+* Features:
 
-```json
-{
-  "total_users": 0,
-  "today_visitors": 0,
-  "total_ratings": 0,
-  "pending_reviews": 0,
-  "total_content": 0
-}
-```
-
-* Use this API to update dashboard cards via AJAX
+  * Real-time filtering (AJAX / debounce input)
+  * Combined filters (e.g., role + status)
 
 ---
 
-## Task 9: Performance & Optimization
+## Task 4: Bulk Actions
 
-Ensure system is efficient and scalable.
+Enable actions on multiple selected users.
+
+* UI:
+
+  * Checkbox selection for users
+
+* Actions:
+
+  * Bulk Delete
+  * Bulk Activate
+  * Bulk Deactivate
+
+* Backend:
+
+  * Endpoint: `POST /admin/users/bulk-action`
+  * Payload:
+
+    * user_ids[]
+    * action (delete / activate / deactivate)
+
+---
+
+## Task 5: Frontend Button Fix
+
+Fix non-functional buttons and connect them to backend APIs.
+
+* Add User button:
+
+  * Opens modal form
+  * Submits form via API
+
+* Export Users button:
+
+  * Calls export API
+  * Initiates file download
+
+---
+
+## Task 6: Pagination
+
+Improve user listing performance.
+
+* Conditions:
+
+  * If users > 50
+
+* Features:
+
+  * Pagination options: 10 / 25 / 50 per page
+  * Server-side pagination
+
+---
+
+## Task 7: Performance & Security
+
+Ensure system reliability and data protection.
 
 * Use indexing on:
 
-  * views
-  * ratings
+  * email
   * created_at
 
-* Cache heavy queries (analytics data)
+* Security:
 
-* Use AJAX for updates (avoid full page reloads)
+  * Hash passwords using bcrypt
+  * Validate all inputs server-side
+  * Protect endpoints with admin authentication middleware
 
-* Maintain architecture:
+---
 
-  * Controller → Service → API → UI
+## Task 8: Optional Advanced Upgrade (User Insights)
+
+Provide deeper insights into user activity.
+
+* Add columns in user list:
+
+  * Ratings Given (count)
+  * Reviews Written (count)
+  * Join Date
+  * Last Activity
+
+* Example display:
+
+  * User Name
+  * Ratings: X
+  * Reviews: Y
+  * Joined: Date
+
+* Purpose:
+
+  * Track engagement
+  * Identify active users
+  * Support analytics and moderation
+
+---
+
+## Purpose
+
+* Enable full admin control over users
+* Allow easy data export for backup and analysis
+* Improve user moderation workflow
+* Support marketing and analytics use cases
