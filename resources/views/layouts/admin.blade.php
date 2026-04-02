@@ -7,6 +7,7 @@
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
     <title>Admin Dashboard | {{ config('app.name') }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 

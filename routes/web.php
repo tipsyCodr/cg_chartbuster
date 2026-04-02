@@ -147,6 +147,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
             ->names('admin.articles')
             ->except(['show']);
         Route::post('article-categories', [\App\Http\Controllers\Admin\ArticleCategoryController::class, 'store'])->name('admin.article-categories.store');
+
+        // Moderation Routes
+        Route::prefix('moderation')->group(function () {
+            Route::post('review/{id}/approve', [\App\Http\Controllers\Admin\ModerationController::class, 'approveReview'])->name('admin.moderation.review.approve');
+            Route::post('review/{id}/reject', [\App\Http\Controllers\Admin\ModerationController::class, 'rejectReview'])->name('admin.moderation.review.reject');
+            Route::delete('review/{id}', [\App\Http\Controllers\Admin\ModerationController::class, 'deleteReview'])->name('admin.moderation.review.delete');
+            Route::post('report/{id}/status', [\App\Http\Controllers\Admin\ModerationController::class, 'updateReportStatus'])->name('admin.moderation.report.status');
+        });
     });
 });
 

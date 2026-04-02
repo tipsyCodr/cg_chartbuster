@@ -9,6 +9,7 @@ use App\Models\Genre;
 use App\Models\Song;
 use App\Models\TvShow;
 use App\Models\HeroBanner;
+use App\Models\PageView;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
@@ -81,6 +82,7 @@ class WebController extends Controller
     {
         $movie = Movie::with(['artists', 'region', 'genres'])->where('slug', $slug)->firstOrFail();
         $movie->increment('views');
+        $this->logPageView('movie', $movie->id);
         $reviews = $movie->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.movies.view', compact(['movie', 'reviews']));
     }
@@ -110,6 +112,7 @@ class WebController extends Controller
     {
         $tvshow = TvShow::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
         $tvshow->increment('views');
+        $this->logPageView('tv_show', $tvshow->id);
         $reviews = $tvshow->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.tvshows.view', compact(['tvshow', 'reviews']));
     }
@@ -139,6 +142,7 @@ class WebController extends Controller
     {
         $song = Song::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
         $song->increment('views');
+        $this->logPageView('song', $song->id);
         $reviews = $song->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.songs.view', compact(['song', 'reviews']));
     }
@@ -175,6 +179,7 @@ class WebController extends Controller
             $query->orderBy('release_date', 'desc');
         }])->where('slug', $slug)->firstOrFail();
         $artists->increment('views');
+        $this->logPageView('artist', $artists->id);
         $reviews = $artists->reviews()->orderBy('created_at', 'asc')->paginate(15);
         return view('pages.artists.view', compact(['artists', 'reviews']));
     }
@@ -193,6 +198,17 @@ class WebController extends Controller
             'tvshows' => TvShow::where('title', 'like', "%$query%")->limit(5)->get(),
             'songs' => Song::where('title', 'like', "%$query%")->limit(5)->get(),
             'artists' => Artist::where('name', 'like', "%$query%")->limit(5)->get(),
+        ]);
+    }
+
+    private function logPageView($type, $id)
+    {
+        PageView::create([
+            'user_id' => auth()->id(),
+            'page_type' => $type,
+            'content_id' => $id,
+            'ip_address' => request()->ip(),
+            'created_at' => now(),
         ]);
     }
 
