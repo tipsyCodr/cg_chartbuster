@@ -24,9 +24,18 @@
     $sizeClass = $sizes[$size] ?? $sizes['md'];
 @endphp
 
+@if($attributes->has('href'))
+<a {{ $attributes->merge(['class' => "inline-flex items-center justify-center transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 $variantClass $sizeClass"]) }}>
+    @if($icon)
+        <i class="{{ $icon }} {{ $slot->isNotEmpty() ? 'mr-2' : '' }}"></i>
+    @endif
+    {{ $slot }}
+</a>
+@else
 <button {{ $attributes->merge(['class' => "inline-flex items-center justify-center transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 $variantClass $sizeClass"]) }}>
     @if($icon)
         <i class="{{ $icon }} {{ $slot->isNotEmpty() ? 'mr-2' : '' }}"></i>
     @endif
     {{ $slot }}
 </button>
+@endif

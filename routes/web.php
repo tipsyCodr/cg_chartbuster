@@ -85,6 +85,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin');
         Route::get('/user-management', [AdminController::class, 'userManagement'])->name('admin.user-management');
         Route::post('/user-management/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
+        Route::post('/user-management/update/{userId}', [AdminController::class, 'updateUser'])->name('admin.users.update');
         Route::get('/user-management/export', [AdminController::class, 'exportUsers'])->name('admin.users.export');
         Route::post('/user-management/bulk-action', [AdminController::class, 'bulkAction'])->name('admin.users.bulk-action');
         Route::post('/toggle-user/{userId}', [AdminController::class, 'toggleUserStatus'])->name('admin.toggle-user');

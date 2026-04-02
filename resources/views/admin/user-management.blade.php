@@ -163,7 +163,7 @@
                                     <i class="fas fa-sync-alt text-xs"></i>
                                 </button>
                             </form>
-                            <button class="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-xl transition-all" title="Modify Entity Data">
+                            <button @click="editUser({{ json_encode($user) }})" class="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-xl transition-all" title="Modify Entity Data">
                                 <i class="fas fa-edit text-xs"></i>
                             </button>
                         </div>
@@ -266,6 +266,82 @@
         </div>
     </div>
 
+    <!-- Edit Entity Modal -->
+    <div x-show="isEditModalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm" 
+         x-cloak>
+        
+        <div @click.away="isEditModalOpen = false" 
+             class="bg-white w-full max-w-lg rounded-[32px] overflow-hidden shadow-2xl border border-gray-100 transform transition-all">
+            
+            <div class="p-8 pb-4 flex items-center justify-between border-b border-gray-50">
+                <div>
+                    <h3 class="text-2xl font-black text-gray-800 tracking-tight">Modify Entity</h3>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Updating ID: <span x-text="editingUser.id" class="text-blue-600 font-black"></span></p>
+                </div>
+                <button @click="isEditModalOpen = false" class="p-2 hover:bg-gray-100 rounded-2xl text-gray-400 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form :action="`{{ url('/admin/user-management/update') }}/${editingUser.id}`" method="POST" class="p-8 space-y-6">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Identity Name</label>
+                        <input type="text" name="name" x-model="editingUser.name" required placeholder="Full Legal Name"
+                               class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Communication Channel (Email)</label>
+                    <input type="email" name="email" x-model="editingUser.email" required placeholder="entity@cgchartbusters.com"
+                           class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Update Credentials (Optional Password)</label>
+                    <input type="password" name="password" placeholder="Leave blank to maintain current"
+                           class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-300">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Functional Designation</label>
+                        <select name="role" x-model="editingUser.role" class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 appearance-none">
+                            <option value="User">Standard User</option>
+                            <option value="Admin">Super Admin</option>
+                            <option value="Moderator">System Moderator</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">Access Status</label>
+                        <select name="status" x-model="editingUser.status" class="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 appearance-none">
+                            <option value="Active">Authorized</option>
+                            <option value="Inactive">Restricted</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <x-admin.button type="button" variant="secondary" class="flex-1" @click="isEditModalOpen = false">
+                        Abort
+                    </x-admin.button>
+                    <x-admin.button type="submit" variant="primary" class="flex-1">
+                        Commit Changes
+                    </x-admin.button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Bulk Action Form (Hidden) -->
     <form id="bulk-action-form" action="{{ route('admin.users.bulk-action') }}" method="POST" class="hidden">
         @csrf
@@ -281,8 +357,27 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('userManagement', () => ({
             isAddModalOpen: false,
+            isEditModalOpen: false,
             selectedIds: [],
+            editingUser: {
+                id: '',
+                name: '',
+                email: '',
+                role: 'User',
+                status: 'Active'
+            },
             
+            editUser(user) {
+                this.editingUser = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role || 'User',
+                    status: user.is_active ? 'Active' : 'Inactive'
+                };
+                this.isEditModalOpen = true;
+            },
+
             submitBulkAction(action) {
                 if (action === 'delete' && !confirm('IRREVERSIBLE COMMAND: Are you certain you wish to purge the selected entities from the collective database?')) {
                     return;

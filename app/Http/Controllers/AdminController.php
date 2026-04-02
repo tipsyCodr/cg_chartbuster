@@ -93,6 +93,34 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'User created successfully');
     }
 
+    public function updateUser(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'role' => 'required|string',
+            'status' => 'required|string|in:Active,Inactive',
+        ]);
+
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'is_active' => $request->status === 'Active',
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = bcrypt($request->password);
+        }
+
+        $user->update($userData);
+
+        return redirect()->back()->with('success', 'User updated successfully');
+    }
+
     public function exportUsers(Request $request)
     {
         $query = User::query();
@@ -114,19 +142,11 @@ class AdminController extends Controller
         }
 
         $users = $query->latest()->get();
-        
         $csvFileName = 'cgchartbusters_users_export_' . date('Y-m-d_H-i-s') . '.csv';
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$csvFileName",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
 
         $columns = ['ID', 'Name', 'Email', 'Role', 'Status', 'Created At', 'Last Login'];
 
-        $callback = function() use($users, $columns) {
+        return response()->streamDownload(function() use($users, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
@@ -137,15 +157,13 @@ class AdminController extends Controller
                     $user->email,
                     $user->role ?? 'User',
                     $user->is_active ? 'Active' : 'Inactive',
-                    $user->created_at,
-                    $user->last_login,
+                    $user->created_at ? $user->created_at->toDateTimeString() : '',
+                    $user->last_login ? $user->last_login->toDateTimeString() : '',
                 ]);
             }
 
             fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        }, $csvFileName);
     }
 
     public function bulkAction(Request $request)

@@ -58,7 +58,7 @@
 
         <!-- Sidebar -->
         <aside id="admin-sidebar"
-            class="sidebar-transition fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-100 shadow-xl 
+            class="sidebar-transition fixed inset-y-0 left-0 z-50 flex flex-col bg-slate-900 border-r border-slate-800 shadow-xl 
                    lg:static lg:translate-x-0"
             :class="{
                 'translate-x-0 w-72': isSidebarOpen,
@@ -67,13 +67,12 @@
             }">
             
             <!-- Sidebar Header / Logo -->
-            <div class="h-20 flex items-center px-6 border-b border-gray-50 bg-white sticky top-0 z-10">
+            <div class="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-900 sticky top-0 z-10">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 overflow-hidden">
-                    <div class="min-w-[40px]">
-                        <x-application-logo class="w-10 h-auto" />
+                    <div class="min-w-[60px]">
+                        <x-application-logo class="pl-16 w-20 h-auto" />
                     </div>
                     <div class="sidebar-text-transition" :class="isSidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100'">
-                        <span class="text-xl font-black tracking-tighter text-blue-600 block whitespace-nowrap">CG ADMIN</span>
                     </div>
                 </a>
             </div>
@@ -91,8 +90,8 @@
                         </x-admin.sidebar-item>
 
                         <div class="pt-4 pb-2 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">
-                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Content</span>
-                            <div x-show="isSidebarCollapsed" class="h-px bg-gray-100 w-full"></div>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Content</span>
+                            <div x-show="isSidebarCollapsed" class="h-px bg-slate-800 w-full"></div>
                         </div>
 
                         <x-admin.sidebar-item href="{{ route('admin.movies.index') }}" :active="request()->routeIs('admin.movies.*')" icon="fas fa-film">
@@ -112,8 +111,8 @@
                         </x-admin.sidebar-item>
 
                         <div class="pt-4 pb-2 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">
-                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Site Design</span>
-                            <div x-show="isSidebarCollapsed" class="h-px bg-gray-100 w-full"></div>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Site Design</span>
+                            <div x-show="isSidebarCollapsed" class="h-px bg-slate-800 w-full"></div>
                         </div>
 
                         <x-admin.sidebar-item href="{{ route('admin.hero-banners.index') }}" :active="request()->routeIs('admin.hero-banners.*')" icon="fas fa-images">
@@ -125,15 +124,15 @@
                         </x-admin.sidebar-item>
 
                         <div class="pt-4 pb-2 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">
-                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Core Settings</span>
-                            <div x-show="isSidebarCollapsed" class="h-px bg-gray-100 w-full"></div>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Core Settings</span>
+                            <div x-show="isSidebarCollapsed" class="h-px bg-slate-800 w-full"></div>
                         </div>
 
                         <li>
                             <div x-data="{ open: {{ (request()->is('admin/regions*') || request()->is('admin/genres*')) ? 'true' : 'false' }} }">
                                 <button @click="open = !open" 
-                                    class="group flex items-center w-full px-4 py-3 text-sm font-bold transition-all duration-200 rounded-2xl text-gray-500 hover:bg-blue-50 hover:text-blue-600">
-                                    <div class="mr-3 p-2 rounded-xl bg-gray-50 text-gray-400 group-hover:bg-white group-hover:text-blue-500 group-hover:shadow-sm transition-all">
+                                    class="group flex items-center w-full px-4 py-3 text-sm font-bold transition-all duration-200 rounded-2xl text-slate-400 hover:bg-slate-800 hover:text-white">
+                                    <div class="mr-3 p-2 rounded-xl bg-slate-800 text-slate-500 group-hover:bg-slate-700 group-hover:text-blue-400 transition-all">
                                         <i class="fas fa-cog text-base"></i>
                                     </div>
                                     <span class="flex-1 text-left" :class="isSidebarCollapsed ? 'hidden' : ''">Settings</span>
@@ -143,15 +142,15 @@
                                     <li>
                                         <a href="{{ route('admin.regions.index') }}" @class([
                                             'block py-2 px-4 rounded-xl text-xs font-bold transition-colors',
-                                            'text-blue-600 bg-blue-50' => request()->routeIs('admin.regions.*'),
-                                            'text-gray-500 hover:text-blue-600 hover:bg-gray-50' => !request()->routeIs('admin.regions.*'),
+                                            'text-blue-400 bg-slate-800' => request()->routeIs('admin.regions.*'),
+                                            'text-slate-400 hover:text-white hover:bg-slate-800' => !request()->routeIs('admin.regions.*'),
                                         ])>Regions</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('admin.genres.index') }}" @class([
                                             'block py-2 px-4 rounded-xl text-xs font-bold transition-colors',
-                                            'text-blue-600 bg-blue-50' => request()->routeIs('admin.genres.*'),
-                                            'text-gray-500 hover:text-blue-600 hover:bg-gray-50' => !request()->routeIs('admin.genres.*'),
+                                            'text-blue-400 bg-slate-800' => request()->routeIs('admin.genres.*'),
+                                            'text-slate-400 hover:text-white hover:bg-slate-800' => !request()->routeIs('admin.genres.*'),
                                         ])>Genres</a>
                                     </li>
                                 </ul>
@@ -162,11 +161,11 @@
             </div>
 
             <!-- Sidebar Footer -->
-            <div class="p-4 border-t border-gray-50 bg-gray-50/50">
+            <div class="p-4 border-t border-slate-800 bg-slate-950/30">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-bold text-rose-500 hover:bg-rose-50 rounded-2xl transition-all">
-                        <div class="mr-3 p-2 rounded-xl bg-rose-100/50 text-rose-500">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-sm font-bold text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all">
+                        <div class="mr-3 p-2 rounded-xl bg-rose-500/10 text-rose-400">
                             <i class="fas fa-sign-out-alt text-base"></i>
                         </div>
                         <span :class="isSidebarCollapsed ? 'hidden' : ''">Logout</span>
@@ -201,50 +200,12 @@
                 <div class="flex items-center space-x-2 lg:space-x-4">
                     
                     <!-- Search Bar (Desktop) -->
-                    <div class="hidden sm:flex relative items-center">
-                        <span class="absolute left-4 text-gray-400">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <input type="text" placeholder="Global search..." 
-                               class="bg-gray-100 border-none rounded-2xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 w-48 lg:w-64 transition-all">
+                    <div class="hidden sm:flex items-center">
+                        <livewire:admin.global-search />
                     </div>
 
                     <!-- Notifications -->
-                    <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" @click.away="open = false" 
-                                class="p-3 text-gray-500 hover:bg-gray-100 rounded-2xl relative transition-all">
-                            <i class="far fa-bell text-xl"></i>
-                            <span class="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                        </button>
-                        <div x-show="open" x-cloak 
-                             class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden transform origin-top-right transition-all">
-                            <div class="p-4 border-b border-gray-50 flex justify-between items-center">
-                                <span class="font-bold text-sm">Notifications</span>
-                                <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-black">2 NEW</span>
-                            </div>
-                            <div class="py-2">
-                                <a href="#" class="flex px-4 py-3 hover:bg-gray-50 transition-colors">
-                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mr-3 shrink-0">
-                                        <i class="fas fa-user-plus text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-bold text-gray-800">New user registered</p>
-                                        <p class="text-[10px] text-gray-400 mt-0.5">2 minutes ago</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex px-4 py-3 hover:bg-gray-50 transition-colors">
-                                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mr-3 shrink-0">
-                                        <i class="fas fa-flag text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-bold text-gray-800">Content flagged for review</p>
-                                        <p class="text-[10px] text-gray-400 mt-0.5">1 hour ago</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <a href="#" class="block p-3 text-center text-[10px] font-black text-blue-600 bg-gray-50 hover:bg-blue-50 transition-colors">VIEW ALL</a>
-                        </div>
-                    </div>
+                    <livewire:admin.notification-dropdown />
 
                     <!-- User Profile -->
                     <div class="relative" x-data="{ open: false }">
@@ -265,14 +226,14 @@
                                 <p class="text-xs font-black text-gray-800">{{ Auth::user()->name }}</p>
                                 <p class="text-[10px] text-gray-400 truncate">{{ Auth::user()->email }}</p>
                             </div>
-                            <div class="p-2">
+                            {{-- <div class="p-2">
                                 <a href="#" class="flex items-center px-4 py-2.5 text-xs font-bold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">
                                     <i class="far fa-user mr-3 text-sm opacity-50"></i> Profile Settings
                                 </a>
                                 <a href="#" class="flex items-center px-4 py-2.5 text-xs font-bold text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">
                                     <i class="fas fa-shield-alt mr-3 text-sm opacity-50"></i> Security
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="p-2 border-t border-gray-50">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
