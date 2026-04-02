@@ -1,33 +1,36 @@
-<x-app-layout>
-    <div class="py-12 bg-black min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-900/50 backdrop-blur-md overflow-hidden shadow-2xl rounded-2xl border border-white/5">
-                <div class="p-8 md:p-12">
-                    <h1 class="text-4xl font-black mb-8 text-yellow-500 uppercase tracking-tighter">Community Guidelines</h1>
-                    <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed">
-                        <p class="mb-6 text-gray-400 font-medium italic">Last updated: {{ date('F d, Y') }}</p>
-                        
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">1. Be Respectful</h2>
-                            <p>We want CG Chartbusters to be a welcoming and safe environment for everyone. Please be respectful of others' opinions and avoid personal attacks or harassment.</p>
-                        </section>
+<x-legal-page title="Community Guidelines" lastUpdated="October 10, 2026">
+    <p><strong>CGChartbusters</strong> is a community-driven platform for Chhattisgarhi entertainment. To maintain a safe and productive environment for all users, we expect you to follow these guidelines.</p>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">2. No Spam or Promotion</h2>
-                            <p>Do not use our platform to post unsolicited promotional content, spam, or misleading information. Keep the conversation focused on Chhattisgarhi cinema and entertainment.</p>
-                        </section>
+    <h2>1. Respect Our Community</h2>
+    <p>Please be respectful to fellow users, artists, and creators. We value constructive criticism and diverse opinions, but we do not tolerate hate speech, personal attacks, or harassment.</p>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">3. Content Standards</h2>
-                            <p>All user-generated content, including reviews and comments, must adhere to our content standards. Avoid posting illegal, offensive, or harmful material.</p>
-                        </section>
+    <h2>2. Constructive Ratings & Reviews</h2>
+    <p>Ratings and reviews should be helpful and honest. Please refrain from:</p>
+    <ul>
+        <li>Posting spam, repetitive content, or off-topic messages.</li>
+        <li>Submitting fake ratings or manipulative reviews.</li>
+        <li>Using offensive or inappropriate language.</li>
+    </ul>
 
-                        <div class="mt-12 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                            <p class="text-sm text-yellow-500 font-bold">Note: This is a placeholder page. Full legal content will be updated by the administrator soon.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h2>3. Prohibited Content</h2>
+    <p>The following categories of content are strictly prohibited and will be removed immediately:</p>
+    <ul>
+        <li><strong>Illegal Content:</strong> Promotion of copyrighted materials, piracy, or fraud.</li>
+        <li><strong>Inappropriate Media:</strong> Sexually explicit, violent, or graphic imagery.</li>
+        <li><strong>Impersonation:</strong> Pretending to be an artist, administrator, or another user.</li>
+        <li><strong>Commercial Spam:</strong> Unauthorized advertisements or self-promotion.</li>
+    </ul>
+
+    <h2>4. Moderation & Enforcement</h2>
+    <p>Our moderation team reviews reported content to ensure compliance. If a user is found violating these guidelines, we may:</p>
+    <ul>
+        <li>Issue a formal warning.</li>
+        <li>Remove the violating content.</li>
+        <li>Temporarily restrict or permanently ban the user account.</li>
+    </ul>
+
+    <div class="mt-8 p-6 bg-yellow-400/5 border border-yellow-400/20 rounded-2xl">
+        <p class="text-[10px] font-black text-yellow-500 uppercase tracking-widest mb-1">📢 Report Violations</p>
+        <p class="text-sm text-gray-400 leading-tight italic">See something that breaks the rules? Report it through our platform's built-in reporting system or email us at <a href="mailto:cgchartbusters@gmail.com" class="text-white font-bold underline">cgchartbusters@gmail.com</a>.</p>
     </div>
-</x-app-layout>
+</x-legal-page>

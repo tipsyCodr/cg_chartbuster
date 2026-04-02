@@ -10,10 +10,37 @@ use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::with('author')->latest()->paginate(15);
-        return view('admin.articles.index', compact('articles'));
+        $query = Article::with(['author', 'category'])->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('title_hi', 'like', "%{$search}%")
+                  ->orWhere('title_en', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%");
+            });
+        }
+
+        $articles = $query->paginate(20)->withQueryString();
+        $categories = \App\Models\ArticleCategory::orderBy('name')->get();
+        
+        $counts = [
+            'all' => Article::count(),
+            'published' => Article::where('status', 'published')->count(),
+            'draft' => Article::where('status', 'draft')->count(),
+        ];
+
+        return view('admin.articles.index', compact('articles', 'categories', 'counts'));
     }
 
     public function create()

@@ -1,33 +1,37 @@
-<x-app-layout>
-    <div class="py-12 bg-black min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-900/50 backdrop-blur-md overflow-hidden shadow-2xl rounded-2xl border border-white/5">
-                <div class="p-8 md:p-12">
-                    <h1 class="text-4xl font-black mb-8 text-yellow-500 uppercase tracking-tighter">Disclaimer</h1>
-                    <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed">
-                        <p class="mb-6 text-gray-400 font-medium italic">Last updated: {{ date('F d, Y') }}</p>
-                        
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">1. Information Accuracy</h2>
-                            <p>The information provided by CG Chartbusters is for general informational purposes only. All information on the site is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site.</p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">2. External Links</h2>
-                            <p>The site may contain links to other websites or content belonging to or originating from third parties. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness by us.</p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">3. Professional Disclaimer</h2>
-                            <p>The site cannot and does not contain legal or professional advice. The information is provided for general informational and educational purposes only and is not a substitute for professional advice. Accordingly, before taking any actions based upon such information, we encourage you to consult with the appropriate professionals.</p>
-                        </section>
-
-                        <div class="mt-12 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                            <p class="text-sm text-yellow-500 font-bold">Note: This is a placeholder page. Full legal content will be updated by the administrator soon.</p>
-                        </div>
-                    </div>
-                </div>
+<x-legal-page title="Legal Disclaimer" lastUpdated="August 02, 2026">
+    <div class="space-y-8">
+        <div class="flex items-start">
+            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
+                <i class="fas fa-info-circle text-yellow-400"></i>
             </div>
+            <p><strong>CGChartbusters</strong> is a community-driven rating and informational platform dedicated to the Chhattisgarhi entertainment industry. We do not guarantee the absolute accuracy or completeness of any data or review on this site.</p>
+        </div>
+
+        <div class="flex items-start">
+            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
+                <i class="fas fa-user-friends text-yellow-400"></i>
+            </div>
+            <p>Reviews and ratings reflect the <strong>individual opinions</strong> of our users and do not represent the views or endorsements of CGChartbusters or its parent organization.</p>
+        </div>
+
+        <div class="flex items-start">
+            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
+                <i class="fas fa-file-contract text-yellow-400"></i>
+            </div>
+            <p>We do not endorse specific artists, films, TV shows, web-series, songs, or creators unless explicitly stated. Any reliance upon the content of this platform is at your own risk.</p>
+        </div>
+
+        <div class="flex items-start">
+            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
+                <i class="fas fa-shield-alt text-yellow-400"></i>
+            </div>
+            <p>This website does not provide legal, financial, or professional advice. We serve purely as an informational hub for entertainment ratings and archives.</p>
+        </div>
+
+        <div class="p-6 bg-yellow-400/5 border border-yellow-400/20 rounded-[32px]">
+            <p class="text-sm text-gray-400 leading-relaxed italic uppercase font-black tracking-tight">
+                "Our goal is to foster a healthy rating ecosystem for regional talent, not to provide definitive professional critiques or legal warranties."
+            </p>
         </div>
     </div>
-</x-app-layout>
+</x-legal-page>

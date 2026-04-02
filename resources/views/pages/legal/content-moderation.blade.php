@@ -1,33 +1,33 @@
-<x-app-layout>
-    <div class="py-12 bg-black min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-900/50 backdrop-blur-md overflow-hidden shadow-2xl rounded-2xl border border-white/5">
-                <div class="p-8 md:p-12">
-                    <h1 class="text-4xl font-black mb-8 text-yellow-500 uppercase tracking-tighter">Content Moderation Policy</h1>
-                    <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed">
-                        <p class="mb-6 text-gray-400 font-medium italic">Last updated: {{ date('F d, Y') }}</p>
-                        
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">1. Our Commitment</h2>
-                            <p>We are dedicated to maintaining a safe and high-quality environment for all our users. This policy outlines our approach to content moderation and the standards we apply to user-submitted content.</p>
-                        </section>
+<x-legal-page title="Content Moderation Policy" lastUpdated="October 10, 2026">
+    <p><strong>CGChartbusters</strong> is committed to maintaining a safe, respectful, and high-quality community. Our content moderation policy ensures all ratings, reviews, and submissions comply with our community and legal standards.</p>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">2. Moderation Process</h2>
-                            <p>We use a combination of automated tools and human review to monitor and moderate content on CG Chartbusters. We reserve the right to remove any content that violates our community guidelines or terms of service.</p>
-                        </section>
+    <h2>1. Moderation Methods</h2>
+    <p>We use a combination of methods to ensure a healthy environment:</p>
+    <ul>
+        <li><strong>Automated Filters:</strong> For spam, toxicity, and prohibited keywords.</li>
+        <li><strong>Manual Review:</strong> Our moderation team manually reviews reports and flagged content.</li>
+        <li><strong>Community Reporting:</strong> Users can report content that violates our policies.</li>
+    </ul>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">3. Appeals</h2>
-                            <p>If your content has been removed and you believe it was done in error, you may appeal the decision by contacting our moderation team with the relevant details.</p>
-                        </section>
+    <h2>2. Reporting System</h2>
+    <p>Users can report content that is <strong>defamatory, abusive, misleading, or copyright-infringing</strong>. All reports are investigated with due diligence within a reasonable timeframe.</p>
 
-                        <div class="mt-12 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                            <p class="text-sm text-yellow-500 font-bold">Note: This is a placeholder page. Full legal content will be updated by the administrator soon.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h2>3. Review Process</h2>
+    <p>When content is reported:</p>
+    <ul>
+        <li>The content is reviewed for violations of our community guidelines.</li>
+        <li>If found violating, the content will be removed immediately.</li>
+        <li>Repeat offenders may face permanent account suspension.</li>
+    </ul>
+
+    <h2>4. Safe Harbor Protection</h2>
+    <p>CGChartbusters is not responsible for user-generated content, provided it acts upon lawful removal requests in accordance with the <strong>Information Technology Act, 2000 (India)</strong>.</p>
+
+    <h2>5. Transparency</h2>
+    <p>We maintain internal records of all moderation actions and removals to ensure legal compliance and fair enforcement across our platform.</p>
+
+    <div class="mt-8 p-6 bg-blue-400/5 border border-blue-400/20 rounded-2xl">
+        <p class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">📩 Submit Moderation Inquiries</p>
+        <p class="text-sm text-gray-400 leading-tight">If you have questions about a moderation action, please contact: <a href="mailto:cgchartbusters@gmail.com" class="text-white font-bold underline">cgchartbusters@gmail.com</a>.</p>
     </div>
-</x-app-layout>
+</x-legal-page>

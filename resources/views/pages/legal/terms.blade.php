@@ -1,33 +1,48 @@
-<x-app-layout>
-    <div class="py-12 bg-black min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-900/50 backdrop-blur-md overflow-hidden shadow-2xl rounded-2xl border border-white/5">
-                <div class="p-8 md:p-12">
-                    <h1 class="text-4xl font-black mb-8 text-yellow-500 uppercase tracking-tighter">Terms of Service</h1>
-                    <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed">
-                        <p class="mb-6 text-gray-400 font-medium italic">Last updated: {{ date('F d, Y') }}</p>
-                        
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">1. Agreement to Terms</h2>
-                            <p>By accessing or using CG Chartbusters, you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions, then you may not access the website.</p>
-                        </section>
+<x-legal-page title="Terms & Conditions" lastUpdated="August 02, 2026">
+    <p>Welcome to <strong>CGChartbusters.com</strong>, owned and operated by Shoot Valley Production, Raipur, Chhattisgarh, India.</p>
+    <p>By accessing or using this platform, you agree to comply with these Terms.</p>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">2. Use License</h2>
-                            <p>Permission is granted to temporarily download one copy of the materials on CG Chartbusters' website for personal, non-commercial transitory viewing only.</p>
-                        </section>
+    <h2>1. Nature of Platform</h2>
+    <p>CGChartbusters is an informational and community-driven rating platform dedicated to Chhattisgarhi (Chhollywood) films, music, artists, and entertainment content.</p>
+    <p><strong>⚠️ We DO NOT:</strong></p>
+    <ul>
+        <li>Host movies</li>
+        <li>Stream content</li>
+        <li>Provide download links</li>
+        <li>Distribute copyrighted material</li>
+    </ul>
+    <p>The platform is strictly for ratings, reviews, listings, and informational purposes.</p>
 
-                        <section class="mb-8">
-                            <h2 class="text-xl font-bold text-white mb-4">3. Disclaimer</h2>
-                            <p>The materials on CG Chartbusters' website are provided on an 'as is' basis. CG Chartbusters makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-                        </section>
+    <h2>2. Eligibility</h2>
+    <p>You must be at least 13 years old to use this platform. If under 18, parental supervision is advised.</p>
 
-                        <div class="mt-12 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                            <p class="text-sm text-yellow-500 font-bold">Note: This is a placeholder page. Full legal content will be updated by the administrator soon.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+    <h2>3. User Accounts</h2>
+    <p>We reserve the right to suspend, restrict, or permanently terminate any account that violates these terms without prior notice.</p>
+
+    <h2>4. User-Generated Content</h2>
+    <p>Users may post ratings, reviews, and submissions. By submitting content, you:</p>
+    <ul>
+        <li>Confirm the content is original or legally authorized.</li>
+        <li>Grant CGChartbusters a non-exclusive, worldwide, royalty-free license to display and promote the content.</li>
+        <li>Accept full responsibility for your submissions.</li>
+    </ul>
+    <p>We are not responsible for user opinions, review accuracy, or emotional/reputational impact. Defamatory, abusive, fake, or illegal content may be removed immediately.</p>
+
+    <h2>5. Safe Harbor Protection</h2>
+    <p>CGChartbusters operates as an intermediary platform under the Information Technology Act, 2000 (India). We act only as a hosting platform and are not liable for third-party user content, provided we act upon lawful takedown requests.</p>
+
+    <h2>6. Intellectual Property</h2>
+    <p>All branding, logos, UI design, graphics, and proprietary content belong to <strong>Shoot Valley Production</strong>. Unauthorized copying, reproduction, or misuse is prohibited.</p>
+
+    <h2>7. No Piracy Policy</h2>
+    <p>CGChartbusters strictly prohibits uploading copyrighted movies without rights, sharing pirated links, promoting illegal downloads, or circumventing digital rights. Violation may result in account termination and legal action.</p>
+
+    <h2>8. Limitation of Liability</h2>
+    <p>Under no circumstances shall CGChartbusters or Shoot Valley Production be liable for indirect damages, business loss, reputational harm, emotional distress, data loss, or revenue loss. Use of this platform is entirely at your own risk.</p>
+
+    <h2>9. Platform Availability</h2>
+    <p>We do not guarantee uninterrupted access. Features may be modified, suspended, or discontinued at any time.</p>
+
+    <h2>10. Governing Law</h2>
+    <p>These Terms are governed by the laws of India. Any disputes shall fall under the exclusive jurisdiction of the competent courts of Raipur, Chhattisgarh, India.</p>
+</x-legal-page>

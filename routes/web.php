@@ -52,6 +52,7 @@ Route::get('/copyright-policy', [LegalController::class, 'copyrightPolicy'])->na
 Route::get('/community-guidelines', [LegalController::class, 'communityGuidelines'])->name('community-guidelines');
 Route::get('/content-moderation-policy', [LegalController::class, 'contentModeration'])->name('content-moderation-policy');
 Route::get('/disclaimer', [LegalController::class, 'disclaimer'])->name('disclaimer');
+Route::get('/about-us', [LegalController::class, 'aboutUs'])->name('about-us');
 
 
 //reviews Frontend

@@ -40,4 +40,9 @@ class LegalController extends Controller
     {
         return view('pages.legal.disclaimer');
     }
+
+    public function aboutUs()
+    {
+        return view('pages.about');
+    }
 }

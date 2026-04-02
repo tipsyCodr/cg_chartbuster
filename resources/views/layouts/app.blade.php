@@ -126,6 +126,7 @@
                         <h2 class="text-lg font-semibold">Quick Links</h2>
                         
                         <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Home</a>
+                        <a href="{{ route('about-us') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">About Us</a>
                         <a href="{{ route('movies') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Movies</a>
                         <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">TV

@@ -61,10 +61,25 @@ class ArticleController extends Controller
     {
         $lang = $this->resolveLanguage($request);
 
-        $article = Article::with('author')
+        $article = Article::with(['author', 'category'])
             ->published()
             ->where('slug', $slug)
             ->firstOrFail();
+
+        // Fetch related articles (same category, excluding current)
+        $relatedArticles = Article::published()
+            ->where('category_id', $article->category_id)
+            ->where('id', '!=', $article->id)
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        // Fetch trending/latest articles for sidebar
+        $latestArticles = Article::published()
+            ->where('id', '!=', $article->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
 
         $title = $article->localizedTitle($lang);
         $excerpt = $article->localizedExcerpt($lang) ?: Str::limit(strip_tags($article->localizedContent($lang)), 160);
@@ -79,7 +94,9 @@ class ArticleController extends Controller
             'excerpt',
             'metaTitle',
             'metaDescription',
-            'metaImage'
+            'metaImage',
+            'relatedArticles',
+            'latestArticles'
         ));
     }
 
