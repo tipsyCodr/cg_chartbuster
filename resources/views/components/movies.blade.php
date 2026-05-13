@@ -4,19 +4,19 @@
         <div class="flex flex-row gap-2 px-2 py-4 overflow-x-auto scrollbar-hide sm:px-4">
             @foreach ($movies as $movie)
                 <a href="{{ route('movie.show', $movie->slug) }}">
-                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0 ">
+                    <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0 group">
                         <div class="relative min-w-40 max-w-40 sm:min-w-48 sm:max-w-48">
-                            <img class="object-cover w-full h-56 transition-all duration-300 rounded-t-lg hover:brightness-90"
+                            <img class="object-cover w-full h-56 sm:h-64 transition-all duration-300 rounded-t-lg group-hover:brightness-75"
                                 src="{{ Storage::url($movie->poster_image) }}" alt="Movie Image">
-                            <div class="min-h-[7rem] rounded-b-lg bg-gray-900 px-4 py-4">
-                                <div class="flex justify-start items-center gap-1 text-xs mb-4 text-gray-300">
-                                    <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
-                                    <span>{{ $movie->cg_chartbusters_ratings }} / 10 Ratings</span>
+                            <div class="rounded-b-lg bg-gray-900 px-3 py-3">
+                                <div class="flex justify-start items-center gap-1 text-[10px] mb-2 text-gray-400">
+                                    <img src="{{ asset('images/badge.png') }}" alt="Rating" class="w-3 h-3">
+                                    <span>{{ $movie->cg_chartbusters_ratings }} / 10</span>
                                 </div>
-                                <h2 class="py-6 truncate text-sm font-normal text-white normal-case">
+                                <h2 class="truncate text-xs font-bold text-white mb-3">
                                     {{ ucwords(strtolower($movie->title)) }}
                                 </h2>
-                                <a href="{{ route('movie.show', $movie->slug) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500 ">Details</a>
+                                <a href="{{ route('movie.show', $movie->slug) }}" class="block w-full py-1.5 text-[10px] font-bold text-center text-white bg-gray-800 border border-gray-700 rounded-full hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all">Details</a>
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@
                 </select>
             </form>
         </div>
-        <div class="mt-8 space-y-4">
+        <div class="mt-8 space-y-3">
             @foreach ($tvshows as $tvshow)
                 @php
                     $year = $tvshow->release_date ? \Carbon\Carbon::parse($tvshow->release_date)->format('Y') : 'N/A';
@@ -23,29 +23,29 @@
                     $votes = $tvshow->reviews_count ?? 0;
                 @endphp
                 <a href="{{ route('tv-show.show', $tvshow->slug) }}"
-                    class="group block overflow-hidden rounded-xl border border-gray-600/70 bg-black transition-colors hover:border-yellow-400/70">
-                    <div class="flex min-h-40">
-                        <div class="w-28 shrink-0 sm:w-36 md:w-44">
+                    class="group block overflow-hidden rounded-lg border border-gray-800 bg-black/40 transition-colors hover:border-yellow-500/50 hover:bg-gray-800/40">
+                    <div class="flex items-center">
+                        <div class="w-24 h-32 shrink-0 sm:w-28 sm:h-36 md:w-32 md:h-44">
                             @if(!empty($tvshow->poster_image))
                                 <img src="{{ asset('storage/' . $tvshow->poster_image) }}" alt="{{ $tvshow->title }}"
                                     class="h-full w-full object-cover">
                             @else
-                                <div class="flex h-full w-full items-center justify-center bg-gray-700 text-sm text-gray-300">
+                                <div class="flex h-full w-full items-center justify-center bg-gray-700 text-[10px] text-gray-300">
                                     Poster
                                 </div>
                             @endif
                         </div>
-                        <div class="flex flex-1 flex-col justify-center gap-3 px-4 py-4 sm:px-5">
-                            <h3 class="line-clamp-1 text-xl font-bold uppercase tracking-wide text-gray-100 sm:text-3xl">
+                        <div class="flex flex-1 flex-col justify-center gap-1 px-4 py-2">
+                            <h3 class="line-clamp-1 text-base font-bold text-gray-100 group-hover:text-yellow-400">
                                 {{ $tvshow->title }}
                             </h3>
-                            <p class="line-clamp-1 text-sm text-gray-300 sm:text-2xl/none sm:tracking-wide">
-                                {{ $year }} <span class="px-2">•</span> {{ $cbfc }} <span class="px-2">•</span> {{ $genresText }}
+                            <p class="line-clamp-1 text-xs text-gray-400">
+                                {{ $year }} <span class="px-1 text-gray-600">•</span> {{ $cbfc }} <span class="px-1 text-gray-600">•</span> {{ $genresText }}
                             </p>
-                            <div class="flex items-center gap-2 text-sm sm:text-2xl/none">
-                                <i class="fa-solid fa-star text-yellow-400"></i>
+                            <div class="flex items-center gap-2 text-xs">
+                                <i class="fa-solid fa-star text-yellow-500 text-[10px]"></i>
                                 <span class="font-bold text-white">{{ $tvshow->cg_chartbusters_ratings ?? 0 }}/10</span>
-                                <span class="ml-4 text-gray-300">({{ $votes }} Votes)</span>
+                                <span class="ml-4 text-gray-500">({{ $votes }} Votes)</span>
                             </div>
                         </div>
                     </div>
