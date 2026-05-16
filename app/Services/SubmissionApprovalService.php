@@ -60,7 +60,14 @@ class SubmissionApprovalService
                 return Event::create([
                     'title' => $submission->title,
                     'description' => $submission->description,
-                    'poster_image' => $submission->media_file,
+                    'poster' => $submission->media_file,
+                    'event_type' => $submission->category ?: 'General',
+                    'event_mode' => 'Offline',
+                    'organizer_name' => $submission->user ? $submission->user->name : 'Anonymous',
+                    'contact_email' => $submission->user ? $submission->user->email : config('mail.from.address'),
+                    'start_datetime' => now(),
+                    'end_datetime' => now()->addDay(),
+                    'approval_status' => 'approved',
                 ]);
             default:
                 return null;
