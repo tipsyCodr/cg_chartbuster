@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Movie, Song, and Artist Sliders
     const commonSliderOptions = {
         slidesPerView: 2,
-        spaceBetween: 10,
+        spaceBetween: 20,
         breakpoints: {
-            640: { slidesPerView: 3, spaceBetween: 15 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
-            1280: { slidesPerView: 6, spaceBetween: 25 },
+            640: { slidesPerView: 3, spaceBetween: 30 },
+            1024: { slidesPerView: 5, spaceBetween: 40 },
+            1280: { slidesPerView: 6, spaceBetween: 50 },
         },
         observer: true,
         observeParents: true,
@@ -152,3 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     });
 });
+
+window.Alpine = Alpine;
+Alpine.start();

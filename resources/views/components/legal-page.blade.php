@@ -24,13 +24,117 @@
                 <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-400/5 rounded-full blur-[100px]"></div>
                 <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-yellow-400/5 rounded-full blur-[100px]"></div>
 
-                <div class="prose prose-invert prose-yellow max-w-none 
-                            prose-h1:text-white prose-h1:font-black prose-h1:tracking-tight
-                            prose-h2:text-2xl prose-h2:font-black prose-h2:tracking-tight prose-h2:text-yellow-400 prose-h2:mt-12 prose-h2:mb-6
-                            prose-p:text-gray-400 prose-p:leading-relaxed prose-p:text-base prose-p:mb-6
-                            prose-ul:text-gray-400 prose-li:my-3 prose-strong:text-white prose-strong:font-black">
+
+
+                <div class="legal-content">
                     {{ $slot }}
                 </div>
+
+                <style>
+                    .legal-content h2 {
+                        font-size: 1.5rem;
+                        font-weight: 900;
+                        letter-spacing: -0.025em;
+                        color: #fbbf24;
+                        margin-top: 3.5rem;
+                        margin-bottom: 1.5rem;
+                        text-transform: uppercase;
+                        border-left: 4px solid #fbbf24;
+                        padding-left: 1rem;
+                    }
+                    .legal-content h3 {
+                        font-size: 1.125rem;
+                        font-weight: 800;
+                        color: #ffffff;
+                        margin-top: 2.5rem;
+                        margin-bottom: 1rem;
+                    }
+                    .legal-content p {
+                        color: #d1d5db;
+                        line-height: 1.625;
+                        font-size: 1rem;
+                        margin-bottom: 1.5rem;
+                    }
+                    .legal-content ul {
+                        list-style-type: disc;
+                        padding-left: 1.5rem;
+                        margin-bottom: 1.5rem;
+                        color: #d1d5db;
+                    }
+                    .legal-content li {
+                        margin-bottom: 0.75rem;
+                    }
+                    .legal-content strong {
+                        color: #ffffff;
+                        font-weight: 900;
+                    }
+                    .legal-content a {
+                        color: #fbbf24;
+                        font-weight: 700;
+                        text-decoration: underline;
+                    }
+                    .legal-content table {
+                        width: 100%;
+                        margin-bottom: 2rem;
+                        border-collapse: collapse;
+                        background: rgba(255, 255, 255, 0.02);
+                        border-radius: 1rem;
+                        overflow: hidden;
+                    }
+                    .legal-content th {
+                        background: rgba(251, 191, 36, 0.1);
+                        color: #fbbf24;
+                        text-align: left;
+                        padding: 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 900;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    }
+                    .legal-content td {
+                        padding: 1rem;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                        color: #d1d5db;
+                        font-size: 0.875rem;
+                    }
+                    .legal-content .warning, .legal-content .warning-box,
+                    .legal-content .danger, .legal-content .danger-box,
+                    .legal-content .success, .legal-content .success-box,
+                    .legal-content .info, .legal-content .info-box {
+                        padding: 1.5rem;
+                        border-radius: 1rem;
+                        margin-bottom: 2rem;
+                        border: 1px solid transparent;
+                    }
+                    .legal-content .warning, .legal-content .warning-box {
+                        background: rgba(251, 191, 36, 0.05);
+                        border-color: rgba(251, 191, 36, 0.2);
+                        color: #fbbf24;
+                    }
+                    .legal-content .danger, .legal-content .danger-box {
+                        background: rgba(239, 68, 68, 0.05);
+                        border-color: rgba(239, 68, 68, 0.2);
+                        color: #f87171;
+                    }
+                    .legal-content .success, .legal-content .success-box {
+                        background: rgba(34, 197, 94, 0.05);
+                        border-color: rgba(34, 197, 94, 0.2);
+                        color: #4ade80;
+                    }
+                    .legal-content .info, .legal-content .info-box {
+                        background: rgba(59, 130, 246, 0.05);
+                        border-color: rgba(59, 130, 246, 0.2);
+                        color: #60a5fa;
+                    }
+                    .legal-content .footer {
+                        margin-top: 4rem;
+                        padding-top: 2rem;
+                        border-top: 1px solid rgba(255, 255, 255, 0.1);
+                        font-size: 0.75rem;
+                        color: #9ca3af;
+                        text-align: center;
+                    }
+                </style>
             </div>
 
             <!-- Contact/Support Note -->

@@ -51,7 +51,9 @@ Route::get('/cookie-policy', [LegalController::class, 'cookiePolicy'])->name('co
 Route::get('/copyright-policy', [LegalController::class, 'copyrightPolicy'])->name('copyright-policy');
 Route::get('/community-guidelines', [LegalController::class, 'communityGuidelines'])->name('community-guidelines');
 Route::get('/content-moderation-policy', [LegalController::class, 'contentModeration'])->name('content-moderation-policy');
-Route::get('/disclaimer', [LegalController::class, 'disclaimer'])->name('disclaimer');
+Route::get('/legal-disclaimer', [LegalController::class, 'disclaimer'])->name('disclaimer');
+Route::get('/creator-guidelines', [LegalController::class, 'creatorGuidelines'])->name('creator-guidelines');
+Route::get('/event-guidelines', [LegalController::class, 'eventGuidelines'])->name('event-guidelines');
 Route::get('/about-us', [LegalController::class, 'aboutUs'])->name('about-us');
 
 
@@ -78,12 +80,34 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Events Frontend
+Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->name('events.index');
+Route::get('/events/{slug}', [App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+
+// Event Submission
+Route::middleware('auth')->group(function () {
+    Route::get('/submit-event', [App\Http\Controllers\EventSubmissionController::class, 'create'])->name('events.submit');
+    Route::post('/submit-event', [App\Http\Controllers\EventSubmissionController::class, 'store'])->name('events.store');
+
+    // General Content Submission
+    Route::get('/submit-content', [App\Http\Controllers\ContentSubmissionController::class, 'create'])->name('content.submit');
+    Route::post('/submit-content', [App\Http\Controllers\ContentSubmissionController::class, 'store'])->name('content.store');
+});
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/api/admin/stats', [AdminController::class, 'stats'])->name('admin.stats');
     Route::prefix('admin')->group(function () {
         // Admin Dashboard  
         Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+        
+        // Events Management
+        Route::get('/events', [App\Http\Controllers\Admin\EventManagementController::class, 'index'])->name('admin.events.index');
+        Route::get('/events/{event}/edit', [App\Http\Controllers\Admin\EventManagementController::class, 'edit'])->name('admin.events.edit');
+        Route::patch('/events/{event}', [App\Http\Controllers\Admin\EventManagementController::class, 'update'])->name('admin.events.update');
+        Route::post('/events/{event}/approve', [App\Http\Controllers\Admin\EventManagementController::class, 'approve'])->name('admin.events.approve');
+        Route::post('/events/{event}/reject', [App\Http\Controllers\Admin\EventManagementController::class, 'reject'])->name('admin.events.reject');
+        Route::delete('/events/{event}', [App\Http\Controllers\Admin\EventManagementController::class, 'destroy'])->name('admin.events.destroy');
         Route::get('/user-management', [AdminController::class, 'userManagement'])->name('admin.user-management');
         Route::post('/user-management/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
         Route::post('/user-management/update/{userId}', [AdminController::class, 'updateUser'])->name('admin.users.update');
@@ -158,6 +182,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::delete('review/{id}', [\App\Http\Controllers\Admin\ModerationController::class, 'deleteReview'])->name('admin.moderation.review.delete');
             Route::post('report/{id}/status', [\App\Http\Controllers\Admin\ModerationController::class, 'updateReportStatus'])->name('admin.moderation.report.status');
         });
+
+        // Content Submissions Management
+        Route::get('/content-submissions', [App\Http\Controllers\Admin\ContentModerationController::class, 'index'])->name('admin.submissions.index');
+        Route::get('/content-submissions/{submission}', [App\Http\Controllers\Admin\ContentModerationController::class, 'show'])->name('admin.submissions.show');
+        Route::post('/content-submissions/{submission}/approve', [App\Http\Controllers\Admin\ContentModerationController::class, 'approve'])->name('admin.submissions.approve');
+        Route::post('/content-submissions/{submission}/reject', [App\Http\Controllers\Admin\ContentModerationController::class, 'reject'])->name('admin.submissions.reject');
     });
 });
 

@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
-    <title>@yield('page-title') | Admin | {{ config('app.name') }}</title>
+    <title>{{ $title ?? '' }} @if(!isset($title)) @yield('page-title') @endif | Admin | {{ config('app.name') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
@@ -110,6 +110,14 @@
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Artists</span>
                         </x-admin.sidebar-item>
 
+                        <x-admin.sidebar-item href="{{ route('admin.events.index') }}" :active="request()->routeIs('admin.events.*')" icon="fas fa-calendar-alt">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Events</span>
+                        </x-admin.sidebar-item>
+
+                        <x-admin.sidebar-item href="{{ route('admin.submissions.index') }}" :active="request()->routeIs('admin.submissions.*')" icon="fas fa-inbox">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Submissions</span>
+                        </x-admin.sidebar-item>
+
                         <div class="pt-4 pb-2 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">
                             <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Site Design</span>
                             <div x-show="isSidebarCollapsed" class="h-px bg-slate-800 w-full"></div>
@@ -192,7 +200,7 @@
 
                     <!-- Page Title (Desktop) -->
                     <h1 class="hidden md:block text-xl font-black text-gray-800 tracking-tight">
-                        @yield('page-title', 'Dashboard')
+                        {{ $title ?? '' }} @if(!isset($title)) @yield('page-title', 'Dashboard') @endif
                     </h1>
                 </div>
 
@@ -254,10 +262,11 @@
                 
                 <!-- Mobile Breadcrumb / Title -->
                 <div class="md:hidden mb-6">
-                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">@yield('page-title')</h2>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">{{ $title ?? '' }} @if(!isset($title)) @yield('page-title') @endif</h2>
                     <p class="text-xs text-gray-400 font-bold">Admin Panel Dashboard</p>
                 </div>
 
+                {{ $slot ?? '' }}
                 @yield('content')
             </main>
 

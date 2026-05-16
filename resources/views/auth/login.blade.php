@@ -46,6 +46,10 @@
                     {{ __('Create an account') }}
                 </a>
             </p>
+            <p class="mt-6 text-center text-gray-400 text-xs">
+                By continuing, you agree to our 
+                <a href="{{ route('terms-and-conditions') }}" class="underline text-yellow-500 hover:text-yellow-400" target="_blank">Terms and Conditions</a>.
+            </p>
 
 
         </form>

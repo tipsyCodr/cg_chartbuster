@@ -229,39 +229,17 @@
                 <a href="{{ route('movies') }}" class="text-sm font-bold text-gray-400 hover:text-yellow-400 transition-colors">View All</a>
             </div>
             <div class="relative group/slider">
-                <div class="swiper movie-slider !px-4 sm:!px-0 overflow-visible">
+                <div class="swiper movie-slider !pl-16 !pr-4 sm:!pl-20 overflow-visible">
                     <div class="swiper-wrapper">
                         @foreach ($movies as $movie)
                             <div class="swiper-slide">
-                                <div class="group/card relative bg-gray-900/50 rounded-xl overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300">
-                                    <div class="relative aspect-[2/3]">
-                                        {{-- ranking number --}}
-                                        <span class="absolute -right-2 -bottom-4 z-10 font-black text-yellow-500 text-8xl md:text-9xl italic select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transform group-hover/card:scale-110 transition-transform">
-                                            {{ $loop->index + 1 }}
-                                        </span>
-
-                                        <a href="{{ route('movie.show', $movie->slug) }}" class="block h-full w-full">
-                                            <img class="object-cover w-full h-full transform group-hover/card:scale-105 transition-transform duration-500"
-                                                src="{{ Storage::url($movie->poster_image) }}" alt="{{ preg_replace('/^\d+[\s.-]+/', '', $movie->title) }}">
-                                        </a>
-                                        
-                                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60 group-hover/card:opacity-80 transition-opacity"></div>
-                                        
-                                        <div class="absolute bottom-0 left-0 right-0 p-4 z-20 transform translate-y-2 group-hover/card:translate-y-0 transition-transform text-left">
-                                            <div class="flex items-center gap-1.5 mb-2">
-                                                <img src="{{ asset('images/badge.png') }}" class="w-4 h-4" alt="Rating">
-                                                <span class="text-xs font-bold text-gray-200">{{ $movie->cg_chartbusters_ratings }} / 10</span>
-                                            </div>
-                                            <h2 class="text-sm font-bold text-white line-clamp-1 mb-3">
-                                                {{ preg_replace('/^\d+[\s.-]+/', '', $movie->title) }}
-                                            </h2>
-                                        </div>
-                                        
-                                        {{-- Full Card Link --}}
-                                        <a href="{{ route('movie.show', $movie->slug) }}" 
-                                           class="absolute inset-0 z-30 cursor-pointer"></a>
-                                    </div>
-                                </div>
+                                <x-media-card 
+                                    :index="$loop->index + 1"
+                                    :route="route('movie.show', $movie->slug)"
+                                    :image="Storage::url($movie->poster_image)"
+                                    :title="preg_replace('/^\d+[\s.-]+/', '', $movie->title)"
+                                    :rating="$movie->cg_chartbusters_ratings"
+                                />
                             </div>
                         @endforeach
                     </div>
@@ -293,39 +271,17 @@
                 <a href="{{ route('songs') }}" class="text-sm font-bold text-gray-400 hover:text-yellow-400 transition-colors">View All</a>
             </div>
             <div class="relative group/slider">
-                <div class="swiper song-slider !px-4 sm:!px-0 overflow-visible">
+                <div class="swiper song-slider !pl-16 !pr-4 sm:!pl-20 overflow-visible">
                     <div class="swiper-wrapper">
                         @foreach ($songs as $song)
                             <div class="swiper-slide">
-                                <div class="group/card relative bg-gray-900/50 rounded-xl overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300">
-                                    <div class="relative aspect-[2/3]">
-                                        {{-- ranking number --}}
-                                        <span class="absolute -right-2 -bottom-4 z-10 font-black text-yellow-500 text-8xl md:text-9xl italic select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transform group-hover/card:scale-110 transition-transform">
-                                            {{ $loop->index + 1 }}
-                                        </span>
-
-                                        <a href="{{ route('song.show', $song->slug) }}" class="block h-full w-full">
-                                            <img class="object-cover w-full h-full transform group-hover/card:scale-105 transition-transform duration-500"
-                                                src="{{ Storage::url($song->poster_image) }}" alt="{{ preg_replace('/^\d+[\s.-]+/', '', $song->title) }}">
-                                        </a>
-                                        
-                                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60 group-hover/card:opacity-80 transition-opacity"></div>
-                                        
-                                        <div class="absolute bottom-0 left-0 right-0 p-4 z-20 transform translate-y-2 group-hover/card:translate-y-0 transition-transform text-left">
-                                            <div class="flex items-center gap-1.5 mb-2">
-                                                <img src="{{ asset('images/badge.png') }}" class="w-4 h-4" alt="Rating">
-                                                <span class="text-xs font-bold text-gray-200">{{ $song->cg_chartbusters_ratings }} / 10</span>
-                                            </div>
-                                            <h2 class="text-sm font-bold text-white line-clamp-1 mb-3">
-                                                {{ preg_replace('/^\d+[\s.-]+/', '', $song->title) }}
-                                            </h2>
-                                        </div>
-                                        
-                                        {{-- Full Card Link --}}
-                                        <a href="{{ route('song.show', $song->slug) }}" 
-                                           class="absolute inset-0 z-30 cursor-pointer"></a>
-                                    </div>
-                                </div>
+                                <x-media-card 
+                                    :index="$loop->index + 1"
+                                    :route="route('song.show', $song->slug)"
+                                    :image="Storage::url($song->poster_image)"
+                                    :title="preg_replace('/^\d+[\s.-]+/', '', $song->title)"
+                                    :rating="$song->cg_chartbusters_ratings"
+                                />
                             </div>
                         @endforeach
                     </div>
@@ -357,39 +313,17 @@
                 <a href="{{ route('tv-shows') }}" class="text-sm font-bold text-gray-400 hover:text-yellow-400 transition-colors">View All</a>
             </div>
             <div class="relative group/slider">
-                <div class="swiper tvshow-slider !px-4 sm:!px-0 overflow-visible">
+                <div class="swiper tvshow-slider !pl-16 !pr-4 sm:!pl-20 overflow-visible">
                     <div class="swiper-wrapper">
                         @foreach ($tvshows as $tvshow)
                             <div class="swiper-slide">
-                                <div class="group/card relative bg-gray-900/50 rounded-xl overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-300">
-                                    <div class="relative aspect-[2/3]">
-                                        {{-- ranking number --}}
-                                        <span class="absolute -right-2 -bottom-4 z-10 font-black text-yellow-500 text-8xl md:text-9xl italic select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transform group-hover/card:scale-110 transition-transform">
-                                            {{ $loop->index + 1 }}
-                                        </span>
-
-                                        <a href="{{ route('tv-show.show', $tvshow->slug) }}" class="block h-full w-full">
-                                            <img class="object-cover w-full h-full transform group-hover/card:scale-105 transition-transform duration-500"
-                                                src="{{ Storage::url($tvshow->poster_image) }}" alt="{{ preg_replace('/^\d+[\s.-]+/', '', $tvshow->title) }}">
-                                        </a>
-                                        
-                                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60 group-hover/card:opacity-80 transition-opacity"></div>
-                                        
-                                        <div class="absolute bottom-0 left-0 right-0 p-4 z-20 transform translate-y-2 group-hover/card:translate-y-0 transition-transform text-left">
-                                            <div class="flex items-center gap-1.5 mb-2">
-                                                <img src="{{ asset('images/badge.png') }}" class="w-4 h-4" alt="Rating">
-                                                <span class="text-xs font-bold text-gray-200">{{ $tvshow->cg_chartbusters_ratings }} / 10</span>
-                                            </div>
-                                            <h2 class="text-sm font-bold text-white line-clamp-1 mb-3">
-                                                {{ preg_replace('/^\d+[\s.-]+/', '', $tvshow->title) }}
-                                            </h2>
-                                        </div>
-                                        
-                                        {{-- Full Card Link --}}
-                                        <a href="{{ route('tv-show.show', $tvshow->slug) }}" 
-                                           class="absolute inset-0 z-30 cursor-pointer"></a>
-                                    </div>
-                                </div>
+                                <x-media-card 
+                                    :index="$loop->index + 1"
+                                    :route="route('tv-show.show', $tvshow->slug)"
+                                    :image="Storage::url($tvshow->poster_image)"
+                                    :title="preg_replace('/^\d+[\s.-]+/', '', $tvshow->title)"
+                                    :rating="$tvshow->cg_chartbusters_ratings"
+                                />
                             </div>
                         @endforeach
                     </div>

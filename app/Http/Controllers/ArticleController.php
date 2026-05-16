@@ -102,7 +102,7 @@ class ArticleController extends Controller
 
     private function resolveLanguage(Request $request): string
     {
-        $lang = $request->query('lang', 'hi');
+        $lang = $request->query('lang') ?? session('locale', 'hi');
         return in_array($lang, ['hi', 'en', 'chh'], true) ? $lang : 'hi';
     }
 }

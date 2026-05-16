@@ -1,7 +1,7 @@
 <div>
     <section class="my-5">
         <h1 class="text-xl font-bold md:text-2xl lg:text-3xl"><span class="mr-3 text-yellow-500 border-4 border-l border-yellow-500"> </span> Movies</h1>
-        <div class="flex flex-row gap-2 px-2 py-4 overflow-x-auto scrollbar-hide sm:px-4">
+        <div class="flex flex-row gap-6 px-12 py-4 overflow-x-auto scrollbar-hide sm:px-4">
             @foreach ($movies as $movie)
                 <a href="{{ route('movie.show', $movie->slug) }}">
                     <div class="flex-shrink-0 mr-4 transition-all bg-gray-900 rounded-lg shadow-md last:mr-0 group">

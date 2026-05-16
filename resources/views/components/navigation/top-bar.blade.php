@@ -20,6 +20,7 @@
             <a href="{{ route('songs') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Songs</a>
             <a href="{{ route('artists') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Artists</a>
             <a href="{{ route('articles.index') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Articles</a>
+            <a href="{{ route('events.index') }}" class="whitespace-nowrap font-medium text-gray-300 transition-colors hover:text-yellow-400">Events</a>
         </nav>
     </div>
 
@@ -60,21 +61,7 @@
             <!-- Google Translate Widget -->
             <div id="google_translate_element" class="hidden 2xl:block"></div>
 
-            <!-- Manual Toggle (EN/HI/CHH) -->
-            <div class="flex items-center bg-gray-800 rounded-full p-1 border border-gray-700">
-                <a href="{{ route('set-locale', 'en') }}" 
-                   class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'en' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
-                    EN
-                </a>
-                <a href="{{ route('set-locale', 'hi') }}" 
-                   class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'hi' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
-                    हि
-                </a>
-                <a href="{{ route('set-locale', 'chh') }}" 
-                   class="px-3 py-1 text-xs font-bold rounded-full transition-all {{ app()->getLocale() == 'chh' ? 'bg-yellow-500 text-black shadow-lg' : 'text-gray-400 hover:text-white' }}">
-                    छग
-                </a>
-            </div>
+
 
             <!-- User Menu -->
             @auth
@@ -134,6 +121,9 @@
             </a>
             <a href="{{ route('articles.index') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
                 Articles <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
+            </a>
+            <a href="{{ route('events.index') }}" @click="mobileMenuOpen = false" class="py-2 text-base font-semibold text-gray-200 flex justify-between items-center group">
+                Events <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-yellow-400 transition-colors"></i>
             </a>
         </nav>
     </div>

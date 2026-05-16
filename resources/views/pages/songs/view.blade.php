@@ -126,7 +126,10 @@
                 </section>
 
                 <section class="rounded-lg border border-gray-700 bg-gray-800/30 p-4 sm:p-5">
-                    <h3 class="mb-3 text-xl font-semibold text-white">{{ $song->title }} Lyrics:</h3>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                        <h3 class="text-xl font-semibold text-white">{{ $song->title }} Lyrics:</h3>
+                        <x-language-switcher variant="compact" />
+                    </div>
                     <div class="max-h-[32rem] overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-gray-200">
                         @if(app()->getLocale() == 'chh' && !empty($song->content_description_chh))
                             {{ $song->content_description_chh }}

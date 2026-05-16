@@ -1,37 +1,33 @@
-<x-legal-page title="Legal Disclaimer" lastUpdated="August 02, 2026">
-    <div class="space-y-8">
-        <div class="flex items-start">
-            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
-                <i class="fas fa-info-circle text-yellow-400"></i>
-            </div>
-            <p><strong>CGChartbusters</strong> is a community-driven rating and informational platform dedicated to the Chhattisgarhi entertainment industry. We do not guarantee the absolute accuracy or completeness of any data or review on this site.</p>
-        </div>
+<x-legal-page title="Legal Disclaimer" lastUpdated="01 June 2026">
+    <p>This disclaimer governs your use of CGChartbusters.com, operated by <strong>CG Chartbusters (Proprietorship)</strong>, Raipur, Chhattisgarh, India.</p>
 
-        <div class="flex items-start">
-            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
-                <i class="fas fa-user-friends text-yellow-400"></i>
-            </div>
-            <p>Reviews and ratings reflect the <strong>individual opinions</strong> of our users and do not represent the views or endorsements of CGChartbusters or its parent organization.</p>
-        </div>
+    <h2>1. Nature of Content</h2>
+    <p>CGChartbusters is a community-driven rating and discovery platform. All reviews, ratings, and opinions published on this platform reflect the views of individual users and do not represent the views of CG Chartbusters (Proprietorship) or its team.</p>
 
-        <div class="flex items-start">
-            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
-                <i class="fas fa-file-contract text-yellow-400"></i>
-            </div>
-            <p>We do not endorse specific artists, films, TV shows, web-series, songs, or creators unless explicitly stated. Any reliance upon the content of this platform is at your own risk.</p>
-        </div>
+    <h2>2. No Guarantee of Accuracy</h2>
+    <p>We do not guarantee the accuracy, completeness, or reliability of any content published on this platform, including user-submitted reviews, ratings, artist information, or event listings. We do not verify every user submission.</p>
 
-        <div class="flex items-start">
-            <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 flex items-center justify-center mr-4 shrink-0">
-                <i class="fas fa-shield-alt text-yellow-400"></i>
-            </div>
-            <p>This website does not provide legal, financial, or professional advice. We serve purely as an informational hub for entertainment ratings and archives.</p>
-        </div>
+    <h2>3. No Endorsement</h2>
+    <p>CG Chartbusters does not endorse any specific artist, film, TV show, web series, song, or creator unless explicitly and officially stated by us. Listings on the platform are for informational and discovery purposes only.</p>
 
-        <div class="p-6 bg-yellow-400/5 border border-yellow-400/20 rounded-[32px]">
-            <p class="text-sm text-gray-400 leading-relaxed italic uppercase font-black tracking-tight">
-                "Our goal is to foster a healthy rating ecosystem for regional talent, not to provide definitive professional critiques or legal warranties."
-            </p>
-        </div>
+    <h2>4. No Professional Advice</h2>
+    <p>This platform does not provide legal, financial, medical, or any other form of professional advice. Content on this platform should not be relied upon as a substitute for professional consultation.</p>
+
+    <h2>5. No Copyright Infringement Intended</h2>
+    <p>CG Chartbusters does not host, stream, upload, or distribute any copyrighted media content. All media information provided is for informational and promotional purposes only. If you believe any content infringes your copyright, please refer to our Copyright & DMCA Takedown Policy.</p>
+
+    <h2>6. Limitation of Liability</h2>
+    <p>CG Chartbusters (Proprietorship) shall not be held liable for any direct, indirect, incidental, or consequential damages arising from your use of this platform or reliance on any content published herein.</p>
+
+    <h2>7. Governing Law</h2>
+    <p>This disclaimer is governed by the laws of India. Any disputes arising from the use of this platform shall be subject to the exclusive jurisdiction of the competent courts of Raipur, Chhattisgarh, India.</p>
+
+    <h2>8. Contact</h2>
+    <p>For any concerns related to this disclaimer, contact us at: <a href="mailto:cgchartbusters@gmail.com" class="text-yellow-400 font-bold underline">cgchartbusters@gmail.com</a></p>
+
+    <div class="footer">
+        CG Chartbusters (Proprietorship)<br>
+        Raipur, Chhattisgarh, India<br>
+        cgchartbusters@gmail.com | www.cgchartbusters.com
     </div>
 </x-legal-page>

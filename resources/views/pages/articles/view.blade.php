@@ -25,17 +25,6 @@
                     @endif
                 </nav>
                 
-                <div class="flex items-center gap-4 bg-white/5 p-1.5 rounded-xl border border-white/5">
-                    <span class="pl-2 text-[9px] font-black text-gray-500 uppercase tracking-widest">Read in:</span>
-                    <div class="flex rounded-lg bg-black/40 p-0.5">
-                        <a href="{{ route('articles.show', ['slug' => $article->slug, 'lang' => 'hi']) }}"
-                            class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md {{ $lang === 'hi' ? 'bg-yellow-400 text-black' : 'text-gray-500 hover:text-white' }}">हिंदी</a>
-                        <a href="{{ route('articles.show', ['slug' => $article->slug, 'lang' => 'en']) }}"
-                            class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md {{ $lang === 'en' ? 'bg-yellow-400 text-black' : 'text-gray-500 hover:text-white' }}">EN</a>
-                        <a href="{{ route('articles.show', ['slug' => $article->slug, 'lang' => 'chh']) }}"
-                            class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md {{ $lang === 'chh' ? 'bg-yellow-400 text-black' : 'text-gray-500 hover:text-white' }}">छग</a>
-                    </div>
-                </div>
             </div>
 
             <div class="mb-4">
@@ -83,6 +72,10 @@
                                 prose-h2:text-4xl prose-h2:font-black prose-h2:tracking-tighter prose-h2:text-white prose-h2:mt-16 prose-h2:mb-8
                                 prose-blockquote:border-yellow-400 prose-blockquote:bg-white/5 prose-blockquote:p-10 prose-blockquote:rounded-[40px] prose-blockquote:text-2xl prose-blockquote:font-black prose-blockquote:italic
                                 prose-img:rounded-[40px] prose-img:border prose-img:border-white/5 shadow-2xl">
+                        <div class="mb-10 flex justify-end">
+                            <x-language-switcher variant="compact" />
+                        </div>
+
                         {!! $content !!}
                     </div>
 

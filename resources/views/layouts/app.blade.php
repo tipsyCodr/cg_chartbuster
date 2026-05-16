@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" :class="isDark ? 'dark' : 'light'"
-    x-data="{ isDark: false }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" :class="isDark ? 'dark' : 'light'" x-data="{ isDark: false }">
 
 <head>
     <meta charset="utf-8">
@@ -8,8 +7,8 @@
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
     <title>@yield('meta_title', config('app.name'))</title>
     <meta name="title" content="@yield('meta_title', config('app.name'))">
-    <meta name="description" content="@yield('meta_description', 'CG Chartbusters is your gateway to the vibrant world of Chollywood.')">
-    
+    <meta name="description" content="@yield('meta_description', 'Independent, community-driven platform for rating, reviewing, and promoting Chhattisgarhi (Chhollywood) films, music, web series, artists and production houses.')">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -33,12 +32,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
-    @if(config('services.google_analytics.id'))
+    @if (config('services.google_analytics.id'))
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
             gtag('js', new Date());
             gtag('config', '{{ config('services.google_analytics.id') }}');
         </script>
@@ -56,15 +58,18 @@
 
         /* Customize Gadget (Simple Layout) */
         #google_translate_element .goog-te-gadget-simple {
-            background-color: #111827 !important; /* gray-900 */
-            border: 1px solid #374151 !important; /* gray-700 */
+            background-color: #111827 !important;
+            /* gray-900 */
+            border: 1px solid #374151 !important;
+            /* gray-700 */
             padding: 4px 10px !important;
             border-radius: 9999px !important;
             display: inline-flex !important;
             align-items: center !important;
             height: 38px !important;
             gap: 4px !important;
-            color: #D1D5DB !important; /* gray-300 */
+            color: #D1D5DB !important;
+            /* gray-300 */
             font-size: 13px !important;
         }
 
@@ -79,21 +84,28 @@
             display: flex !important;
             align-items: center !important;
             margin: 0 !important;
-            color: #D1D5DB !important;
+            color: #ffffff !important;
         }
 
         #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
             border: none !important;
-            color: #D1D5DB !important;
+            color: #ffffff !important;
             font-weight: 600 !important;
         }
-        
+
+        /* Force color white on all nested text in the simple gadget */
+        .goog-te-gadget-simple * {
+            color: #ffffff !important;
+        }
+
         #google_translate_element .goog-te-gadget-simple .goog-te-menu-value:after {
-            content: "\f0d7"; /* chevron down */
+            content: "\f0d7";
+            /* chevron down */
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             margin-left: 6px;
-            color: #fbbf24; /* yellow-400 */
+            color: #fbbf24;
+            /* yellow-400 */
         }
     </style>
 
@@ -104,6 +116,7 @@
         <x-top-bar />
         {{ $slot }}
     </div>
+    <x-content-submission-c-t-a />
     <x-notification-toast />
     <section class="footer">
         <footer class="px-6 py-10 text-white bg-black md:px-16">
@@ -112,11 +125,15 @@
                 <div class="flex flex-col gap-4 mb-6 md:mb-0">
                     <h1 class="text-2xl font-bold">CG Chartbusters</h1>
                     <img src="{{ asset('images/logo.png') }}" class="w-48" alt="CG Chartbusters Logo">
-                    <p class="max-w-md text-sm leading-relaxed text-gray-400">
-                        CG Chartbusters is your gateway to the vibrant world of Chollywood, celebrating the unique charm
-                        and cultural richness of Chhattisgarhi cinema. Discover movies, connect with stars, and dive
-                        into stories that matter.
+                    <p class="max-w-md text-sm leading-relaxed text-gray-300">
+                        CG Chartbusters is an independent, community-driven platform dedicated to rating, reviewing, and
+                        promoting Chhattisgarhi (Chhollywood) films, music, web series, artists and production houses.
+                        We bring audiences and creators together in one organized ecosystem.
                     </p>
+                    <div class="max-w-sm text-xs leading-relaxed text-gray-400">
+                        CG Chartbusters does not host, stream, upload, or distribute copyrighted media. All listings,
+                        ratings, and information are provided for informational and promotional purposes only.
+                    </div>
                 </div>
 
                 <!-- Links Section -->
@@ -124,14 +141,18 @@
                     <!-- Quick Links -->
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold">Quick Links</h2>
-                        
-                        <a href="{{ route('home') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Home</a>
-                        <a href="{{ route('about-us') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">About Us</a>
+
+                        <a href="{{ route('home') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Home</a>
+                        <a href="{{ route('about-us') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">About Us</a>
                         <a href="{{ route('movies') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Movies</a>
-                        <a href="{{ route('tv-shows') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">TV
+                        <a href="{{ route('tv-shows') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">TV
                             Shows</a>
-                        <a href="{{ route('songs') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Songs</a>
+                        <a href="{{ route('songs') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Songs</a>
                         <a href="{{ route('artists') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Artist</a>
                         <a href="{{ route('articles.index') }}"
@@ -141,12 +162,29 @@
                     <!-- Legal Links -->
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold">Legal</h2>
-                        <a href="{{ route('terms-and-conditions') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Terms & Conditions</a>
-                        <a href="{{ route('privacy-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Privacy Policy</a>
-                        <a href="{{ route('copyright-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Copyright & Takedown Policy</a>
-                        <a href="{{ route('community-guidelines') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Community Guidelines</a>
-                        <a href="{{ route('content-moderation-policy') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Content Moderation Policy</a>
-                        <a href="{{ route('disclaimer') }}" class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Disclaimer</a>
+                        <a href="{{ route('terms-and-conditions') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Terms &
+                            Conditions</a>
+                        <a href="{{ route('privacy-policy') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Privacy Policy</a>
+                        <a href="{{ route('community-guidelines') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Community
+                            Guidelines</a>
+                        <a href="{{ route('creator-guidelines') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Creator
+                            Submission Guidelines</a>
+                        <a href="{{ route('event-guidelines') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Event
+                            Submission Guidelines</a>
+                        <a href="{{ route('content-moderation-policy') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Content Moderation
+                            Policy</a>
+                        <a href="{{ route('copyright-policy') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Copyright & DMCA
+                            Takedown Policy</a>
+                        <a href="{{ route('disclaimer') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Legal
+                            Disclaimer</a>
                     </div>
 
                     <!-- Social Media -->
@@ -161,8 +199,8 @@
                                 class="text-gray-400 hover:text-white transition-colors">
                                 <i class="fab fa-x-twitter fa-xl"></i>
                             </a>
-                            <a href="https://www.youtube.com/@CGchartbusters" target="_blank" rel="noopener noreferrer"
-                                class="text-gray-400 hover:text-white transition-colors">
+                            <a href="https://www.youtube.com/@CGchartbusters" target="_blank"
+                                rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
                                 <i class="fab fa-youtube fa-xl"></i>
                             </a>
                             <a href="https://www.instagram.com/cgchartbusters?igsh=amF5cHJjaDdmcmJ1" target="_blank"
@@ -196,7 +234,8 @@
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
 </body>
 
 </html>

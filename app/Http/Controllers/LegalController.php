@@ -41,6 +41,16 @@ class LegalController extends Controller
         return view('pages.legal.disclaimer');
     }
 
+    public function creatorGuidelines()
+    {
+        return view('pages.legal.creator-guidelines');
+    }
+
+    public function eventGuidelines()
+    {
+        return view('pages.legal.event-guidelines');
+    }
+
     public function aboutUs()
     {
         return view('pages.about');

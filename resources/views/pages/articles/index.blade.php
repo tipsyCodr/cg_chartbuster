@@ -17,17 +17,7 @@
                         <div class="text-sm font-bold text-white uppercase tracking-wider">{{ now()->format('F d, Y') }}</div>
                     </div>
                     <div class="h-12 w-[1px] bg-white/10 hidden md:block"></div>
-                    <div class="flex items-center gap-2 bg-white/5 p-1.5 rounded-xl border border-white/10">
-                    <span class="pl-3 text-[10px] font-black text-gray-400 uppercase tracking-widest">Edition:</span>
-                    <div class="flex rounded-xl bg-black/40 p-1">
-                        @foreach(['hi' => 'हिंदी', 'en' => 'EN', 'chh' => 'छग'] as $code => $label)
-                            <a href="{{ route('articles.index', ['lang' => $code, 'category' => $selectedCategory ?: null, 'tag' => $selectedTag ?: null]) }}"
-                                class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all {{ $lang === $code ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/20' : 'text-gray-400 hover:text-white' }}">
-                                {{ $label }}
-                            </a>
-                        @endforeach
-                    </div>
-            </div>
+                <x-language-switcher variant="compact" />
         </div>
     </div>
 

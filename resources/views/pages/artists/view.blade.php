@@ -10,7 +10,7 @@
     @section('meta_image', $artists->photo ? asset('storage/' . $artists->photo) : asset('images/placeholder.png'))
     @section('og_type', 'profile')
 
-    <div class="px-3 py-6 sm:px-5">
+    <div class="px-3 py-6 sm:px-5 max-w-7xl mx-auto">
         <!-- Artist Profile Section -->
         <div class="flex flex-col items-start gap-6 lg:flex-row">
             <div class="flex flex-col gap-4 md:flex-row">
@@ -57,7 +57,10 @@
 
                     <!-- Biography -->
                     <div class="mt-6">
-                        <h3 class="text-lg font-semibold text-gray-100 mb-2">Biography</h3>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                            <h3 class="text-lg font-semibold text-gray-100">Biography</h3>
+                            <x-language-switcher variant="compact" />
+                        </div>
                         <div class="text-gray-300 leading-relaxed text-sm sm:text-base">
                             @if(app()->getLocale() == 'chh' && !empty($artists->bio_chh))
                                 {!! nl2br(e($artists->bio_chh)) !!}

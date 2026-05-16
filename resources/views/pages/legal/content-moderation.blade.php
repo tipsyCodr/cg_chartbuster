@@ -1,33 +1,53 @@
-<x-legal-page title="Content Moderation Policy" lastUpdated="October 10, 2026">
-    <p><strong>CGChartbusters</strong> is committed to maintaining a safe, respectful, and high-quality community. Our content moderation policy ensures all ratings, reviews, and submissions comply with our community and legal standards.</p>
+<x-legal-page title="Content Moderation Policy" lastUpdated="01 June 2026">
+    <p><strong>CG Chartbusters (Proprietorship)</strong> operates as an intermediary platform under the Information
+        Technology Act, 2000 (India). We are committed to maintaining a safe, fair, and legally compliant content
+        environment.</p>
 
-    <h2>1. Moderation Methods</h2>
-    <p>We use a combination of methods to ensure a healthy environment:</p>
+    <h2>1. Moderation Approach</h2>
+    <p>We use a combination of methods to moderate content on the platform:</p>
     <ul>
-        <li><strong>Automated Filters:</strong> For spam, toxicity, and prohibited keywords.</li>
-        <li><strong>Manual Review:</strong> Our moderation team manually reviews reports and flagged content.</li>
-        <li><strong>Community Reporting:</strong> Users can report content that violates our policies.</li>
+        <li>Automated filters to detect prohibited keywords and patterns</li>
+        <li>Manual review by platform administrators</li>
+        <li>Community reporting by users</li>
     </ul>
 
     <h2>2. Reporting System</h2>
-    <p>Users can report content that is <strong>defamatory, abusive, misleading, or copyright-infringing</strong>. All reports are investigated with due diligence within a reasonable timeframe.</p>
+    <p>Users can report content that they believe is:</p>
+    <ul>
+        <li>Defamatory or harmful to individuals or businesses</li>
+        <li>Abusive, hateful, or discriminatory</li>
+        <li>Misleading, false, or spam</li>
+        <li>Copyright-infringing or piracy-related</li>
+    </ul>
+    <p>Reports can be submitted to: <a href="mailto:cgchartbusters@gmail.com"
+            class="text-yellow-400 font-bold underline">cgchartbusters@gmail.com</a></p>
 
     <h2>3. Review Process</h2>
-    <p>When content is reported:</p>
     <ul>
-        <li>The content is reviewed for violations of our community guidelines.</li>
-        <li>If found violating, the content will be removed immediately.</li>
-        <li>Repeat offenders may face permanent account suspension.</li>
+        <li>Reported content is reviewed within a reasonable timeframe</li>
+        <li>Content found to be in violation of our policies will be removed or restricted</li>
+        <li>The user who submitted the content may be notified of the action taken</li>
+        <li>Repeat offenders may face permanent account suspension</li>
     </ul>
 
     <h2>4. Safe Harbor Protection</h2>
-    <p>CGChartbusters is not responsible for user-generated content, provided it acts upon lawful removal requests in accordance with the <strong>Information Technology Act, 2000 (India)</strong>.</p>
+    <p>CG Chartbusters acts as an intermediary and is not responsible for user-generated content. We will act promptly
+        upon receiving lawful and valid removal requests, in accordance with the Information Technology Act, 2000
+        (India).</p>
 
-    <h2>5. Transparency</h2>
-    <p>We maintain internal records of all moderation actions and removals to ensure legal compliance and fair enforcement across our platform.</p>
+    <h2>2. Transparency</h2>
+    <p>We maintain internal records of moderation actions for legal compliance and platform integrity purposes. These
+        records are confidential and are not shared publicly except as required by law.</p>
 
-    <div class="mt-8 p-6 bg-blue-400/5 border border-blue-400/20 rounded-2xl">
-        <p class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">📩 Submit Moderation Inquiries</p>
-        <p class="text-sm text-gray-400 leading-tight">If you have questions about a moderation action, please contact: <a href="mailto:cgchartbusters@gmail.com" class="text-white font-bold underline">cgchartbusters@gmail.com</a>.</p>
+    <h2>6. Appeals</h2>
+    <p>If you believe your content was removed in error, you may submit an appeal to <a
+            href="mailto:cgchartbusters@gmail.com"
+            class="text-yellow-400 font-bold underline">cgchartbusters@gmail.com</a> with a clear explanation. We will
+        review your appeal and respond within a reasonable timeframe.</p>
+
+    <div class="footer">
+        CG Chartbusters (Proprietorship)<br>
+        Raipur, Chhattisgarh, India<br>
+        cgchartbusters@gmail.com | www.cgchartbusters.com
     </div>
 </x-legal-page>
