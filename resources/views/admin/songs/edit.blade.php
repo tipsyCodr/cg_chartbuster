@@ -145,7 +145,7 @@
         </x-admin.form-section>
 
         <!-- Promotions -->
-        <x-admin.form-section title="Promotions" description="Banner display and links">
+        <x-admin.form-section id="promotions" title="Promotions" description="Banner display and links">
              <x-admin.form-group label="Show on Banner">
                 <x-admin.select name="show_on_banner">
                     <option value="0" {{ old('show_on_banner', $song->show_on_banner) == 0 ? 'selected' : '' }}>No</option>

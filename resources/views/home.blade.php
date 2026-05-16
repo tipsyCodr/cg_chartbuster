@@ -114,110 +114,11 @@
     </style>
     <x-home-hero :banners="$hero_banners" />
 
-    <section class="flex flex-col carousel lg:flex-row h-[320px] sm:h-[400px] md:h-[450px] lg:h-[480px] xl:h-[550px] gap-4 md:gap-6">
-        <div class="w-full swiper main-slider lg:flex-1 h-full rounded-xl overflow-hidden shadow-2xl min-w-0">
-            <!-- Main slider -->
-            <div class="swiper-wrapper h-full">
-                @foreach ($banner_images as $banner_image)
-                    <div class="overflow-hidden swiper-slide h-full relative group">
-                        <img class="w-full h-full object-cover"
-                            src="{{ asset('storage/' . $banner_image['poster_image_landscape']) }}" alt="Banner Image">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                        
-                        {{-- Bottom Content --}}
-                        <div class="absolute inset-x-0 bottom-0 p-4 sm:p-8 flex flex-col justify-end z-30 pointer-events-none">
-                            <div class="flex gap-4 items-end pointer-events-auto">
-                                <img class="rounded-lg w-20 sm:w-28 md:w-32 lg:w-36 shadow-2xl border border-white/10 hidden xs:block"
-                                    src="{{ asset('storage/' . $banner_image['poster_image']) }}" alt="">
-                                <div class="flex flex-col gap-1 sm:gap-2">
-                                    <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight drop-shadow-lg">
-                                        {{ preg_replace('/^\d+[\s.-]+/', '', $banner_image['title']) }}
-                                    </h1>
-                                    <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-200">
-                                        <span class="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2 py-1 rounded">
-                                            <i class='text-yellow-400 fas fa-calendar-alt'></i>
-                                            @if(!empty($banner_image['release_date']))
-                                                {{ \Carbon\Carbon::parse($banner_image['release_date'])->format(($banner_image['is_release_year_only'] ?? false) ? 'Y' : 'd M, Y') }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </span>
-                                        <span class="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2 py-1 rounded">
-                                            <img class="w-4 h-4" src="{{ asset('images/badge.png') }}" alt="Rating">
-                                            {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} / 10
-                                        </span>
-                                        @if(isset($banner_image['banner_label']) && $banner_image['banner_label'])
-                                            @if(isset($banner_image['banner_link']) && $banner_image['banner_link'])
-                                                <a href="{{ $banner_image['banner_link'] }}" target="_blank" class="flex items-center gap-1.5 bg-yellow-500/90 hover:bg-yellow-400 text-black font-black px-2 py-1 rounded uppercase tracking-wider text-[10px] z-30 pointer-events-auto">
-                                                    {{ $banner_image['banner_label'] }}
-                                                    <i class="fa-solid fa-external-link text-[8px]"></i>
-                                                </a>
-                                            @else
-                                                <span class="flex items-center gap-1.5 bg-yellow-500/90 text-black font-black px-2 py-1 rounded uppercase tracking-wider text-[10px]">
-                                                    {{ $banner_image['banner_label'] }}
-                                                </span>
-                                            @endif
-                                        @endif
-                                        {{-- <span class="flex items-center gap-1.5 bg-gray-500/40 text-white px-2 py-1 rounded text-[10px] font-bold ml-auto">
-                                            Watch on Official Youtube Channel
-                                        </span> --}}
-                                    </div>
-                                    <div class="mt-3">
-                                        <a href="{{ route($banner_image['type'] == 'movie' ? 'movie.show' : ($banner_image['type'] == 'tv_show' ? 'tv-show.show' : 'song.show'), $banner_image['slug']) }}" 
-                                           class="inline-block px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded-full text-sm transition-all shadow-lg hover:scale-105 active:scale-95">
-                                            View Details
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {{-- Full Slide Link --}}
-                        <a href="{{ route($banner_image['type'] == 'movie' ? 'movie.show' : ($banner_image['type'] == 'tv_show' ? 'tv-show.show' : 'song.show'), $banner_image['slug']) }}" 
-                           class="absolute inset-0 z-20 cursor-pointer"></a>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="swiper-pagination !bottom-4"></div>
-            <div class="swiper-next hidden md:flex"><i class="fa-solid fa-chevron-right text-xl"></i></div>
-            <div class="swiper-prev hidden md:flex"><i class="fa-solid fa-chevron-left text-xl"></i></div>
+    @if($hero_sliders->isNotEmpty())
+        <div class="mb-12">
+            <x-premium-hero-slider :sliders="$hero_sliders" />
         </div>
-        <!-- Thumbnail Slider -->
-        <div class="thumbnail-slider-container hidden lg:flex flex-col lg:w-[320px] xl:w-[380px] h-full bg-gray-900/40 rounded-xl p-4 border border-white/5 backdrop-blur-sm shrink-0">
-            <h2 class="text-xs font-black text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
-                <span class="w-1.5 h-4 bg-yellow-500 rounded-full"></span>
-                Up Next
-            </h2>
-            <div class="flex-1 overflow-hidden swiper thumbnail-slider">
-                <div class="swiper-wrapper">
-                    @foreach ($banner_images as $banner_image)
-                        <div class="p-2 hover:bg-white/5 rounded-lg cursor-pointer swiper-slide transition-colors">
-                            <div class="flex items-center h-full gap-3 px-1">
-                                <div class="relative flex-shrink-0">
-                                    <img class="object-cover w-12 h-16 rounded shadow-md"
-                                        src="{{ asset('storage/' . ($banner_image['poster_image'] ?? 'storage/images/coming-soon.png')) }}"
-                                        alt="Thumbnail">
-                                </div>
-                                <div class="flex flex-col justify-center flex-1 min-w-0">
-                                    <h1 class="text-xs font-bold truncate text-gray-100 group-hover:text-yellow-400">
-                                        {{ preg_replace('/^\d+[\s.-]+/', '', $banner_image['title']) }}
-                                    </h1>
-                                    <div class="flex items-center gap-1.5 mt-1">
-                                        <img class="w-3 h-3" src="{{ asset('images/badge.png') }}" alt="Rating">
-                                        <span class="text-[10px] text-gray-400 font-medium">
-                                            {{ $banner_image['cg_chartbusters_ratings'] ?? 1 }} / 10
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            <a href="{{ route('movies') }}" class="mt-4 text-xs font-bold text-gray-400 hover:text-yellow-400 transition-colors uppercase tracking-widest text-center">View More <i class="fa-solid fa-chevron-right ml-1"></i></a>
-        </div>
-    </section>
+    @endif
 
     <div class="space-y-12 py-12">
         <section class="relative group">

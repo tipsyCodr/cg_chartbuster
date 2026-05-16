@@ -12,6 +12,45 @@ import 'swiper/css/pagination';
 Swiper.use([Navigation, Pagination, Thumbs, Autoplay]);
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Premium Hero Slider
+    const premiumHeroSlider = new Swiper('.premium-hero-slider', {
+        modules: [Navigation, Pagination, Autoplay],
+        direction: 'vertical',
+        speed: 1000,
+        loop: true,
+        autoplay: {
+            delay: 60000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.premium-swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.premium-next',
+            prevEl: '.premium-prev',
+        },
+        effect: 'slide',
+        on: {
+            init: function() {
+                const progress = document.querySelector('.premium-slider-progress');
+                if (progress) {
+                    progress.classList.remove('animate');
+                    void progress.offsetWidth;
+                    progress.classList.add('animate');
+                }
+            },
+            slideChange: function() {
+                const progress = document.querySelector('.premium-slider-progress');
+                if (progress) {
+                    progress.classList.remove('animate');
+                    void progress.offsetWidth;
+                    progress.classList.add('animate');
+                }
+            }
+        }
+    });
+
     // Initialize Hero Slider if it exists
     const heroSlider = new Swiper('.hero-slider', {
         modules: [Pagination, Autoplay],

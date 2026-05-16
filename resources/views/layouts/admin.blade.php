@@ -127,6 +127,10 @@
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Hero Banners</span>
                         </x-admin.sidebar-item>
 
+                        <x-admin.sidebar-item href="{{ route('admin.hero-sliders.index') }}" :active="request()->routeIs('admin.hero-sliders.*')" icon="fas fa-sliders-h">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Hero Sliders</span>
+                        </x-admin.sidebar-item>
+
                         <x-admin.sidebar-item href="{{ route('admin.articles.index') }}" :active="request()->routeIs('admin.articles.*')" icon="fas fa-newspaper">
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Articles</span>
                         </x-admin.sidebar-item>

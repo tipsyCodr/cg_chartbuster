@@ -170,6 +170,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('hero-banners', App\Http\Controllers\Admin\HeroBannerController::class)
             ->names('admin.hero-banners')
             ->except(['show']);
+        Route::resource('hero-sliders', App\Http\Controllers\Admin\HeroSliderController::class)
+            ->names('admin.hero-sliders')
+            ->except(['show']);
         Route::resource('articles', App\Http\Controllers\Admin\ArticleController::class)
             ->names('admin.articles')
             ->except(['show']);
