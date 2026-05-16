@@ -208,6 +208,12 @@
                                 <i class="fab fa-instagram fa-xl"></i>
                             </a>
                         </div>
+                        <div class="mt-6">
+                            <a href="{{ route('content.submit') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-bold rounded-lg transition-all transform hover:scale-105 active:scale-95 shadow-lg">
+                                <i class="fas fa-plus-circle"></i>
+                                ADD YOUR CONTENT
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
