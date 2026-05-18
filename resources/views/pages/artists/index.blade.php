@@ -18,16 +18,15 @@
             </select>
         </form>
 
-        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             @foreach ($artists as $artist)
                 <div
-                    class="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition p-4 flex flex-col justify-center items-center">
+                    class="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition p-3 sm:p-4 flex flex-col justify-center items-center">
 
                     {{-- Artist Photo --}}
-                    <a href="{{ route('artist.show', $artist->slug) }}">
-
+                    <a href="{{ route('artist.show', $artist->slug) }}" class="block w-full">
                         <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
-                            class="h-40 w-40 object-cover rounded-full mb-3 sm:h-48 sm:w-48 lg:h-56 lg:w-56">
+                            class="aspect-square w-full max-w-[120px] sm:max-w-[180px] lg:max-w-[220px] object-cover rounded-full mb-3 mx-auto">
                     </a>
 
                     {{-- Artist Info --}}
