@@ -18,6 +18,15 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent"></div>
 
+                    @if($slider['badge'])
+                        <div class="absolute top-6 right-6 z-30 opacity-0 translate-y-4 transition-all duration-700 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-100">
+                            <a href="{{ $slider['badge_link'] }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-red-600/90 backdrop-blur-md border border-red-500/30 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-red-600/30 hover:bg-red-600 hover:scale-105 transition-all active:scale-95">
+                                <i class="fa-solid fa-fire-flame-curved text-[10px]"></i>
+                                {{ $slider['badge'] }}
+                            </a>
+                        </div>
+                    @endif
+
                     <!-- Content -->
                     <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-10 lg:p-12 z-10">
                         <div class="max-w-6xl flex flex-col md:flex-row items-end gap-10">
@@ -55,31 +64,26 @@
                                 </div>
 
                                 @if($slider['title'])
-                                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-300">
+                                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-300 line-clamp-1 md:line-clamp-none">
                                         {{ $slider['title'] }}
                                     </h1>
                                 @endif
                                 
                                 @if($slider['subtitle'])
                                     <div class="relative opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-500">
-                                        <p class="text-base md:text-xl text-gray-300/90 max-w-2xl font-medium leading-relaxed line-clamp-3">
+                                        <p class="text-base md:text-xl text-gray-300/90 max-w-2xl font-medium leading-relaxed line-clamp-2 md:line-clamp-3">
                                             {{ $slider['subtitle'] }}
                                         </p>
-                                        @if($slider['badge'])
-                                            <a href="{{ $slider['badge_link'] }}" class="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 backdrop-blur-md border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500/20 transition-all active:scale-95">
-                                                <i class="fa-solid fa-fire-flame-curved text-[10px]"></i>
-                                                {{ $slider['badge'] }}
-                                            </a>
-                                        @endif
+
                                     </div>
                                 @endif
 
                                 @if($slider['button_text'] && $slider['button_link'])
                                     <div class="opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-700 pt-4">
                                         <a href="{{ $slider['button_link'] }}" 
-                                           class="inline-flex items-center gap-4 px-10 py-5 bg-white text-black font-black rounded-full transition-all hover:bg-yellow-500 hover:scale-105 active:scale-95 shadow-2xl">
+                                           class="inline-flex items-center gap-2 md:gap-4 px-6 py-3 md:px-10 md:py-5 bg-white text-black text-xs md:text-base font-black rounded-full transition-all hover:bg-yellow-500 hover:scale-105 active:scale-95 shadow-2xl">
                                             {{ $slider['button_text'] }}
-                                            <i class="fa-solid fa-arrow-right"></i>
+                                            <i class="fa-solid fa-arrow-right text-[10px] md:text-sm"></i>
                                         </a>
                                     </div>
                                 @endif
