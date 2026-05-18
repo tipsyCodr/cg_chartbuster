@@ -93,7 +93,7 @@
             <!-- Row 1 Right: Details Card -->
             <section class="order-2 lg:col-span-5 bg-gray-800/40 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-gray-700/50 flex flex-col justify-between shadow-xl">
                 <div class="space-y-4">
-                    <div class="flex items-start gap-4">
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
                         <div class="h-36 w-24 sm:h-44 sm:w-30 shrink-0 overflow-hidden rounded-lg bg-gray-950 border border-gray-700 shadow-lg">
                             @if($song->poster_image)
                                 <img src="{{ asset("storage/{$song->poster_image}") }}" alt="{{ $song->title }}" class="h-full w-full object-cover">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="min-w-0 flex-1">
                             <h1 class="break-words text-xl sm:text-2xl font-black text-white leading-tight">{{ $song->title }}</h1>
-                            <div class="mt-2 inline-flex items-center gap-1 text-xs text-yellow-500 font-bold bg-gray-900/60 px-2.5 py-1 rounded-full border border-gray-700/30">
+                            <div class="mt-2 inline-flex items-center gap-1 text-xs text-yellow-500 font-bold bg-gray-900/60 px-2.5 py-1 rounded-full border border-gray-700/30 justify-center sm:justify-start">
                                 <i class="fa-solid fa-star"></i>
                                 <span>{{ $song->cg_chartbusters_ratings ?? 0 }}/10</span>
                                 <span class="text-gray-400 font-medium">({{ $reviews->total() }} Votes)</span>
