@@ -19,19 +19,29 @@
         </form>
 
         <div class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            @php
+                $phCat = $categories->firstWhere('slug', 'production-house');
+                $phCategoryId = $phCat ? (string) $phCat->id : '-1';
+            @endphp
             @foreach ($artists as $artist)
+                @php
+                    $isPH = is_array($artist->category)
+                        ? in_array($phCategoryId, $artist->category)
+                        : ($artist->category == $phCategoryId);
+                    $showRoute = $isPH ? route('production-house.show', $artist->slug) : route('artist.show', $artist->slug);
+                @endphp
                 <div
                     class="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition p-3 sm:p-4 flex flex-col justify-center items-center">
 
                     {{-- Artist Photo --}}
-                    <a href="{{ route('artist.show', $artist->slug) }}" class="block w-full">
+                    <a href="{{ $showRoute }}" class="block w-full">
                         <img src="{{ asset('storage/' . $artist->photo) }}" alt="{{ $artist->name }}"
                             class="aspect-square w-full max-w-[120px] sm:max-w-[180px] lg:max-w-[220px] object-cover rounded-full mb-3 mx-auto">
                     </a>
 
                     {{-- Artist Info --}}
                     <div class="flex flex-col gap-1 w-full">
-                        <a href="{{ route('artist.show', $artist->slug) }}"
+                        <a href="{{ $showRoute }}"
                             class="font-bold text-lg sm:text-xl text-gray-100 hover:text-gray-300 break-words">
                             {{ $artist->name }}
                         </a>

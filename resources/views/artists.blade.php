@@ -3,11 +3,21 @@
     <section class="mt-9 mb-9">
         <h1 class="text-2xl font-bold">Artists</h1>
         <ul class="mt-4">
+            @php
+                $phCatStandalone = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+                $phCategoryIdStandalone = $phCatStandalone ? (string) $phCatStandalone->id : '-1';
+            @endphp
             @foreach ($artists as $artist)
+                @php
+                    $isPH = is_array($artist->category)
+                        ? in_array($phCategoryIdStandalone, $artist->category)
+                        : ($artist->category == $phCategoryIdStandalone);
+                    $showRoute = $isPH ? route('production-house.show', $artist->slug) : route('artist.show', $artist->slug);
+                @endphp
                 <li class="flex items-center justify-start gap-5 border-b border-gray-800 py-2 px-2 rounded hover:bg-gray-800 transition-all">
                     <img src="{{ asset('storage/'.$artist->photo) }}" class="w-20 rounded-md" alt="">
                     <div class="flex flex-col">
-                        <a href="{{ route('artist.show', $artist->slug) }}" class="font-bold text-gray-100 hover:text-gray-300">
+                        <a href="{{ $showRoute }}" class="font-bold text-gray-100 hover:text-gray-300">
                             {{ $artist->name }}
                         </a>
                         <span class="text-gray-500 text-sm">

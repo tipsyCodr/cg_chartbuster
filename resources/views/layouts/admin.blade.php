@@ -110,6 +110,11 @@
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Artists</span>
                         </x-admin.sidebar-item>
 
+                        <x-admin.sidebar-item href="{{ route('admin.productionhouses.index') }}" :active="request()->routeIs('admin.productionhouses.*')" icon="fas fa-building">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Production Houses</span>
+                        </x-admin.sidebar-item>
+
+
                         <x-admin.sidebar-item href="{{ route('admin.events.index') }}" :active="request()->routeIs('admin.events.*')" icon="fas fa-calendar-alt">
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Events</span>
                         </x-admin.sidebar-item>

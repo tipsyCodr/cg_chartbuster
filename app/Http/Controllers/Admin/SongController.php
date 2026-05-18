@@ -98,6 +98,7 @@ class SongController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
         ]);
 
         // Step 2: Handle file uploads
@@ -167,8 +168,13 @@ class SongController extends Controller
         $regions = \App\Models\Region::all();
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
+
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
         
-        return view('admin.songs.create', compact('genres', 'regions', 'artists', 'categories'));
+        return view('admin.songs.create', compact('genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
     public function edit($id)
@@ -178,8 +184,13 @@ class SongController extends Controller
         $regions = \App\Models\Region::all();
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
+
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
         
-        return view('admin.songs.edit', compact('song', 'genres', 'regions', 'artists', 'categories'));
+        return view('admin.songs.edit', compact('song', 'genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
     public function update(Request $request, Song $song)
@@ -234,6 +245,7 @@ class SongController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
         ]);
         if ($request->hasFile('poster_image')) {
             try {

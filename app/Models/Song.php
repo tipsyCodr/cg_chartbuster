@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ProductionHouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSlug;
@@ -48,8 +49,14 @@ class Song extends Model
         'hyperlinks_links',
         'poster_image_portrait',
         'poster_image_landscape',
-        'is_release_year_only'
+        'is_release_year_only',
+        'production_house_id'
     ];
+
+    public function productionHouse()
+    {
+        return $this->belongsTo(ProductionHouse::class, 'production_house_id');
+    }
     protected $casts = [
         'release_date' => 'date',
     ];

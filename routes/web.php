@@ -40,6 +40,10 @@ Route::get('/songs', [WebController::class, 'songs'])->name('songs');
 Route::post('/songs', [WebController::class, 'songs'])->name('songs.query');
 Route::get('/song/{slug}', [WebController::class, 'song'])->name('song.show');
 
+// Production House Frontend
+Route::get('/production-houses', [WebController::class, 'productionHouses'])->name('production-houses.index');
+Route::get('/production-house/{slug}', [WebController::class, 'productionHouse'])->name('production-house.show');
+
 // Articles Frontend
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
@@ -167,6 +171,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('artists', ArtistController::class)
             ->names('admin.artists')
             ->except(['show']);
+        Route::resource('production-houses', App\Http\Controllers\Admin\ProductionHouseController::class)
+            ->names('admin.productionhouses')
+            ->except(['show']);
+
         Route::resource('hero-banners', App\Http\Controllers\Admin\HeroBannerController::class)
             ->names('admin.hero-banners')
             ->except(['show']);

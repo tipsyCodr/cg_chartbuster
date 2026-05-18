@@ -98,6 +98,15 @@
                 </x-admin.select>
             </x-admin.form-group>
 
+            <x-admin.form-group label="Production House" for="production_house_id" :error="$errors->first('production_house_id')">
+                <x-admin.select name="production_house_id" id="production_house_id" :error="$errors->has('production_house_id')">
+                    <option value="">Select Production House</option>
+                    @foreach($productionHouses as $ph)
+                        <option value="{{ $ph->id }}" {{ old('production_house_id') == $ph->id ? 'selected' : '' }}>{{ $ph->name }}</option>
+                    @endforeach
+                </x-admin.select>
+            </x-admin.form-group>
+
             <x-admin.form-group label="CG Chartbusters Rating">
                 <div class="mt-1 bg-gray-50/50 p-3 rounded-xl border border-gray-100 shadow-inner">
                     <x-star-rating id="rating" name="cg_chartbusters_ratings" :value="old('cg_chartbusters_ratings', 0)"></x-star-rating>

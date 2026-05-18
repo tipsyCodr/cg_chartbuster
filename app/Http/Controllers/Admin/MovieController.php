@@ -53,7 +53,12 @@ class MovieController extends Controller
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
         
-        return view('admin.movie.create', compact('genres', 'regions', 'artists', 'categories'));
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
+        
+        return view('admin.movie.create', compact('genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
     public function store(Request $request)
@@ -111,6 +116,7 @@ class MovieController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id'  
@@ -188,7 +194,12 @@ class MovieController extends Controller
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
         
-        return view('admin.movie.edit', compact('movie', 'genres', 'regions', 'artists', 'categories'));
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
+        
+        return view('admin.movie.edit', compact('movie', 'genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
 
@@ -247,6 +258,7 @@ class MovieController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id' 

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Artist;
+use App\Models\ProductionHouse;
 use App\Models\ArtistCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class ArtistController extends Controller
+class ProductionHouseController extends Controller
 {
     private function normalizeReleaseDate(?string $value, bool $yearOnly): ?string
     {
@@ -26,26 +27,12 @@ class ArtistController extends Controller
 
     public function index()
     {
-        $category = ArtistCategory::all()->map(function($cat) {
-            $cat->setAttribute('artist_count', Artist::whereJsonContains('category', (string)$cat->id)->count());
-            return $cat;
-        });
-        $artists = Artist::latest()->paginate(10);
-        return view('admin.artist.index', compact('artists', 'category'));
+        return view('admin.production-house.index');
     }
-    public function list()
-    {
-        // return Artist::select('id', 'name')->get();
-        $data = [
-            'artists' => Artist::select('id', 'name')->get(),
-            'categories' => ArtistCategory::select('id', 'name')->get()
-        ];
-        return response()->json($data);
-    }
+
     public function create()
     {
-        $categories = ArtistCategory::all();
-        return view('admin.artist.create', compact('categories'));
+        return view('admin.production-house.create');
     }
 
     public function store(Request $request)
@@ -59,7 +46,6 @@ class ArtistController extends Controller
         $validatedData = $request->validate([
             'photo' => 'required|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'name' => 'required|max:255',
-            'category' => 'nullable',
             'cgcb_rating' => 'nullable',
             'bio' => 'nullable',
             'bio_hi' => 'nullable',
@@ -79,14 +65,23 @@ class ArtistController extends Controller
             'is_featured' => 'nullable|boolean',
             'is_verified' => 'nullable|boolean',
         ]);
-        // $validatedData['category'] = json_encode($validatedData['category']);
+
+        // Automatically assign 'Production House' category
+        $category = ArtistCategory::where('slug', 'production-house')->first();
+        if ($category) {
+            $validatedData['category'] = [(string) $category->id];
+        }
+
+        // Generate slug
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+
         if ($request->hasFile('photo')) {
             try {
                 $path = $request->photo->store('artists', 'public');
                 $validatedData['photo'] = $path;
             } catch (\Exception $e) {
-                \Log::error('Artist photo upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload artist photo. Please try again.');
+                \Log::error('Production House photo upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload logo/photo. Please try again.');
             }
         }
 
@@ -95,28 +90,27 @@ class ArtistController extends Controller
                 $path = $request->banner_image->store('artists/banners', 'public');
                 $validatedData['banner_image'] = $path;
             } catch (\Exception $e) {
-                \Log::error('Artist banner upload failed: ' . $e->getMessage());
+                \Log::error('Production House banner upload failed: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'Failed to upload banner image. Please try again.');
             }
         }
 
-        $artist = Artist::create($validatedData);
+        ProductionHouse::create($validatedData);
 
-        return redirect()->route('admin.artists.index')
-            ->with('success', 'Artist created successfully.');
+        return redirect()->route('admin.productionhouses.index')
+            ->with('success', 'Production House created successfully.');
     }
 
-    public function edit(Artist $artist)
+    public function edit($id)
     {
-        $category = ArtistCategory::all()->map(function($cat) {
-            $cat->setAttribute('artist_count', Artist::whereJsonContains('category', (string)$cat->id)->count());
-            return $cat;
-        });
-        return view('admin.artist.edit', compact('artist', 'category'));
+        $productionHouse = ProductionHouse::findOrFail($id);
+        return view('admin.production-house.edit', compact('productionHouse'));
     }
 
-    public function update(Request $request, Artist $artist)
+    public function update(Request $request, $id)
     {
+        $productionHouse = ProductionHouse::findOrFail($id);
+
         $request->merge([
             'birth_date' => $this->normalizeReleaseDate($request->input('birth_date'), $request->boolean('is_release_year_only')),
             'is_featured' => $request->boolean('is_featured'),
@@ -125,7 +119,6 @@ class ArtistController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'category' => 'nullable',
             'bio' => 'nullable',
             'bio_hi' => 'nullable',
             'bio_chh' => 'nullable',
@@ -146,14 +139,15 @@ class ArtistController extends Controller
             'is_verified' => 'nullable|boolean',
         ]);
 
-        // dd($validatedData);
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+
         if ($request->hasFile('photo')) {
             try {
                 $path = $request->photo->store('artists', 'public');
                 $validatedData['photo'] = $path;
             } catch (\Exception $e) {
-                \Log::error('Artist photo upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload artist photo. Please try again.');
+                \Log::error('Production House photo upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload photo. Please try again.');
             }
         }
 
@@ -162,22 +156,23 @@ class ArtistController extends Controller
                 $path = $request->banner_image->store('artists/banners', 'public');
                 $validatedData['banner_image'] = $path;
             } catch (\Exception $e) {
-                \Log::error('Artist banner upload failed: ' . $e->getMessage());
+                \Log::error('Production House banner upload failed: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'Failed to upload banner image. Please try again.');
             }
         }
 
-        $artist->update($validatedData);
+        $productionHouse->update($validatedData);
 
-        return redirect()->route('admin.artists.index')
-            ->with('success', 'Artist updated successfully');
+        return redirect()->route('admin.productionhouses.index')
+            ->with('success', 'Production House updated successfully');
     }
 
-    public function destroy(Artist $artist)
+    public function destroy($id)
     {
-        $artist->delete();
+        $productionHouse = ProductionHouse::findOrFail($id);
+        $productionHouse->delete();
 
-        return redirect()->route('admin.artists.index')
-            ->with('success', 'Artist deleted successfully');
+        return redirect()->route('admin.productionhouses.index')
+            ->with('success', 'Production House deleted successfully');
     }
 }

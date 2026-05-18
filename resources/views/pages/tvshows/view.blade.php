@@ -113,6 +113,17 @@
                                 <p><span class="text-gray-400 font-medium">Genres:</span> {{ $tvshowGenresText }}</p>
                                 <p><span class="text-gray-400 font-medium">Language:</span> {{ $tvshow->region?->name ?? 'N/A' }}</p>
                                 <p><span class="text-gray-400 font-medium">CBFC:</span> {{ $tvshow->cbfc ?: 'NA' }}</p>
+                                @if($tvshow->productionHouse)
+                                    <p class="flex items-center gap-1.5 mt-2 pt-2 border-t border-gray-700/30">
+                                        <span class="text-gray-400 font-medium">Produced By:</span>
+                                        <a href="{{ route('production-house.show', $tvshow->productionHouse->slug) }}" class="inline-flex items-center gap-1 text-yellow-400 font-bold hover:text-yellow-300 transition-colors">
+                                            @if($tvshow->productionHouse->photo)
+                                                <img src="{{ asset('storage/' . $tvshow->productionHouse->photo) }}" alt="{{ $tvshow->productionHouse->name }}" class="w-5 h-5 rounded-full object-cover border border-gray-600">
+                                            @endif
+                                            <span>{{ $tvshow->productionHouse->name }}</span>
+                                        </a>
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>

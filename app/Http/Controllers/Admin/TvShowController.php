@@ -43,8 +43,13 @@ class TvShowController extends Controller
         $regions = \App\Models\Region::all();
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
+
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
         
-        return view('admin.tvshows.create', compact('genres', 'regions', 'artists', 'categories'));
+        return view('admin.tvshows.create', compact('genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
     public function store(Request $request, TvShow $tvShow )
@@ -96,6 +101,7 @@ class TvShowController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id'
@@ -172,7 +178,12 @@ class TvShowController extends Controller
         $artists = Artist::orderBy('name')->get();
         $categories = \App\Models\ArtistCategory::all();
 
-        return view('admin.tvshows.edit', compact('tvshow', 'genres', 'regions', 'artists', 'categories'));
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $productionHouses = $productionHouseCategory 
+            ? Artist::whereJsonContains('category', (string) $productionHouseCategory->id)->orderBy('name')->get() 
+            : collect();
+        
+        return view('admin.tvshows.edit', compact('tvshow', 'genres', 'regions', 'artists', 'categories', 'productionHouses'));
     }
 
     public function update(Request $request, TvShow $tvShow)
@@ -229,6 +240,7 @@ class TvShowController extends Controller
             'banner_label' => 'nullable|string|max:255',
             'banner_link' => 'nullable|url',
             'is_release_year_only' => 'nullable|boolean',
+            'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
             'artists.*.artist_id' => 'exists:artists,id',
             'artists.*.role' => 'exists:artist_category,id',

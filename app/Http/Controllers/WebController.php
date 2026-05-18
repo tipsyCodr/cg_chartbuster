@@ -6,6 +6,7 @@ use App\Models\Artist;
 use App\Models\ArtistCategory;
 use App\Models\Movie;
 use App\Models\Genre;
+use App\Models\ProductionHouse;
 use App\Models\Song;
 use App\Models\TvShow;
 use App\Models\HeroSlider;
@@ -140,7 +141,7 @@ class WebController extends Controller
 
     public function movie($slug)
     {
-        $movie = Movie::with(['artists', 'region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $movie = Movie::with(['artists', 'region', 'genres', 'productionHouse'])->where('slug', $slug)->firstOrFail();
         $movie->increment('views');
         $this->logPageView('movie', $movie->id);
         $reviews = $movie->reviews()->orderBy('created_at', 'asc')->paginate(15);
@@ -170,7 +171,7 @@ class WebController extends Controller
 
     public function tvShow($slug)
     {
-        $tvshow = TvShow::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $tvshow = TvShow::with(['region', 'genres', 'productionHouse'])->where('slug', $slug)->firstOrFail();
         $tvshow->increment('views');
         $this->logPageView('tv_show', $tvshow->id);
         $reviews = $tvshow->reviews()->orderBy('created_at', 'asc')->paginate(15);
@@ -200,7 +201,7 @@ class WebController extends Controller
 
     public function song($slug)
     {
-        $song = Song::with(['region', 'genres'])->where('slug', $slug)->firstOrFail();
+        $song = Song::with(['region', 'genres', 'productionHouse'])->where('slug', $slug)->firstOrFail();
         $song->increment('views');
         $this->logPageView('song', $song->id);
         $reviews = $song->reviews()->orderBy('created_at', 'asc')->paginate(15);
@@ -253,12 +254,55 @@ class WebController extends Controller
             return response()->json([]);
         }
 
+        $productionHouseCategory = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+        $phCategoryId = $productionHouseCategory ? (string) $productionHouseCategory->id : '-1';
+
+        $productionHouses = Artist::whereJsonContains('category', $phCategoryId)
+            ->where('name', 'like', "%$query%")
+            ->limit(5)
+            ->get();
+
+        $artists = Artist::whereJsonDoesntContain('category', $phCategoryId)
+            ->where('name', 'like', "%$query%")
+            ->limit(5)
+            ->get();
+
         return response()->json([
             'movies' => Movie::where('title', 'like', "%$query%")->limit(5)->get(),
             'tvshows' => TvShow::where('title', 'like', "%$query%")->limit(5)->get(),
             'songs' => Song::where('title', 'like', "%$query%")->limit(5)->get(),
-            'artists' => Artist::where('name', 'like', "%$query%")->limit(5)->get(),
+            'artists' => $artists,
+            'production_houses' => $productionHouses,
         ]);
+    }
+
+    public function productionHouses()
+    {
+        $productionHouses = ProductionHouse::withCount(['producedMovies', 'producedSongs', 'producedTvShows'])
+            ->orderBy('name')
+            ->get();
+
+        return view('pages.production-house.index', compact('productionHouses'));
+    }
+
+    public function productionHouse($slug)
+    {
+        $productionHouse = ProductionHouse::where('slug', $slug)->firstOrFail();
+
+        $productionHouse->increment('views');
+        $this->logPageView('production_house', $productionHouse->id);
+
+        $movies  = $productionHouse->producedMovies()->orderBy('release_date', 'desc')->get();
+        $songs   = $productionHouse->producedSongs()->orderBy('release_date', 'desc')->get();
+        $tvShows = $productionHouse->producedTvShows()->orderBy('release_date', 'desc')->get();
+
+        $reviews = $productionHouse->reviews()->orderBy('created_at', 'asc')->paginate(15);
+
+        $recommended = ProductionHouse::where('id', '!=', $productionHouse->id)
+            ->limit(4)
+            ->get();
+
+        return view('pages.production-house.view', compact('productionHouse', 'movies', 'songs', 'tvShows', 'reviews', 'recommended'));
     }
 
     private function logPageView($type, $id)

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Artist;
+use App\Models\ProductionHouse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasSlug;
@@ -60,7 +61,13 @@ class Movie extends Model
         'show_on_banner',
         'banner_label',
         'banner_link',
+        'production_house_id',
     ];
+
+    public function productionHouse()
+    {
+        return $this->belongsTo(ProductionHouse::class, 'production_house_id');
+    }
 
     protected $casts = [
         'release_date' => 'date',

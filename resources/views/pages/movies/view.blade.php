@@ -113,6 +113,17 @@
                                 <p><span class="text-gray-400 font-medium">Genres:</span> {{ $movieGenresText }}</p>
                                 <p><span class="text-gray-400 font-medium">Language:</span> {{ $movie->region?->name ?? 'N/A' }}</p>
                                 <p><span class="text-gray-400 font-medium">CBFC:</span> {{ $movie->cbfc ?: 'NA' }}</p>
+                                @if($movie->productionHouse)
+                                    <p class="flex items-center gap-1.5 mt-2 pt-2 border-t border-gray-700/30">
+                                        <span class="text-gray-400 font-medium">Produced By:</span>
+                                        <a href="{{ route('production-house.show', $movie->productionHouse->slug) }}" class="inline-flex items-center gap-1 text-yellow-400 font-bold hover:text-yellow-300 transition-colors">
+                                            @if($movie->productionHouse->photo)
+                                                <img src="{{ asset('storage/' . $movie->productionHouse->photo) }}" alt="{{ $movie->productionHouse->name }}" class="w-5 h-5 rounded-full object-cover border border-gray-600">
+                                            @endif
+                                            <span>{{ $movie->productionHouse->name }}</span>
+                                        </a>
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>

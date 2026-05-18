@@ -24,12 +24,25 @@ class Artist extends Model
         'bio_hi',
         'bio_chh',
         'hyperlinks_links',
-        'is_release_year_only'
+        'is_release_year_only',
+        'banner_image',
+        'founded_year',
+        'owner_name',
+        'active_since',
+        'website_url',
+        'youtube_url',
+        'instagram_url',
+        'facebook_url',
+        'twitter_url',
+        'is_featured',
+        'is_verified'
     ];
     
     protected $casts = [
         'birth_date' => 'date',
-        'category' => 'array'
+        'category' => 'array',
+        'is_featured' => 'boolean',
+        'is_verified' => 'boolean'
     ];
 
     public function getSlugField(): string
@@ -72,7 +85,7 @@ class Artist extends Model
 
     public function albums()
     {
-        return $this->hasMany(Album::class);
+        return $this->hasMany(Album::class, 'artist_id');
     }
     public function category()
     {
@@ -80,7 +93,8 @@ class Artist extends Model
     }
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class, 'artist_id');
     }
+
 
 }

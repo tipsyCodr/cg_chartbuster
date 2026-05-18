@@ -256,9 +256,19 @@
             <div class="relative group/slider">
                 <div class="swiper artist-slider !px-4 sm:!px-0 overflow-visible">
                     <div class="swiper-wrapper">
+                        @php
+                            $phCatHome = \App\Models\ArtistCategory::where('slug', 'production-house')->first();
+                            $phCategoryIdHome = $phCatHome ? (string) $phCatHome->id : '-1';
+                        @endphp
                         @foreach ($artists as $artist)
+                            @php
+                                $isPH = is_array($artist->category)
+                                    ? in_array($phCategoryIdHome, $artist->category)
+                                    : ($artist->category == $phCategoryIdHome);
+                                $showRoute = $isPH ? route('production-house.show', $artist->slug) : route('artist.show', $artist->slug);
+                            @endphp
                             <div class="swiper-slide">
-                                <a href="{{ route('artist.show', $artist->slug) }}"
+                                <a href="{{ $showRoute }}"
                                     class="flex flex-col items-center group/artist">
                                     <div class="relative">
                                         <div

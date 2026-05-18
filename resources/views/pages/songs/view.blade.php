@@ -113,6 +113,17 @@
                                 <p><span class="text-gray-400 font-medium">Genres:</span> {{ $songGenresText }}</p>
                                 <p><span class="text-gray-400 font-medium">Language:</span> {{ $song->region?->name ?? 'N/A' }}</p>
                                 <p><span class="text-gray-400 font-medium">CBFC:</span> {{ $song->cbfc ?: 'NA' }}</p>
+                                @if($song->productionHouse)
+                                    <p class="flex items-center gap-1.5 mt-2 pt-2 border-t border-gray-700/30">
+                                        <span class="text-gray-400 font-medium">Produced By:</span>
+                                        <a href="{{ route('production-house.show', $song->productionHouse->slug) }}" class="inline-flex items-center gap-1 text-yellow-400 font-bold hover:text-yellow-300 transition-colors">
+                                            @if($song->productionHouse->photo)
+                                                <img src="{{ asset('storage/' . $song->productionHouse->photo) }}" alt="{{ $song->productionHouse->name }}" class="w-5 h-5 rounded-full object-cover border border-gray-600">
+                                            @endif
+                                            <span>{{ $song->productionHouse->name }}</span>
+                                        </a>
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>
