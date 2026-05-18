@@ -9,8 +9,9 @@
             <select name="category" id="category" onchange="this.form.submit()"
                 class="w-full sm:w-auto px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white sm:min-w-52">
                 <option value="">All Categories</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat->slug }}" {{ (isset($categoryInput) && $categoryInput == $cat->slug) ? 'selected' : '' }}>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->slug }}"
+                        {{ isset($categoryInput) && $categoryInput == $cat->slug ? 'selected' : '' }}>
                         {{ $cat->name }} ({{ $cat->artist_count ?? 0 }})
                     </option>
                 @endforeach
@@ -35,25 +36,29 @@
                             class="font-bold text-lg sm:text-xl text-gray-100 hover:text-gray-300 break-words">
                             {{ $artist->name }}
                         </a>
-                        <a href="{{ route('artist.show', $artist->slug) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500">Details</a>
+                        {{-- <a href="{{ route('artist.show', $artist->slug) }}" class="block w-full px-2 py-2 my-2 font-bold text-center text-white bg-gray-700 rounded-full hover:bg-gray-600 active:bg-gray-500">Details</a> --}}
 
                         {{-- CG Chartbusters Rating --}}
-                        @if($artist->cgcb_rating)
+                        @if ($artist->cgcb_rating)
                             <div class="flex justify-center items-center gap-1 text-xs text-gray-300">
-                                <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating" class="w-4 h-4">
+                                <img src="{{ asset('images/badge.png') }}" alt="CG Chartbusters Rating"
+                                    class="w-4 h-4">
                                 <span>{{ $artist->cgcb_rating }} / 10 Ratings</span>
                             </div>
                         @endif
 
                         {{-- Birthdate --}}
-                        <p class="text-gray-400 text-xs">
-                            {{-- {{ \Carbon\Carbon::parse($artist->birth_date)->format('F j, Y') }} --}}
-                            Born on:
-                            {{ $artist->birth_date ? \Carbon\Carbon::parse($artist->birth_date)->format($artist->is_release_year_only ? 'Y' : 'F j, Y') : 'N/A' }}
-                        </p>
+                        @if ($artist->birth_date)
+                            <p class="text-gray-400 text-xs">
+                                Born on:
+                                {{ \Carbon\Carbon::parse($artist->birth_date)->format($artist->is_release_year_only ? 'Y' : 'F j, Y') }}
+                            </p>
+                        @endif
 
                         {{-- City --}}
-                        <p class="text-gray-400 text-xs">{{ $artist->city }}</p>
+                        @if ($artist->city)
+                            <p class="text-gray-400 text-xs">{{ $artist->city }}</p>
+                        @endif
                     </div>
                 </div>
             @endforeach
