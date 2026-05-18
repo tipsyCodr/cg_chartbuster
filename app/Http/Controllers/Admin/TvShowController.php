@@ -99,12 +99,12 @@ class TvShowController extends Controller
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
             'banner_label' => 'nullable|string|max:255',
-            'banner_link' => 'nullable|url',
+            'banner_link' => 'nullable|string',
             'is_release_year_only' => 'nullable|boolean',
             'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
-            'artists.*.artist_id' => 'exists:artists,id',
-            'artists.*.role' => 'exists:artist_category,id'
+            'artists.*.artist_id' => 'nullable|exists:artists,id',
+            'artists.*.role' => 'nullable|exists:artist_category,id',
             // Add more validation rules as needed
         ]);
       
@@ -238,12 +238,12 @@ class TvShowController extends Controller
             'poster_image_landscape' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'show_on_banner' => 'nullable',
             'banner_label' => 'nullable|string|max:255',
-            'banner_link' => 'nullable|url',
+            'banner_link' => 'nullable|string',
             'is_release_year_only' => 'nullable|boolean',
             'production_house_id' => 'nullable|exists:artists,id',
             'artists' => 'nullable|array',
-            'artists.*.artist_id' => 'exists:artists,id',
-            'artists.*.role' => 'exists:artist_category,id',
+            'artists.*.artist_id' => 'nullable|exists:artists,id',
+            'artists.*.role' => 'nullable|exists:artist_category,id',
             // Add more validation rules as needed
         ]);
 

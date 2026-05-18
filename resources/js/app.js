@@ -1,5 +1,4 @@
 import "./bootstrap";
-import Alpine from "alpinejs";
 // import Swiper JS
 import Swiper from 'swiper';
 import { Navigation, Pagination, Thumbs, Autoplay } from 'swiper/modules';
@@ -191,6 +190,3 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     });
 });
-
-window.Alpine = Alpine;
-Alpine.start();
