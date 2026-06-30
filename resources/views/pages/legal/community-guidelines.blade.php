@@ -1,5 +1,7 @@
 <x-legal-page title="Community Guidelines" lastUpdated="01 June 2026">
-    <p><strong>CG Chartbusters</strong> is a respectful, inclusive, and community-driven platform dedicated to Chhattisgarhi (Chhollywood) entertainment including films, music, web series, and artists. To maintain a positive and trustworthy environment, all users must follow these guidelines.</p>
+
+
+    <p>CG Chartbusters is a respectful, inclusive, and community-driven platform dedicated to Chhattisgarhi (Chhollywood) entertainment including films, music, web series, and artists. To maintain a positive and trustworthy environment, all users must follow these guidelines.</p>
 
     <h2>1. Respectful Conduct</h2>
     <ul>
@@ -51,6 +53,7 @@
     </ul>
 
     <p>CG Chartbusters reserves the right to moderate, remove, or restrict any content at its sole discretion.</p>
+
 
     <div class="footer">
         CG Chartbusters (Proprietorship)<br>

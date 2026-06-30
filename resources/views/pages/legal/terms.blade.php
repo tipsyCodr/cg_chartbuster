@@ -1,11 +1,9 @@
 <x-legal-page title="Terms & Conditions" lastUpdated="01 June 2026">
-    <p>Welcome to <strong>CGChartbusters.com</strong>, owned and operated by <strong>CG Chartbusters (Proprietorship)</strong>, Raipur,
-        Chhattisgarh, India.</p>
+    <p>Welcome to CGChartbusters.com, owned and operated by <strong>CG Chartbusters (Proprietorship), </strong>  Raipur, Chhattisgarh, India. By accessing or using this platform, you agree to comply with these Terms.</p>
     <p>By accessing or using this platform, you agree to comply with these Terms.</p>
 
     <h2>1. Nature of Platform</h2>
-    <p>CGChartbusters is an informational and community-driven rating platform dedicated to Chhattisgarhi (Chhollywood)
-        films, music, web series, artists, production houses and entertainment content.</p>
+    <p>CGChartbusters is an informational and community-driven rating platform dedicated to Chhattisgarhi (Chhollywood) films, music, web series, artists, production houses and entertainment content.</p>
     <p><strong>⚠️ We DO NOT:</strong></p>
     <ul>
         <li>Host movies</li>

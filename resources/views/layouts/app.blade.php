@@ -171,8 +171,7 @@
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Community
                             Guidelines</a>
                         <a href="{{ route('creator-guidelines') }}"
-                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Creator
-                            Submission Guidelines</a>
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Creator & Content Submission Guidelines</a>
                         <a href="{{ route('event-guidelines') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Event
                             Submission Guidelines</a>

@@ -1,7 +1,5 @@
 <x-legal-page title="Content Moderation Policy" lastUpdated="01 June 2026">
-    <p><strong>CG Chartbusters (Proprietorship)</strong> operates as an intermediary platform under the Information
-        Technology Act, 2000 (India). We are committed to maintaining a safe, fair, and legally compliant content
-        environment.</p>
+    <p> <strong>CG Chartbusters (Proprietorship)</strong> operates as an intermediary platform under the Information Technology Act, 2000 (India). We are committed to maintaining a safe, fair, and legally compliant content environment.</p>
 
     <h2>1. Moderation Approach</h2>
     <p>We use a combination of methods to moderate content on the platform:</p>
@@ -31,8 +29,7 @@
     </ul>
 
     <h2>4. Safe Harbor Protection</h2>
-    <p>CG Chartbusters acts as an intermediary and is not responsible for user-generated content. We will act promptly
-        upon receiving lawful and valid removal requests, in accordance with the Information Technology Act, 2000
+    <p>CG Chartbusters acts as an intermediary and is not responsible for user-generated content. We will act promptly upon receiving lawful and valid removal requests, in accordance with the Information Technology Act, 2000
         (India).</p>
 
     <h2>2. Transparency</h2>

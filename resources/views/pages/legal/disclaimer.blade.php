@@ -11,7 +11,7 @@
     <p>CG Chartbusters does not endorse any specific artist, film, TV show, web series, song, or creator unless explicitly and officially stated by us. Listings on the platform are for informational and discovery purposes only.</p>
 
     <h2>4. No Professional Advice</h2>
-    <p>This platform does not provide legal, financial, medical, or any other form of professional advice. Content on this platform should not be relied upon as a substitute for professional consultation.</p>
+    <p>This platform does not provide legal, financial, medical, or any other form of professional advice. Listings on this platform should not be relied upon as a substitute for professional consultation.</p>
 
     <h2>5. No Copyright Infringement Intended</h2>
     <p>CG Chartbusters does not host, stream, upload, or distribute any copyrighted media content. All media information provided is for informational and promotional purposes only. If you believe any content infringes your copyright, please refer to our Copyright & DMCA Takedown Policy.</p>
