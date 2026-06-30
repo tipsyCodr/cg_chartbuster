@@ -227,7 +227,6 @@
         </footer>
     </section>
 
-
     @livewireScripts
     <script type="text/javascript">
         function googleTranslateElementInit() {
