@@ -3,9 +3,9 @@
     'description' => null,
 ])
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm']) }}>
+<div {{ $attributes->class(['rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100']) }}>
     @if($title || $description)
-        <div class="px-6 py-5 border-b border-gray-50 bg-gray-50/30">
+        <div class="px-6 py-5 border-b border-gray-50 bg-gray-50/30 dark:border-gray-800 dark:bg-gray-900/50">
             @if($title)
                 <h3 class="text-sm font-black text-gray-800 uppercase tracking-wider">{{ $title }}</h3>
             @endif

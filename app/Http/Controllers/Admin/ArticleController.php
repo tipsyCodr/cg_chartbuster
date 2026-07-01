@@ -124,6 +124,7 @@ class ArticleController extends Controller
             'content_en' => 'nullable|string',
             'content_chh' => 'nullable|string',
             'category_id' => 'nullable|exists:article_categories,id',
+            'article_by' => 'nullable|string|max:255',
             'tags_input' => 'nullable|string',
             'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:102400',
             'meta_title' => 'nullable|string|max:255',

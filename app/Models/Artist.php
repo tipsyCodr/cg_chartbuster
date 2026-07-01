@@ -12,6 +12,7 @@ class Artist extends Model
 {
     use HasFactory, HasSlug;
     protected $fillable = [
+        'submission_id',
         'views',
         'slug',
         'name',
@@ -96,5 +97,8 @@ class Artist extends Model
         return $this->hasMany(Review::class, 'artist_id');
     }
 
-
+    public function submission()
+    {
+        return $this->belongsTo(ArtistSubmission::class, 'submission_id');
+    }
 }

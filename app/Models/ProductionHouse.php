@@ -19,9 +19,12 @@ class ProductionHouse extends Artist
             static $categoryId = null;
             if ($categoryId === null) {
                 $category = ArtistCategory::where('slug', 'production-house')->first();
-                $categoryId = $category ? (string) $category->id : '-1';
+                $categoryId = $category ? $category->id : -1;
             }
-            $builder->whereJsonContains('category', $categoryId);
+            $builder->where(function ($q) use ($categoryId) {
+                $q->whereJsonContains('category', (string) $categoryId)
+                  ->orWhereJsonContains('category', (int) $categoryId);
+            });
         });
     }
 

@@ -236,9 +236,17 @@ class WebController extends Controller
 
     public function artist($slug)
     {
-        $artists = Artist::with(['movies' => function ($query) {
-            $query->orderBy('release_date', 'desc');
-        }])->where('slug', $slug)->firstOrFail();
+        $artists = Artist::with([
+            'movies' => function ($query) {
+                $query->orderBy('release_date', 'desc');
+            },
+            'songs' => function ($query) {
+                $query->orderBy('release_date', 'desc');
+            },
+            'tvshows' => function ($query) {
+                $query->orderBy('release_date', 'desc');
+            }
+        ])->where('slug', $slug)->firstOrFail();
         $artists->increment('views');
         $this->logPageView('artist', $artists->id);
         $reviews = $artists->reviews()->orderBy('created_at', 'asc')->paginate(15);

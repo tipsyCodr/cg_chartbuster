@@ -85,8 +85,9 @@
 
         <!-- Artist Movies & Reviews Section -->
         <div class="grid gap-6 lg:grid-cols-3 lg:gap-8 mt-12">
-            <!-- Left: Movies -->
+            <!-- Left: Media Sliders -->
             <div class="lg:col-span-2">
+                <!-- Movies -->
                 <h3 class="text-2xl font-black text-white mb-6 flex items-center gap-2">
                     <span class="w-1.5 h-7 bg-yellow-500 rounded"></span> Movies
                 </h3>
@@ -94,49 +95,196 @@
                 @if($artists->movies->isEmpty())
                     <p class="text-gray-400 italic bg-gray-800/20 rounded-xl p-6 text-center border border-gray-700/30">No movies found</p>
                 @else
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-6">
-                        @foreach($artists->movies as $movie)
-                            <a href="{{ route('movie.show', $movie->slug) }}" class="group">
-                                <div class="bg-gray-800/40 rounded-xl overflow-hidden shadow-lg border border-gray-700/50 hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
-                                    <div class="relative overflow-hidden aspect-[2/3] w-full bg-gray-950">
-                                        @if($movie->poster_image)
-                                            <img src="{{ asset('storage/' . $movie->poster_image) }}" alt="{{ $movie->title }}"
-                                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                        @else
-                                            <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gray-900/50">
-                                                <i class="fa-regular fa-image text-3xl mb-2"></i>
-                                                <span class="text-xs">No Poster</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="p-3 flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <h4 class="text-sm sm:text-base font-bold text-white group-hover:text-yellow-500 transition-colors line-clamp-1">
-                                                {{ preg_replace('/^\d+[\s.-]+/', '', $movie->title) }}
-                                            </h4>
-                                            <p class="text-gray-400 text-xs mt-1">
-                                                {{ $movie->release_date ? \Carbon\Carbon::parse($movie->release_date)->format($movie->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}
-                                            </p>
-                                        </div>
-                                        {{-- Show Artist Category --}}
-                                        @php
-                                            $categoryNames = $movie->pivot->category_names;
-                                        @endphp
-                                        @if(!empty($categoryNames))
-                                            <div class="mt-2 pt-2 border-t border-gray-700/30">
-                                                <div class="flex flex-wrap gap-1">
-                                                    @foreach($categoryNames as $name)
-                                                        <span class="px-2 py-0.5 bg-gray-900/60 text-gray-300 rounded text-[9px] font-semibold tracking-wide uppercase">
-                                                            {{ $name }}
-                                                        </span>
-                                                    @endforeach
+                    <div class="relative group/slider mb-12">
+                        <div class="swiper artist-movie-slider !pr-4 overflow-visible">
+                            <div class="swiper-wrapper">
+                                @foreach($artists->movies as $movie)
+                                    <div class="swiper-slide">
+                                        <a href="{{ route('movie.show', $movie->slug) }}" class="group block h-full">
+                                            <div class="bg-gray-800/40 rounded-xl overflow-hidden shadow-lg border border-gray-700/50 hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
+                                                <div class="relative overflow-hidden aspect-[2/3] w-full bg-gray-950">
+                                                    @if($movie->poster_image)
+                                                        <img src="{{ asset('storage/' . $movie->poster_image) }}" alt="{{ $movie->title }}"
+                                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                    @else
+                                                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gray-900/50">
+                                                            <i class="fa-regular fa-image text-3xl mb-2"></i>
+                                                            <span class="text-xs">No Poster</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="p-3 flex-1 flex flex-col justify-between">
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-white group-hover:text-yellow-500 transition-colors line-clamp-1">
+                                                            {{ preg_replace('/^\d+[\s.-]+/', '', $movie->title) }}
+                                                        </h4>
+                                                        <p class="text-gray-400 text-[10px] mt-1">
+                                                            {{ $movie->release_date ? \Carbon\Carbon::parse($movie->release_date)->format($movie->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}
+                                                        </p>
+                                                    </div>
+                                                    {{-- Show Artist Category --}}
+                                                    @php
+                                                        $categoryNames = $movie->pivot->category_names;
+                                                    @endphp
+                                                    @if(!empty($categoryNames))
+                                                        <div class="mt-2 pt-2 border-t border-gray-700/30">
+                                                            <div class="flex flex-wrap gap-1">
+                                                                @foreach($categoryNames as $name)
+                                                                    <span class="px-1.5 py-0.5 bg-gray-900/60 text-gray-300 rounded text-[8px] font-semibold tracking-wide uppercase">
+                                                                        {{ $name }}
+                                                                    </span>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
-                                        @endif
+                                        </a>
                                     </div>
-                                </div>
-                            </a>
-                        @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- Navigation -->
+                        <div class="artist-movie-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                        <div class="artist-movie-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Songs -->
+                <h3 class="text-2xl font-black text-white mt-12 mb-6 flex items-center gap-2">
+                    <span class="w-1.5 h-7 bg-yellow-500 rounded"></span> Songs
+                </h3>
+
+                @if($artists->songs->isEmpty())
+                    <p class="text-gray-400 italic bg-gray-800/20 rounded-xl p-6 text-center border border-gray-700/30">No songs found</p>
+                @else
+                    <div class="relative group/slider mb-12">
+                        <div class="swiper artist-song-slider !pr-4 overflow-visible">
+                            <div class="swiper-wrapper">
+                                @foreach($artists->songs as $song)
+                                    <div class="swiper-slide">
+                                        <a href="{{ route('song.show', $song->slug) }}" class="group block h-full">
+                                            <div class="bg-gray-800/40 rounded-xl overflow-hidden shadow-lg border border-gray-700/50 hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
+                                                <div class="relative overflow-hidden aspect-[2/3] w-full bg-gray-950">
+                                                    @if($song->poster_image)
+                                                        <img src="{{ asset('storage/' . $song->poster_image) }}" alt="{{ $song->title }}"
+                                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                    @else
+                                                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gray-900/50">
+                                                            <i class="fa-regular fa-image text-3xl mb-2"></i>
+                                                            <span class="text-xs">No Poster</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="p-3 flex-1 flex flex-col justify-between">
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-white group-hover:text-yellow-500 transition-colors line-clamp-1">
+                                                            {{ preg_replace('/^\d+[\s.-]+/', '', $song->title) }}
+                                                        </h4>
+                                                        <p class="text-gray-400 text-[10px] mt-1">
+                                                            {{ $song->release_date ? \Carbon\Carbon::parse($song->release_date)->format($song->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}
+                                                        </p>
+                                                    </div>
+                                                    {{-- Show Artist Category --}}
+                                                    @php
+                                                        $categoryNames = $song->pivot->category_names;
+                                                    @endphp
+                                                    @if(!empty($categoryNames))
+                                                        <div class="mt-2 pt-2 border-t border-gray-700/30">
+                                                            <div class="flex flex-wrap gap-1">
+                                                                @foreach($categoryNames as $name)
+                                                                    <span class="px-1.5 py-0.5 bg-gray-900/60 text-gray-300 rounded text-[8px] font-semibold tracking-wide uppercase">
+                                                                        {{ $name }}
+                                                                    </span>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- Navigation -->
+                        <div class="artist-song-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                        <div class="artist-song-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- TV Shows -->
+                <h3 class="text-2xl font-black text-white mt-12 mb-6 flex items-center gap-2">
+                    <span class="w-1.5 h-7 bg-yellow-500 rounded"></span> TV Shows
+                </h3>
+
+                @if($artists->tvshows->isEmpty())
+                    <p class="text-gray-400 italic bg-gray-800/20 rounded-xl p-6 text-center border border-gray-700/30">No TV shows found</p>
+                @else
+                    <div class="relative group/slider mb-12">
+                        <div class="swiper artist-tvshow-slider !pr-4 overflow-visible">
+                            <div class="swiper-wrapper">
+                                @foreach($artists->tvshows as $tvshow)
+                                    <div class="swiper-slide">
+                                        <a href="{{ route('tv-show.show', $tvshow->slug) }}" class="group block h-full">
+                                            <div class="bg-gray-800/40 rounded-xl overflow-hidden shadow-lg border border-gray-700/50 hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
+                                                <div class="relative overflow-hidden aspect-[2/3] w-full bg-gray-950">
+                                                    @if($tvshow->poster_image)
+                                                        <img src="{{ asset('storage/' . $tvshow->poster_image) }}" alt="{{ $tvshow->title }}"
+                                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                    @else
+                                                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gray-900/50">
+                                                            <i class="fa-regular fa-image text-3xl mb-2"></i>
+                                                            <span class="text-xs">No Poster</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="p-3 flex-1 flex flex-col justify-between">
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-white group-hover:text-yellow-500 transition-colors line-clamp-1">
+                                                            {{ preg_replace('/^\d+[\s.-]+/', '', $tvshow->title) }}
+                                                        </h4>
+                                                        <p class="text-gray-400 text-[10px] mt-1">
+                                                            {{ $tvshow->release_date ? \Carbon\Carbon::parse($tvshow->release_date)->format($tvshow->is_release_year_only ? 'Y' : 'd M Y') : 'N/A' }}
+                                                        </p>
+                                                    </div>
+                                                    {{-- Show Artist Category --}}
+                                                    @php
+                                                        $categoryNames = $tvshow->pivot->category_names;
+                                                    @endphp
+                                                    @if(!empty($categoryNames))
+                                                        <div class="mt-2 pt-2 border-t border-gray-700/30">
+                                                            <div class="flex flex-wrap gap-1">
+                                                                @foreach($categoryNames as $name)
+                                                                    <span class="px-1.5 py-0.5 bg-gray-900/60 text-gray-300 rounded text-[8px] font-semibold tracking-wide uppercase">
+                                                                        {{ $name }}
+                                                                    </span>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- Navigation -->
+                        <div class="artist-tvshow-next absolute top-1/2 -right-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                        <div class="artist-tvshow-prev absolute top-1/2 -left-4 z-50 flex items-center justify-center w-8 h-8 bg-gray-900/90 backdrop-blur-md border border-white/10 text-white hover:bg-yellow-500 hover:text-black rounded-full cursor-pointer shadow-2xl transition-all -translate-y-1/2 hover:scale-110 opacity-70 hover:opacity-100">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </div>
                     </div>
                 @endif
             </div>

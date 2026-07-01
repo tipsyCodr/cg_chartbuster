@@ -35,13 +35,12 @@
             </h1>
 
             <div class="flex flex-wrap items-center gap-8 py-6 border-y border-white/5">
-                <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-black font-black text-xs mr-3">
-                        {{ strtoupper(substr($article->author?->name ?? 'C', 0, 1)) }}
+                        {{ strtoupper(substr($article->article_by ?: ($article->author?->name ?? 'C'), 0, 1)) }}
                     </div>
                     <div>
                         <p class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-0.5">Reported By</p>
-                        <p class="text-xs font-bold text-white">{{ $article->author?->name ?? 'CG Chartbusters Staff' }}</p>
+                        <p class="text-xs font-bold text-white">{{ $article->article_by ?: ($article->author?->name ?? 'CG Chartbusters Staff') }}</p>
                     </div>
                 </div>
                 <div>

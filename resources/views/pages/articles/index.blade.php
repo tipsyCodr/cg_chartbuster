@@ -47,7 +47,7 @@
                             {{ $featured->localizedExcerpt($lang) ?: \Illuminate\Support\Str::limit(strip_tags($featured->localizedContent($lang)), 200) }}
                         </p>
                         <div class="pt-8 border-t border-white/10 flex items-center gap-6 text-[10px] font-black text-gray-500 uppercase tracking-widest">
-                            <span class="flex items-center text-yellow-400"><i class="far fa-user mr-2"></i>{{ $featured->author?->name ?? 'CG Staff' }}</span>
+                            <span class="flex items-center text-yellow-400"><i class="far fa-user mr-2"></i>{{ $featured->article_by ?: ($featured->author?->name ?? 'CG Staff') }}</span>
                             <span class="w-1 h-1 rounded-full bg-gray-700"></span>
                             <span class="flex items-center"><i class="far fa-clock mr-2"></i>{{ optional($featured->published_at ?? $featured->created_at)->format('M d, Y') }}</span>
                             <span class="hidden lg:inline-flex items-center gap-2 group-hover:translate-x-2 transition-transform">
@@ -114,7 +114,7 @@
                         <div class="flex items-center gap-3 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">
                             <span>{{ optional($article->published_at ?? $article->created_at)->format('M d, Y') }}</span>
                             <span class="w-1 h-1 rounded-full bg-gray-800"></span>
-                            <span class="text-yellow-500/80">{{ $article->author?->name ?? 'Staff' }}</span>
+                            <span class="text-yellow-500/80">{{ $article->article_by ?: ($article->author?->name ?? 'Staff') }}</span>
                         </div>
                         
                         <h3 class="text-2xl font-black text-white tracking-tight leading-[1.1] mb-4 group-hover:text-yellow-400 transition-colors line-clamp-2">

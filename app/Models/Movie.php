@@ -13,6 +13,7 @@ class Movie extends Model
 
     use HasFactory, HasSlug;
     protected $fillable = [
+        'submission_id',
         'views',
         'slug',
         'title',
@@ -67,6 +68,11 @@ class Movie extends Model
     public function productionHouse()
     {
         return $this->belongsTo(ProductionHouse::class, 'production_house_id');
+    }
+
+    public function submission()
+    {
+        return $this->belongsTo(MovieSubmission::class, 'submission_id');
     }
 
     protected $casts = [

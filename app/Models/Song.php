@@ -11,6 +11,7 @@ class Song extends Model
 {
     use HasFactory, HasSlug;
     protected $fillable = [
+        'submission_id',
         'views',
         'slug',
         'title',
@@ -56,6 +57,11 @@ class Song extends Model
     public function productionHouse()
     {
         return $this->belongsTo(ProductionHouse::class, 'production_house_id');
+    }
+
+    public function submission()
+    {
+        return $this->belongsTo(SongSubmission::class, 'submission_id');
     }
     protected $casts = [
         'release_date' => 'date',

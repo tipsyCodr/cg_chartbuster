@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         speed: 1000,
         loop: true,
         autoplay: {
-            delay: 60000,
+            delay: 10000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         loop: true,
         autoplay: {
-            delay: 4000,
+            delay: 2000,
             disableOnInteraction: false,
         },
         slidesPerView: 1,
@@ -187,6 +187,42 @@ document.addEventListener('DOMContentLoaded', () => {
         navigation: {
             nextEl: '.artist-next',
             prevEl: '.artist-prev',
+        },
+    });
+
+    const artistMediaSliderOptions = {
+        slidesPerView: 2,
+        spaceBetween: 16,
+        breakpoints: {
+            640: { slidesPerView: 3, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
+            1280: { slidesPerView: 4, spaceBetween: 24 },
+        },
+        observer: true,
+        observeParents: true,
+    };
+
+    new Swiper('.artist-movie-slider', {
+        ...artistMediaSliderOptions,
+        navigation: {
+            nextEl: '.artist-movie-next',
+            prevEl: '.artist-movie-prev',
+        },
+    });
+
+    new Swiper('.artist-song-slider', {
+        ...artistMediaSliderOptions,
+        navigation: {
+            nextEl: '.artist-song-next',
+            prevEl: '.artist-song-prev',
+        },
+    });
+
+    new Swiper('.artist-tvshow-slider', {
+        ...artistMediaSliderOptions,
+        navigation: {
+            nextEl: '.artist-tvshow-next',
+            prevEl: '.artist-tvshow-prev',
         },
     });
 });

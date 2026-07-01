@@ -7,13 +7,13 @@
             @foreach ($sliders as $slider)
                 <div class="swiper-slide relative overflow-hidden group">
                     <!-- Background Image with Lazy Loading -->
-                    <img 
-                        src="{{ asset('storage/' . $slider['image']) }}" 
+                    <img
+                        src="{{ asset('storage/' . $slider['image']) }}"
                         class="ken-burns absolute inset-0 w-full h-full object-cover"
                         alt="{{ $slider['title'] }}"
                         loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                     >
-                    
+
                     <!-- Gradient Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent"></div>
@@ -33,8 +33,8 @@
                             <!-- Portrait Poster (Hidden on mobile) -->
                             @if($slider['poster'])
                                 <div class="hidden md:block w-40 lg:w-48 shrink-0 opacity-0 -translate-x-12 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-x-0 delay-200">
-                                    <img src="{{ asset('storage/' . $slider['poster']) }}" 
-                                         class="w-full aspect-[2/3] object-cover rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10" 
+                                    <img src="{{ asset('storage/' . $slider['poster']) }}"
+                                         class="w-full aspect-[2/3] object-cover rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
                                          alt="Poster">
                                 </div>
                             @endif
@@ -47,7 +47,7 @@
                                             {{ $slider['type'] }}
                                         </span>
                                     @endif
-                                    
+
                                     @if($slider['rating'])
                                         <div class="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
                                             <i class="fa-solid fa-star text-yellow-500 text-[10px]"></i>
@@ -68,7 +68,7 @@
                                         {{ $slider['title'] }}
                                     </h1>
                                 @endif
-                                
+
                                 @if($slider['subtitle'])
                                     <div class="relative opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-500">
                                         <p class="text-base md:text-xl text-gray-300/90 max-w-2xl font-medium leading-relaxed line-clamp-2 md:line-clamp-3">
@@ -80,7 +80,7 @@
 
                                 @if($slider['button_text'] && $slider['button_link'])
                                     <div class="opacity-0 translate-y-8 transition-all duration-1000 group-[.swiper-slide-active]:opacity-100 group-[.swiper-slide-active]:translate-y-0 delay-700 pt-4">
-                                        <a href="{{ $slider['button_link'] }}" 
+                                        <a href="{{ $slider['button_link'] }}"
                                            class="inline-flex items-center gap-2 md:gap-4 px-6 py-3 md:px-10 md:py-5 bg-white text-black text-xs md:text-base font-black rounded-full transition-all hover:bg-yellow-500 hover:scale-105 active:scale-95 shadow-2xl">
                                             {{ $slider['button_text'] }}
                                             <i class="fa-solid fa-arrow-right text-[10px] md:text-sm"></i>
@@ -101,7 +101,7 @@
 
         <!-- Navigation -->
         <div class="premium-swiper-pagination swiper-pagination absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col gap-2"></div>
-        
+
         <div class="absolute bottom-8 right-8 flex gap-4 z-20">
             <button class="premium-prev w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-500 hover:text-black backdrop-blur-md border border-white/20 transition-all">
                 <i class="fa-solid fa-chevron-up text-sm"></i>
@@ -124,7 +124,7 @@
         margin: 4px 0 !important;
         display: block !important;
     }
-    
+
     .premium-hero-slider .swiper-pagination-bullet-active {
         height: 40px !important;
         background: #eab308 !important;
@@ -146,20 +146,20 @@
         transform: scale(0.4) !important;
         opacity: 0.2 !important;
     }
-    
+
     .premium-hero-slider .swiper-slide-active .ken-burns {
         animation: kenBurns 20s ease-out forwards;
     }
-    
+
     @keyframes kenBurns {
         from { transform: scale(1.15); }
         to { transform: scale(1); }
     }
-    
+
     .premium-slider-progress.animate {
-        animation: sliderProgress 60s linear forwards;
+        animation: sliderProgress 10s linear forwards;
     }
-    
+
     @keyframes sliderProgress {
         from { width: 0%; }
         to { width: 100%; }

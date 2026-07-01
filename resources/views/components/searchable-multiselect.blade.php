@@ -47,7 +47,7 @@
          x-transition:enter="transition ease-out duration-100"
          x-transition:enter-start="transform opacity-0 scale-95"
          x-transition:enter-end="transform opacity-100 scale-100"
-         class="absolute z-[100] w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-72 flex flex-col pt-1 overflow-hidden">
+         class="absolute z-[100] w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-72 flex flex-col pt-1 overflow-hidden text-gray-900">
         <div class="px-3 py-3 border-b border-gray-100 bg-gray-50">
             <input type="text" x-model="search" placeholder="Search..." 
                    @keydown.enter.prevent="if(filteredOptions.length > 0) toggle(filteredOptions[0].id)"

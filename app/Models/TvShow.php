@@ -12,6 +12,7 @@ class TvShow extends Model
     use HasFactory, HasSlug;
     protected $table = 'tvshows';
     protected $fillable = [
+        'submission_id',
         'views',
         'slug',
         'title',
@@ -66,6 +67,11 @@ class TvShow extends Model
     public function productionHouse()
     {
         return $this->belongsTo(ProductionHouse::class, 'production_house_id');
+    }
+
+    public function submission()
+    {
+        return $this->belongsTo(TvShowSubmission::class, 'submission_id');
     }
 
     protected $casts = [

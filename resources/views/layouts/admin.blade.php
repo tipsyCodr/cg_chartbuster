@@ -119,8 +119,20 @@
                             <span :class="isSidebarCollapsed ? 'hidden' : ''">Events</span>
                         </x-admin.sidebar-item>
 
-                        <x-admin.sidebar-item href="{{ route('admin.submissions.index') }}" :active="request()->routeIs('admin.submissions.*')" icon="fas fa-inbox">
-                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Submissions</span>
+                        <div class="pt-2 pb-1 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">
+                            <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest" :class="isSidebarCollapsed ? 'hidden' : ''">Submissions</span>
+                        </div>
+                        <x-admin.sidebar-item href="{{ route('admin.movie-submissions.index') }}" :active="request()->routeIs('admin.movie-submissions.*')" icon="fas fa-film">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Movie Subs</span>
+                        </x-admin.sidebar-item>
+                        <x-admin.sidebar-item href="{{ route('admin.song-submissions.index') }}" :active="request()->routeIs('admin.song-submissions.*')" icon="fas fa-music">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Song Subs</span>
+                        </x-admin.sidebar-item>
+                        <x-admin.sidebar-item href="{{ route('admin.tvshow-submissions.index') }}" :active="request()->routeIs('admin.tvshow-submissions.*')" icon="fas fa-tv">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">TV Show Subs</span>
+                        </x-admin.sidebar-item>
+                        <x-admin.sidebar-item href="{{ route('admin.artist-submissions.index') }}" :active="request()->routeIs('admin.artist-submissions.*')" icon="fas fa-user-friends">
+                            <span :class="isSidebarCollapsed ? 'hidden' : ''">Artist Subs</span>
                         </x-admin.sidebar-item>
 
                         <div class="pt-4 pb-2 px-4" :class="isSidebarCollapsed ? 'text-center' : ''">

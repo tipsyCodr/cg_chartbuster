@@ -191,6 +191,15 @@
             </div>
         </section>
 
+        <!-- Article By Widget -->
+        <section class="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <div class="border-b border-gray-100 bg-gray-50 px-4 py-2 text-sm font-bold text-gray-700">Article By</div>
+            <div class="p-4">
+                <input type="text" name="article_by" value="{{ old('article_by', $article->article_by ?? '') }}"
+                    class="w-full rounded border-gray-300 text-sm shadow-sm focus:border-accent focus:ring-accent" placeholder="e.g. Author Name">
+            </div>
+        </section>
+
         <!-- Featured Image Widget -->
         <section class="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
             <div class="border-b border-gray-100 bg-gray-50 px-4 py-2 text-sm font-bold text-gray-700">Featured Image</div>

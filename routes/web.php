@@ -93,9 +93,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/submit-event', [App\Http\Controllers\EventSubmissionController::class, 'create'])->name('events.submit');
     Route::post('/submit-event', [App\Http\Controllers\EventSubmissionController::class, 'store'])->name('events.store');
 
-    // General Content Submission
-    Route::get('/submit-content', [App\Http\Controllers\ContentSubmissionController::class, 'create'])->name('content.submit');
-    Route::post('/submit-content', [App\Http\Controllers\ContentSubmissionController::class, 'store'])->name('content.store');
+    Route::get('/submit', function () {
+        return view('submissions.create');
+    })->name('content.submit');
+
+    // Per-type User Content Submissions
+    Route::get('/submit-movie',   [App\Http\Controllers\Submit\MovieSubmitController::class, 'create'])->name('submit.movie.create');
+    Route::post('/submit-movie',  [App\Http\Controllers\Submit\MovieSubmitController::class, 'store'])->name('submit.movie.store');
+    Route::get('/submit-song',    [App\Http\Controllers\Submit\SongSubmitController::class, 'create'])->name('submit.song.create');
+    Route::post('/submit-song',   [App\Http\Controllers\Submit\SongSubmitController::class, 'store'])->name('submit.song.store');
+    Route::get('/submit-tv-show', [App\Http\Controllers\Submit\TvShowSubmitController::class, 'create'])->name('submit.tvshow.create');
+    Route::post('/submit-tv-show',[App\Http\Controllers\Submit\TvShowSubmitController::class, 'store'])->name('submit.tvshow.store');
+    Route::get('/submit-artist',  [App\Http\Controllers\Submit\ArtistSubmitController::class, 'create'])->name('submit.artist.create');
+    Route::post('/submit-artist', [App\Http\Controllers\Submit\ArtistSubmitController::class, 'store'])->name('submit.artist.store');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -194,11 +204,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('report/{id}/status', [\App\Http\Controllers\Admin\ModerationController::class, 'updateReportStatus'])->name('admin.moderation.report.status');
         });
 
-        // Content Submissions Management
-        Route::get('/content-submissions', [App\Http\Controllers\Admin\ContentModerationController::class, 'index'])->name('admin.submissions.index');
-        Route::get('/content-submissions/{submission}', [App\Http\Controllers\Admin\ContentModerationController::class, 'show'])->name('admin.submissions.show');
-        Route::post('/content-submissions/{submission}/approve', [App\Http\Controllers\Admin\ContentModerationController::class, 'approve'])->name('admin.submissions.approve');
-        Route::post('/content-submissions/{submission}/reject', [App\Http\Controllers\Admin\ContentModerationController::class, 'reject'])->name('admin.submissions.reject');
+        // Per-type Submission Moderation
+        Route::get('/movie-submissions', [App\Http\Controllers\Admin\MovieSubmissionController::class, 'index'])->name('admin.movie-submissions.index');
+        Route::get('/movie-submissions/{movieSubmission}', [App\Http\Controllers\Admin\MovieSubmissionController::class, 'show'])->name('admin.movie-submissions.show');
+        Route::post('/movie-submissions/{movieSubmission}/approve', [App\Http\Controllers\Admin\MovieSubmissionController::class, 'approve'])->name('admin.movie-submissions.approve');
+        Route::post('/movie-submissions/{movieSubmission}/reject', [App\Http\Controllers\Admin\MovieSubmissionController::class, 'reject'])->name('admin.movie-submissions.reject');
+
+        Route::get('/song-submissions', [App\Http\Controllers\Admin\SongSubmissionController::class, 'index'])->name('admin.song-submissions.index');
+        Route::get('/song-submissions/{songSubmission}', [App\Http\Controllers\Admin\SongSubmissionController::class, 'show'])->name('admin.song-submissions.show');
+        Route::post('/song-submissions/{songSubmission}/approve', [App\Http\Controllers\Admin\SongSubmissionController::class, 'approve'])->name('admin.song-submissions.approve');
+        Route::post('/song-submissions/{songSubmission}/reject', [App\Http\Controllers\Admin\SongSubmissionController::class, 'reject'])->name('admin.song-submissions.reject');
+
+        Route::get('/tvshow-submissions', [App\Http\Controllers\Admin\TvShowSubmissionController::class, 'index'])->name('admin.tvshow-submissions.index');
+        Route::get('/tvshow-submissions/{tvShowSubmission}', [App\Http\Controllers\Admin\TvShowSubmissionController::class, 'show'])->name('admin.tvshow-submissions.show');
+        Route::post('/tvshow-submissions/{tvShowSubmission}/approve', [App\Http\Controllers\Admin\TvShowSubmissionController::class, 'approve'])->name('admin.tvshow-submissions.approve');
+        Route::post('/tvshow-submissions/{tvShowSubmission}/reject', [App\Http\Controllers\Admin\TvShowSubmissionController::class, 'reject'])->name('admin.tvshow-submissions.reject');
+
+        Route::get('/artist-submissions', [App\Http\Controllers\Admin\ArtistSubmissionController::class, 'index'])->name('admin.artist-submissions.index');
+        Route::get('/artist-submissions/{artistSubmission}', [App\Http\Controllers\Admin\ArtistSubmissionController::class, 'show'])->name('admin.artist-submissions.show');
+        Route::post('/artist-submissions/{artistSubmission}/approve', [App\Http\Controllers\Admin\ArtistSubmissionController::class, 'approve'])->name('admin.artist-submissions.approve');
+        Route::post('/artist-submissions/{artistSubmission}/reject', [App\Http\Controllers\Admin\ArtistSubmissionController::class, 'reject'])->name('admin.artist-submissions.reject');
     });
 });
 

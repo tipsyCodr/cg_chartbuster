@@ -157,6 +157,8 @@
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Artist</a>
                         <a href="{{ route('articles.index') }}"
                             class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Articles</a>
+                        <a href="{{ route('events.index') }}"
+                            class="font-medium text-gray-300 hover:text-yellow-300 transition-colors">Events</a>
                     </div>
 
                     <!-- Legal Links -->

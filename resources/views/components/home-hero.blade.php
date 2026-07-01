@@ -170,7 +170,7 @@
 
         /* Swiper slider height and optimization on mobile */
         .hero-slider.hero-section {
-            height: 58vh !important;
+            /* height: 58vh !important; */
         }
 
         .hero-slider.hero-section .swiper-slide img {
