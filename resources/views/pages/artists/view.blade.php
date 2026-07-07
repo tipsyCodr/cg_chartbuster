@@ -86,7 +86,7 @@
         <!-- Artist Movies & Reviews Section -->
         <div class="grid gap-6 lg:grid-cols-3 lg:gap-8 mt-12">
             <!-- Left: Media Sliders -->
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 min-w-0">
                 <!-- Movies -->
                 <h3 class="text-2xl font-black text-white mb-6 flex items-center gap-2">
                     <span class="w-1.5 h-7 bg-yellow-500 rounded"></span> Movies
